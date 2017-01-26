@@ -8,40 +8,27 @@
  * @package    TBD
  * @author     OMS Development Team <dev@oms.com>
  * @author     Dennis Eichhorn <d.eichhorn@oms.com>
- * @copyright  Dennis Eichhorn
+ * @copyright  2013 Dennis Eichhorn
  * @license    OMS License 1.0
  * @version    1.0.0
  * @link       http://orange-management.com
  */
-namespace Modules\Tasks\Admin;
+namespace Modules\Tasks\Models;
 
 
-use phpOMS\DataStorage\Database\DatabasePool;
-use phpOMS\Module\InfoManager;
-use phpOMS\Module\UpdateAbstract;
-use phpOMS\System\File\Directory;
 
 /**
- * Navigation class.
+ * Task class.
  *
  * @category   Modules
- * @package    Modules\Admin
+ * @package    Framework
  * @author     OMS Development Team <dev@oms.com>
  * @author     Dennis Eichhorn <d.eichhorn@oms.com>
  * @license    OMS License 1.0
  * @link       http://orange-management.com
  * @since      1.0.0
  */
-class Update extends UpdateAbstract
+class NullTask extends Task
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function update(DatabasePool $dbPool, InfoManager $info)
-    {
-        Directory::deletePath(__DIR__ . '/Update');
-        mkdir('Update');
-        parent::update($dbPool, $info);
-    }
 }
