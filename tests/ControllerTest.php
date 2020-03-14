@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Task\tests;
 
-require_once __DIR__ . '/../Autoloader.php';
+require_once __DIR__ . '/../../tests/Autoloader.php';
 
 use Model\CoreSettings;
 use Modules\Admin\Models\AccountPermission;
