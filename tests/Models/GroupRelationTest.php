@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-namespace Modules\tests\Tasks\Models;
+namespace Modules\Tasks\tests\Models;
 
 use Modules\Tasks\Models\DutyType;
 use Modules\Tasks\Models\GroupRelation;
