@@ -19,6 +19,7 @@ use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\DataStorage\Database\Query\Builder;
+use phpOMS\DataStorage\Database\RelationType;
 
 /**
  * Mapper class.
@@ -132,6 +133,14 @@ final class TaskMapper extends DataMapperAbstract
     protected static string $primaryField = 'task_id';
 
     /**
+     * {@inheritdoc}
+     */
+    public static function get($primaryKey, int $relations = RelationType::ALL, int $depth = 3, string $ref = null, Builder $query = null)
+    {
+        return parent::get($primaryKey, $relations, $depth, $ref, $query);
+    }
+
+    /**
      * Get open tasks by createdBy
      *
      * @param int $user User
@@ -142,9 +151,10 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getOpenCreatedBy(int $user) : array
     {
+        $depth = 3;
         $query = self::getQuery();
-        $query->where(self::$table . '.task_created_by', '=', $user)
-            ->where(self::$table . '.task_status', '=', TaskStatus::OPEN);
+        $query->where(self::$table . '_' . $depth . '.task_created_by', '=', $user)
+            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN);
 
         return self::getAllByQuery($query);
     }
@@ -160,12 +170,13 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getOpenTo(int $user) : array
     {
+        $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
                 ->on(self::$table . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
-            ->where(self::$table . '.task_status', '=', TaskStatus::OPEN)
+            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_duty', '=', DutyType::TO);
 
@@ -183,12 +194,13 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getOpenAny(int $user) : array
     {
+        $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
                 ->on(self::$table . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
-            ->where(self::$table . '.task_status', '=', TaskStatus::OPEN)
+            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user);
 
         return self::getAllByQuery($query);
@@ -205,12 +217,13 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getOpenCC(int $user) : array
     {
+        $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
                 ->on(self::$table . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
-            ->where(self::$table . '.task_status', '=', TaskStatus::OPEN)
+            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_duty', '=', DutyType::CC);
 
@@ -228,8 +241,9 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getCreatedBy(int $user) : array
     {
+        $depth = 3;
         $query = self::getQuery();
-        $query->where(self::$table . '.task_created_by', '=', $user);
+        $query->where(self::$table . '_' . $depth . '.task_created_by', '=', $user);
 
         return self::getAllByQuery($query);
     }

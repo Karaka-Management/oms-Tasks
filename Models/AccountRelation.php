@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Models;
 
 use Modules\Admin\Models\Account;
+use Modules\Admin\Models\NullAccount;
 
 /**
  * Task relation to account
@@ -29,33 +30,33 @@ class AccountRelation extends RelationAbstract
     /**
      * Relation object
      *
-     * @var int|Account
+     * @var Account
      * @since 1.0.0
      */
-    private $relation = null;
+    private Account $relation;
 
     /**
      * Constructor.
      *
-     * @param int|Account $account Account
-     * @param int         $duty    Duty type
+     * @param null|Account $account Account
+     * @param int          $duty    Duty type
      *
      * @since 1.0.0
      */
-    public function __construct($account = 0, int $duty = DutyType::TO)
+    public function __construct(Account $account = null, int $duty = DutyType::TO)
     {
-        $this->relation = $account;
+        $this->relation = $account ?? new NullAccount();
         $this->duty     = $duty;
     }
 
     /**
      * Get relation object.
      *
-     * @return int|Account
+     * @return Account
      *
      * @since 1.0.0
      */
-    public function getRelation()
+    public function getRelation() : Account
     {
         return $this->relation;
     }

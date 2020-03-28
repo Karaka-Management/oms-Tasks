@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\tests\Models;
 
+use Modules\Admin\Models\NullAccount;
 use Modules\Tasks\Models\AccountRelation;
 use Modules\Tasks\Models\DutyType;
 
@@ -26,20 +27,20 @@ class AccountRelationTest extends \PHPUnit\Framework\TestCase
     {
         $obj = new AccountRelation();
         self::assertEquals(0, $obj->getId());
-        self::assertEquals(0, $obj->getRelation());
+        self::assertEquals(0, $obj->getRelation()->getId());
         self::assertEquals(DutyType::TO, $obj->getDuty());
     }
 
     public function testSetGet() : void
     {
-        $obj = new AccountRelation(1, DutyType::CC);
-        self::assertEquals(1, $obj->getRelation());
+        $obj = new AccountRelation($a = new NullAccount(1), DutyType::CC);
+        self::assertEquals(1, $obj->getRelation()->getId());
         self::assertEquals(DutyType::CC, $obj->getDuty());
 
         self::assertEquals([
             'id' => 0,
             'duty' => DutyType::CC,
-            'relation' => 1,
+            'relation' => $a,
         ], $obj->toArray());
         self::assertEquals($obj->toArray(), $obj->jsonSerialize());
 

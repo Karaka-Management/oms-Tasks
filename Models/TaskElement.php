@@ -358,10 +358,8 @@ class TaskElement implements \JsonSerializable
     public function isToAccount(int $id) : bool
     {
         foreach ($this->accRelation as $acc) {
-            if (($acc->getDuty() === DutyType::TO
-                    && ($acc->getRelation() instanceof Account) && $acc->getRelation()->getId() === $id)
-                || ($acc->getDuty() === DutyType::TO
-                    && $acc->getRelation() === $id)
+            if ($acc->getDuty() === DutyType::TO
+                && $acc->getRelation()->getId() === $id
             ) {
                 return true;
             }
@@ -382,10 +380,8 @@ class TaskElement implements \JsonSerializable
     public function isToGroup(int $id) : bool
     {
         foreach ($this->grpRelation as $grp) {
-            if (($grp->getDuty() === DutyType::TO
-                    && ($grp->getRelation() instanceof Group) && $grp->getRelation()->getId() === $id)
-                || ($grp->getDuty() === DutyType::TO
-                    && $grp->getRelation() === $id)
+            if ($grp->getDuty() === DutyType::TO
+                && $grp->getRelation()->getId() === $id
             ) {
                 return true;
             }
@@ -406,10 +402,8 @@ class TaskElement implements \JsonSerializable
     public function isCCAccount(int $id) : bool
     {
         foreach ($this->accRelation as $acc) {
-            if (($acc->getDuty() === DutyType::CC
-                    && ($acc->getRelation() instanceof Account) && $acc->getRelation()->getId() === $id)
-                || ($acc->getDuty() === DutyType::CC
-                    && $acc->getRelation() === $id)
+            if ($acc->getDuty() === DutyType::CC
+                && $acc->getRelation()->getId() === $id
             ) {
                 return true;
             }
@@ -430,10 +424,8 @@ class TaskElement implements \JsonSerializable
     public function isCCGroup(int $id) : bool
     {
         foreach ($this->grpRelation as $grp) {
-            if (($grp->getDuty() === DutyType::CC
-                    && ($grp->getRelation() instanceof Group) && $grp->getRelation()->getId() === $id)
-                || ($grp->getDuty() === DutyType::CC
-                    && $grp->getRelation() === $id)
+            if ($grp->getDuty() === DutyType::CC
+                && $grp->getRelation()->getId() === $id
             ) {
                 return true;
             }
@@ -474,7 +466,7 @@ class TaskElement implements \JsonSerializable
         $groupId = $group->getId();
 
         foreach ($this->grpRelation as $grp) {
-            $grpId = !\is_int($grp->getRelation()) ? $grp->getRelation()->getId() : $grp->getRelation();
+            $grpId = $grp->getRelation()->getId();
 
             if ($grpId === $groupId && $grp->getDuty() === DutyType::TO) {
                 return;
@@ -498,7 +490,7 @@ class TaskElement implements \JsonSerializable
         $accountId = $account->getId();
 
         foreach ($this->accRelation as $acc) {
-            $accId = !\is_int($acc->getRelation()) ? $acc->getRelation()->getId() : $acc->getRelation();
+            $accId = $acc->getRelation()->getId();
 
             if ($accId === $accountId && $acc->getDuty() === DutyType::TO) {
                 return;
@@ -566,7 +558,7 @@ class TaskElement implements \JsonSerializable
         $groupId = $group->getId();
 
         foreach ($this->grpRelation as $grp) {
-            $grpId = !\is_int($grp->getRelation()) ? $grp->getRelation()->getId() : $grp->getRelation();
+            $grpId = $grp->getRelation()->getId();
 
             if ($grpId === $groupId && $grp->getDuty() === DutyType::CC) {
                 return;
@@ -590,7 +582,7 @@ class TaskElement implements \JsonSerializable
         $accountId = $account->getId();
 
         foreach ($this->accRelation as $acc) {
-            $accId = !\is_int($acc->getRelation()) ? $acc->getRelation()->getId() : $acc->getRelation();
+            $accId = $acc->getRelation()->getId();
 
             if ($accId === $accountId && $acc->getDuty() === DutyType::CC) {
                 return;

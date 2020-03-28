@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\tests\Models;
 
+use Modules\Admin\Models\NullGroup;
 use Modules\Tasks\Models\DutyType;
 use Modules\Tasks\Models\GroupRelation;
 
@@ -26,20 +27,20 @@ class GroupRelationTest extends \PHPUnit\Framework\TestCase
     {
         $obj = new GroupRelation();
         self::assertEquals(0, $obj->getId());
-        self::assertEquals(0, $obj->getRelation());
+        self::assertEquals(0, $obj->getRelation()->getId());
         self::assertEquals(DutyType::TO, $obj->getDuty());
     }
 
     public function testSetGet() : void
     {
-        $obj = new GroupRelation(1, DutyType::CC);
-        self::assertEquals(1, $obj->getRelation());
+        $obj = new GroupRelation($g = new NullGroup(1), DutyType::CC);
+        self::assertEquals(1, $obj->getRelation()->getId());
         self::assertEquals(DutyType::CC, $obj->getDuty());
 
         self::assertEquals([
             'id' => 0,
             'duty' => DutyType::CC,
-            'relation' => 1,
+            'relation' => $g,
         ], $obj->toArray());
         self::assertEquals($obj->toArray(), $obj->jsonSerialize());
 

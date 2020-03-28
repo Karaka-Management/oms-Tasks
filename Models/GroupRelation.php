@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Models;
 
 use Modules\Admin\Models\Group;
+use Modules\Admin\Models\NullGroup;
 
 /**
  * Task relation to group
@@ -29,33 +30,33 @@ class GroupRelation extends RelationAbstract
     /**
      * Relation object
      *
-     * @var int|Group
+     * @var Group
      * @since 1.0.0
      */
-    private $relation = null;
+    private Group $relation;
 
     /**
      * Constructor.
      *
-     * @param int|Group $group Group
-     * @param int       $duty  Duty type
+     * @param null|Group $group Group
+     * @param int        $duty  Duty type
      *
      * @since 1.0.0
      */
-    public function __construct($group = 0, int $duty = DutyType::TO)
+    public function __construct(Group $group = null, int $duty = DutyType::TO)
     {
-        $this->relation = $group;
+        $this->relation = $group ?? new NullGroup();
         $this->duty     = $duty;
     }
 
     /**
      * Get relation object.
      *
-     * @return int|Group
+     * @return Group
      *
      * @since 1.0.0
      */
-    public function getRelation()
+    public function getRelation() : Group
     {
         return $this->relation;
     }
