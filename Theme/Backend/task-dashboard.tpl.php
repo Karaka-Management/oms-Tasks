@@ -13,9 +13,10 @@
 declare(strict_types=1);
 
 use Modules\Tasks\Models\TaskPriority;
+use phpOMS\Uri\UriFactory;
 
 /**
- * @todo Orange-Management/Modules#176
+ * @todo Orange-Management/oms-Tasks#4
  *  Batch handle tasks in the dashboard list
  *  In the dashboard/list it should be possible to change the status of a task without going into it (changing it to done is the most important).
  *  This could be done with a button but also touch sliding/swiping should be possible for mobile.
@@ -26,25 +27,29 @@ use Modules\Tasks\Models\TaskPriority;
  * @var \phpOMS\Views\View           $this
  * @var \Modules\Tasks\Models\Task[] $tasks
  */
-$tasks = $this->getData('tasks');
+$tasks = $this->getData('tasks') ?? [];
+
+$previous = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \reset($tasks)->getId() . '&ptype=-';
+$next     = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \end($tasks)->getId() . '&ptype=+';
+
 echo $this->getData('nav')->render(); ?>
 
 <div class="row">
     <div class="col-xs-12">
-        <div class="box wf-100 x-overflow">
+        <div class="portlet">
+            <div class="portlet-head"><?= $this->getHtml('Tasks') ?><i class="fa fa-download floatRight download btn"></i></div>
             <table id="taskList" class="default">
-                <caption><?= $this->getHtml('Tasks') ?><i class="fa fa-download floatRight download btn"></i></caption>
                 <thead>
                     <td><?= $this->getHtml('Status') ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Due/Priority') ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                    <td class="full"><?= $this->getHtml('Title') ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                    <td class="wf-100"><?= $this->getHtml('Title') ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Creator') ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Created') ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                 <tfoot>
                 <tbody>
                 <?php
                     $c = 0; foreach ($tasks as $key => $task) : ++$c;
-                    $url = \phpOMS\Uri\UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
+                    $url = UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
                 ?>
                     <tr data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Status') ?>">
@@ -71,6 +76,10 @@ echo $this->getData('nav')->render(); ?>
                     <tr><td colspan="6" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
                 <?php endif; ?>
             </table>
+            <div class="portlet-foot">
+                <a class="button" href="<?= UriFactory::build($previous); ?>"><?= $this->getHtml('Previous', '0', '0'); ?></a>
+                <a class="button" href="<?= UriFactory::build($next); ?>"><?= $this->getHtml('Next', '0', '0'); ?></a>
+            </div>
         </div>
     </div>
 </div>

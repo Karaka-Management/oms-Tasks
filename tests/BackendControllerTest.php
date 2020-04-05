@@ -81,7 +81,7 @@ class BackendControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(0, $this->module->openNav(999));
 
         /**
-         * @todo Orange-Management/Modules#206
+         * @todo Orange-Management/oms-Tasks#1
          *  Implement has seen feature
          *  In order to allow a "user has seen task x" feature every task should have a user/account status for the different users (creator, cc, receiver).
          */

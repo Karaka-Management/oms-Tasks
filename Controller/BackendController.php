@@ -36,7 +36,7 @@ use phpOMS\Views\View;
  * @link    https://orange-management.org
  * @since   1.0.0
  *
- * @todo Orange-Management/Modules#148
+ * @todo Orange-Management/oms-Tasks#5
  *  Add a calender like task view
  *  If you define tasks far into the future it can become very difficult to read and organize them.
  *  For this purpose there should be a calendar view for them.
@@ -52,7 +52,7 @@ final class BackendController extends Controller implements DashboardElementInte
      *
      * @return RenderableInterface Returns a renderable object
      *
-     * @todo Orange-Management/Modules#54
+     * @todo Orange-Management/oms-Tasks#6
      *  Implement dashboard statistics
      *  Currently on the dashboard there is only a placeholder for some stats.
      *  These stats need to be implemented.
@@ -71,9 +71,17 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-dashboard');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
 
-        $tasks = TaskMapper::getAny($request->getHeader()->getAccount());
-
-        $view->addData('tasks', $tasks);
+        if ($request->getData('ptype') === '-') {
+            $view->setData('tasks',
+                TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
+                    ::getBeforePivot((int) ($request->getData('id') ?? 0), null, 25)
+            );
+        } else {
+            $view->setData('tasks',
+                TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
+                    ::getAfterPivot((int) ($request->getData('id') ?? 0), null, 25)
+            );
+        }
 
         return $view;
     }
@@ -200,7 +208,7 @@ final class BackendController extends Controller implements DashboardElementInte
      *
      * @return int Returns the amount of unread tasks
      *
-     * @todo Orange-Management/Modules#206
+     * @todo Orange-Management/oms-Tasks#1
      *  Implement has seen feature
      *  In order to allow a "user has seen task x" feature every task should have a user/account status for the different users (creator, cc, receiver).
      *

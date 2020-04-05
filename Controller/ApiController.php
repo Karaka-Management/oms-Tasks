@@ -36,16 +36,16 @@ use phpOMS\Utils\Parser\Markdown\Markdown;
  * @link    https://orange-management.org
  * @since   1.0.0
  *
- * @todo Orange-Management/Modules#6
+ * @todo Orange-Management/oms-Tasks#9
  *  Create task/calendar reference
  *  Show tasks in calendars not just in user calendars but also in event calendars and project calendars?!
  *
  * @todo Orange-Management/Modules#33
  *  Repeating tasks should be implemented.
- *  At the same time this mans a fix to the due date needs to be implemented.
+ *  At the same time this means a fix to the due date needs to be implemented.
  *  Maybe simple calculate the time difference between first start and first due?
  *
- * @todo Orange-Management/Modules#147
+ * @todo Orange-Management/oms-Tasks#6
  *  Add tags
  *  The user should be able to add a tag to a task and also decide on the color of the tag.
  *  User means the creator of the task.
@@ -244,7 +244,7 @@ final class ApiController extends Controller
         }
 
         /**
-         * @todo Orange-Management/Moudles#201
+         * @todo Orange-Management/oms-Tasks#3
          *  Validate that the user is allowed to create a task element for a specific task
          */
 
@@ -338,7 +338,7 @@ final class ApiController extends Controller
         $this->updateModel($request->getHeader()->getAccount(), $old, $new, TaskElementMapper::class, 'taskelement');
 
         /**
-         * @todo Orange-Management/Modules#205
+         * @todo Orange-Management/oms-Tasks#2
          *  Update task status depending on the new task element or updated task element
          *  The task status is not normalized and relates to the last task element.
          *  Depending on the task status of the last task element also the task status should change.
