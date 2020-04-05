@@ -4,11 +4,10 @@ use Modules\Tasks\Models\TaskStatus;
 
 ?>
 <table class="default">
-    <caption><?= $this->getHtml('Tasks', 'Tasks') ?><i class="fa fa-download floatRight download btn"></i></caption>
     <thead>
         <td><?= $this->getHtml('Status', 'Tasks') ?>
         <td><?= $this->getHtml('Due/Priority', 'Tasks') ?>
-        <td class="full"><?= $this->getHtml('Title', 'Tasks') ?>
+        <td class="wf-100"><?= $this->getHtml('Title', 'Tasks') ?>
     <tfoot>
     <tbody>
     <?php $c = 0; foreach ($this->tasks as $key => $task) : ++$c;
