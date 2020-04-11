@@ -133,14 +133,6 @@ final class TaskMapper extends DataMapperAbstract
     protected static string $primaryField = 'task_id';
 
     /**
-     * {@inheritdoc}
-     */
-    public static function get($primaryKey, int $relations = RelationType::ALL, int $depth = 3, string $ref = null, Builder $query = null)
-    {
-        return parent::get($primaryKey, $relations, $depth, $ref, $query);
-    }
-
-    /**
      * Get open tasks by createdBy
      *
      * @param int $user User
