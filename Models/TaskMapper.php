@@ -19,7 +19,6 @@ use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\DataStorage\Database\Query\Builder;
-use phpOMS\DataStorage\Database\RelationType;
 
 /**
  * Mapper class.
