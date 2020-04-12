@@ -19,7 +19,6 @@ use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\DataStorage\Database\Query\Builder;
-use phpOMS\DataStorage\Database\RelationType;
 
 /**
  * Mapper class.
@@ -131,14 +130,6 @@ final class TaskMapper extends DataMapperAbstract
      * @since 1.0.0
      */
     protected static string $primaryField = 'task_id';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function get($primaryKey, int $relations = RelationType::ALL, int $depth = 3, string $ref = null, Builder $query = null)
-    {
-        return parent::get($primaryKey, $relations, $depth, $ref, $query);
-    }
 
     /**
      * Get open tasks by createdBy
