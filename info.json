@@ -40,15 +40,6 @@
             "pid": [
                 "/"
             ],
-            "type": 4,
-            "from": "Tasks",
-            "for": "Navigation",
-            "file": "Tasks"
-        },
-        {
-            "pid": [
-                "/"
-            ],
             "type": 5,
             "from": "Tasks",
             "for": "Navigation",
