@@ -796,18 +796,19 @@ class Task implements \JsonSerializable
     public function toArray() : array
     {
         return [
-            'id'          => $this->id,
-            'createdBy'   => $this->createdBy,
-            'createdAt'   => $this->createdAt,
-            'title'       => $this->title,
-            'description' => $this->description,
-            'status'      => $this->status,
-            'type'        => $this->type,
-            'priority'    => $this->priority,
-            'due'         => $this->due,
-            'done'        => $this->done,
-            'elements'    => $this->taskElements,
-            'tags'        => $this->tags,
+            'id'             => $this->id,
+            'createdBy'      => $this->createdBy,
+            'createdAt'      => $this->createdAt,
+            'title'          => $this->title,
+            'description'    => $this->description,
+            'descriptionRaw' => $this->descriptionRaw,
+            'status'         => $this->status,
+            'type'           => $this->type,
+            'priority'       => $this->priority,
+            'due'            => $this->due,
+            'done'           => $this->done,
+            'elements'       => $this->taskElements,
+            'tags'           => $this->tags,
         ];
     }
 

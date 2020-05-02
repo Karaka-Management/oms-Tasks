@@ -22,11 +22,10 @@ echo $this->getData('nav')->render(); ?>
 
 <div class="row">
     <div class="col-xs-12 col-md-6">
-        <section class="box wf-100">
-            <header><h1><?= $this->getHtml('Task') ?></h1></header>
-
-            <div class="inner">
-                <form id="fTask" method="PUT" action="<?= \phpOMS\Uri\UriFactory::build('{/api}task?{?}&csrf={$CSRF}'); ?>">
+        <div class="portlet">
+            <form id="fTask" method="PUT" action="<?= \phpOMS\Uri\UriFactory::build('{/api}task?{?}&csrf={$CSRF}'); ?>">
+                <div class="portlet-head"><?= $this->getHtml('Task') ?></div>
+                <div class="portlet-body">
                     <table class="layout wf-100" style="table-layout: fixed">
                         <tbody>
                         <tr><td><label for="iReceiver"><?= $this->getHtml('To') ?></label>
@@ -50,20 +49,20 @@ echo $this->getData('nav')->render(); ?>
                         <tr><td><label for="iMessage"><?= $this->getHtml('Message') ?></label>
                         <tr><td><?= $this->getData('editor')->render('task-editor'); ?>
                         <tr><td><?= $this->getData('editor')->getData('text')->render('task-editor', 'plain', 'fTask'); ?>
-                        <tr><td>
-                            <input id="iCreateSubmit" type="submit" value="<?= $this->getHtml('Create', '0', '0'); ?>">
-                            <input type="hidden" name="type" value="<?= $this->printHtml(TaskType::SINGLE); ?>">
                     </table>
-                </form>
-            </div>
-        </section>
+                </div>
+                <div class="portlet-foot">
+                    <input id="iCreateSubmit" type="submit" value="<?= $this->getHtml('Create', '0', '0'); ?>">
+                    <input type="hidden" name="type" value="<?= $this->printHtml(TaskType::SINGLE); ?>">
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="col-xs-12 col-md-6">
-        <section class="box wf-100">
-            <header><h1><?= $this->getHtml('Media') ?></h1></header>
-
-            <div class="inner">
+        <div class="portlet">
+            <div class="portlet-head"><?= $this->getHtml('Media') ?></div>
+            <div class="portlet-body">
                 <form>
                     <table class="layout wf-100">
                         <tbody>
@@ -78,9 +77,9 @@ echo $this->getData('nav')->render(); ?>
                             <input type="file" id="iUpload" name="upload" form="fTask" multiple>
                             <input form="fTask" type="hidden" name="type"><td>
                     </table>
-                </form>
-            </div>
-        </section>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

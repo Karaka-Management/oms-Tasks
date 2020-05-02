@@ -31,60 +31,57 @@ echo $this->getData('nav')->render(); ?>
 
 <div class="row">
     <div class="col-md-6 col-xs-12">
-        <section id="task" class="box wf-100"
-            data-ui-content=".inner"
-            data-ui-element="#task header, #task .task-content"
+        <div id="task" class="portlet"
+            data-ui-content="#task"
+            data-ui-element="#task .portlet-head, #task .task-content"
             data-tag="form"
             data-method="POST"
             data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task?id={?id}&csrf={$CSRF}'); ?>">
-            <div class="inner">
-                <?php if ($task->isEditable()) : ?>
-                <template><!-- todo: this needs to be here for the form js to work (edit). find a way to remove these. maybe check if add functionality is available. --></template>
-                <template><!-- todo: this needs to be here for the form js to work (edit). find a way to remove these. maybe check if add functionality is available. --></template>
-                <template>
-                    <header><h1><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title"></h1></header>
-                </template>
-                <template>
-                    <div class="inner task-content">
-                        <!-- todo: handle different value/markdown paths how??? no idea -->
-                        <!-- todo: bind js after adding template -->
-                        <!-- todo: adding this multiple times doesn't work because the id and tab names collide, this needs to be adjusted dynamically in js!!! how? no idea yet. -->
-                        <?= $this->getData('editor')->render('task-edit'); ?>
-                        <?= $this->getData('editor')->getData('text')->render(
-                            'task-edit',
-                            'plain',
-                            'taskElementEdit',
-                            '', '',
-                            '/content', '{/api}task?id={?id}'
-                        ); ?>
-                        <!--<textarea data-tpl-text="/content" data-tpl-value="/content" data-value=""></textarea>-->
-                    </div>
-                </template>
-                <?php endif; ?>
-
+            <template><!-- todo: this needs to be here for the form js to work (edit). find a way to remove these. maybe check if add functionality is available. --></template>
+            <template><!-- todo: this needs to be here for the form js to work (edit). find a way to remove these. maybe check if add functionality is available. --></template>
+            <template>
+                <div class="portlet-head"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title"></div>
+            </template>
+            <template>
+                <div class="task-content">
+                    <!-- todo: handle different value/markdown paths how??? no idea -->
+                    <!-- todo: bind js after adding template -->
+                    <!-- todo: adding this multiple times doesn't work because the id and tab names collide, this needs to be adjusted dynamically in js!!! how? no idea yet. -->
+                    <?= $this->getData('editor')->render('task-edit'); ?>
+                    <?= $this->getData('editor')->getData('text')->render(
+                        'task-edit',
+                        'plain',
+                        'taskElementEdit',
+                        '', '',
+                        '/content', '{/base}/api/task?id={?id}'
+                    ); ?>
+                </div>
+            </template>
+            <div class="portlet-head" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->getTitle()); ?></div>
+            <div class="portlet-body">
                 <span id="task-status-badge" class="floatRight nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
                     <?= $this->getHtml('S' . $task->getStatus()) ?>
                 </span>
                 <div>
                     <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
                 </div>
-            </div>
-            <header>
-                <h1 data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->getTitle()); ?></h1>
-            </header>
-            <div class="inner task-content">
-                <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-value=""><?= $task->getDescription(); ?></article>
-            </div>
+                <article class="task-content"
+                    data-tpl-text="/content"
+                    data-tpl-value="{/base}/api/task?id={?id}"
+                    data-tpl-value-path="/0/response/descriptionRaw"
+                    data-value=""
+                    ><?= $task->getDescription(); ?></article>
 
-            <?php if (!empty($taskMedia)) : ?>
-            <div class="inner">
-                <?php foreach ($taskMedia as $media) : ?>
-                    <span><?= $media->getName(); ?></span>
-                <?php endforeach; ?>
+                <?php if (!empty($taskMedia)) : ?>
+                    <div class="inner">
+                        <?php foreach ($taskMedia as $media) : ?>
+                            <span><?= $media->getName(); ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
-
-            <div class="inner" style="background: #efefef; border-top: 1px solid #dfdfdf;">
+            <?php if ($task->isEditable()) : ?>
+            <div class="portlet-foot">
                 <div class="pAlignTable">
                     <div class="vC wf-100">
                         <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
@@ -103,7 +100,8 @@ echo $this->getData('nav')->render(); ?>
                     <?php endif; ?>
                 </div>
             </div>
-        </section>
+            <?php endif; ?>
+        </div>
 
         <div id="elements">
             <!-- todo: this doesn't work because single taskelements cannot be identified somehow we need to work with ids of elements, implement a counter for the current element or implement a nearest() function instead of the this.closest() -->
@@ -125,7 +123,7 @@ echo $this->getData('nav')->render(); ?>
                     </div>
 
                     <div class="inner taskelement-content">
-                        <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-value=""></article>
+                        <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-tpl-value-path="/0/response/description" data-value=""></article>
                     </div>
 
                     <div class="inner">
@@ -183,7 +181,7 @@ echo $this->getData('nav')->render(); ?>
 
                     <?php if ($element->getDescription() !== '') : ?>
                         <div class="inner taskelement-content">
-                            <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-value=""><?= $element->getDescription(); ?></article>
+                            <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-tpl-value-path="/0/response/description" data-value=""><?= $element->getDescription(); ?></article>
                         </div>
                     <?php endif; ?>
 
@@ -238,7 +236,7 @@ echo $this->getData('nav')->render(); ?>
                             <?= $this->getHtml('ForwardedTo') ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
-                                    <a href="<?= phpOMS\Uri\UriFactory::build('{/prefix}profile/single?{?}&id=' . $to->getRelation()->getId()) ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
+                                    <a href="<?= phpOMS\Uri\UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()) ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
                                 <?php elseif ($to instanceof GroupRelation) : ?>
                                     <?= $this->printHtml($to->getRelation()->getName()); ?>
                                 <?php endif; ?>
@@ -251,11 +249,11 @@ echo $this->getData('nav')->render(); ?>
     </div>
 
     <div class="col-md-6 col-xs-12">
-        <section class="box wf-100">
-            <div class="inner">
-                <form id="taskElementCreate" method="PUT" action="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+        <div class="portlet">
+            <form id="taskElementCreate" method="PUT" action="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+                <div class="portlet-head"><?= $this->getHtml('Message') ?></div>
+                <div class="portlet-body">
                     <table class="layout wf-100" style="table-layout: fixed">
-                        <tr><td><label for="iMessage"><?= $this->getHtml('Message') ?></label>
                         <tr><td><?= $this->getData('editor')->render('task-editor'); ?>
                         <tr><td><?= $this->getData('editor')->getData('text')->render(
                             'task-editor',
@@ -296,12 +294,13 @@ echo $this->getData('nav')->render(); ?>
                         <tr><td><label for="iUpload"><?= $this->getHtml('Upload') ?></label>
                         <tr><td>
                             <input type="file" id="iUpload" name="fileUpload" form="fTask">
-                        <tr><td>
-                            <input type="submit" id="iTaskElementCreateButton" name="taskElementCreateButton" value="<?= $this->getHtml('Create', '0', '0'); ?>">
-                            <input type="hidden" name="task" value="<?= $this->printHtml($this->request->getData('id')); ?>"><input type="hidden" name="type" value="1">
                     </table>
-                </form>
-            </div>
-        </section>
+                </div>
+                <div class="portlet-foot">
+                    <input type="submit" id="iTaskElementCreateButton" name="taskElementCreateButton" value="<?= $this->getHtml('Create', '0', '0'); ?>">
+                    <input type="hidden" name="task" value="<?= $this->printHtml($this->request->getData('id')); ?>"><input type="hidden" name="type" value="1">
+                </div>
+            </form>
+        </div>
     </div>
 </div>
