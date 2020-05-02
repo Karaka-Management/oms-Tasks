@@ -76,10 +76,15 @@ final class BackendController extends Controller implements DashboardElementInte
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
                     ::getBeforePivot((int) ($request->getData('id') ?? 0), null, 25)
             );
-        } else {
+        } elseif ($request->getData('ptype') === '+') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
                     ::getAfterPivot((int) ($request->getData('id') ?? 0), null, 25)
+            );
+        } else {
+            $view->setData('tasks',
+                TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
+                    ::getAfterPivot(0, null, 25)
             );
         }
 
