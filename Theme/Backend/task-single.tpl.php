@@ -53,7 +53,7 @@ echo $this->getData('nav')->render(); ?>
                         'plain',
                         'taskElementEdit',
                         '', '',
-                        '/content', '{/base}/api/task?id={?id}'
+                        '{/base}/api/task?id={?id}', '{/base}/api/task?id={?id}',
                     ); ?>
                 </div>
             </template>
@@ -66,9 +66,10 @@ echo $this->getData('nav')->render(); ?>
                     <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
                 </div>
                 <article class="task-content"
-                    data-tpl-text="/content"
+                    data-tpl-text="{/base}/api/task?id={?id}"
                     data-tpl-value="{/base}/api/task?id={?id}"
                     data-tpl-value-path="/0/response/descriptionRaw"
+                    data-tpl-text-path="/0/response/description"
                     data-value=""
                     ><?= $task->getDescription(); ?></article>
 
