@@ -807,7 +807,6 @@ class Task implements \JsonSerializable
             'priority'       => $this->priority,
             'due'            => $this->due,
             'done'           => $this->done,
-            'elements'       => $this->taskElements,
             'tags'           => $this->tags,
         ];
     }

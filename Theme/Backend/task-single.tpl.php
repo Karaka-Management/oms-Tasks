@@ -32,31 +32,30 @@ echo $this->getData('nav')->render(); ?>
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <div id="task" class="portlet"
-            data-ui-content="#task"
-            data-ui-element="#task .portlet-head, #task .task-content"
+            data-update-content="#task"
+            data-update-element="#task .portlet-head, #task .task-content"
+            data-update-tpl="#headTpl, #contentTpl"
             data-tag="form"
             data-method="POST"
             data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task?id={?id}&csrf={$CSRF}'); ?>">
-            <template><!-- todo: this needs to be here for the form js to work (edit). find a way to remove these. maybe check if add functionality is available. --></template>
-            <template><!-- todo: this needs to be here for the form js to work (edit). find a way to remove these. maybe check if add functionality is available. --></template>
-            <template>
-                <div class="portlet-head"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title"></div>
-            </template>
-            <template>
-                <div class="task-content">
-                    <!-- todo: handle different value/markdown paths how??? no idea -->
-                    <!-- todo: bind js after adding template -->
-                    <!-- todo: adding this multiple times doesn't work because the id and tab names collide, this needs to be adjusted dynamically in js!!! how? no idea yet. -->
-                    <?= $this->getData('editor')->render('task-edit'); ?>
-                    <?= $this->getData('editor')->getData('text')->render(
-                        'task-edit',
-                        'plain',
-                        'taskElementEdit',
-                        '', '',
-                        '{/base}/api/task?id={?id}', '{/base}/api/task?id={?id}',
-                    ); ?>
-                </div>
-            </template>
+            <?php if ($task->isEditable()) : ?>
+                <template id="headTpl">
+                    <div class="portlet-head"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title"></div>
+                </template>
+                <template id="contentTpl">
+                    <div class="task-content">
+                        <!-- todo: bind js after adding template -->
+                        <?= $this->getData('editor')->render('task-edit'); ?>
+                        <?= $this->getData('editor')->getData('text')->render(
+                            'task-edit',
+                            'plain',
+                            'taskElementEdit',
+                            '', '',
+                            '{/base}/api/task?id={?id}', '{/base}/api/task?id={?id}',
+                        ); ?>
+                    </div>
+                </template>
+            <?php endif; ?>
             <div class="portlet-head" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->getTitle()); ?></div>
             <div class="portlet-body">
                 <span id="task-status-badge" class="floatRight nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
@@ -105,26 +104,26 @@ echo $this->getData('nav')->render(); ?>
         </div>
 
         <div id="elements">
-            <!-- todo: this doesn't work because single taskelements cannot be identified somehow we need to work with ids of elements, implement a counter for the current element or implement a nearest() function instead of the this.closest() -->
-            <?php if ($task->isEditable()) : ?>
-            <template>
-                <section id="taskelmenet-0" class="box wf-100 taskelement"
-                    data-ui-content="#elements"
-                    data-ui-element=".taskelement .taskelement-content"
+            <template id="elementTpl">
+                <section id="taskelmenet-0" class="box wf-100 taskElement"
+                    data-update-content="#elements"
+                    data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
                     data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
                     <div class="inner pAlignTable">
                         <div class="vC wf-100">
-                            <!-- created by --> - <!-- created at -->
+                            <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdBy/name/0"></span>
+                            -
+                            <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdAt/date"></span>
                         </div>
                         <span class="vC tag task-status-0">
                             <!-- status-->
                         </span>
                     </div>
 
-                    <div class="inner taskelement-content">
-                        <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-tpl-value-path="/0/response/description" data-value=""></article>
+                    <div class="inner taskElement-content">
+                        <article data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/description" data-value=""></article>
                     </div>
 
                     <div class="inner">
@@ -144,30 +143,28 @@ echo $this->getData('nav')->render(); ?>
                         </div>
                 </section>
             </template>
-            <template>
-                <div class="inner taskelement-content">
-                    <!-- todo: handle different value/markdown paths how??? no idea -->
-                    <!-- todo: bind js after adding template -->
-                    <!-- todo: adding this multiple times doesn't work because the id and tab names collide, this needs to be adjusted dynamically in js!!! how? no idea yet. -->
-                    <?= $this->getData('editor')->render('task-edit'); ?>
-                    <?= $this->getData('editor')->getData('text')->render(
-                            'task-edit',
-                            'plain',
-                            'taskElementEdit',
-                            '', '',
-                            '/content', '{/api}task?id={?id}'
-                        ); ?>
-                    <!--<textarea data-tpl-text="/content" data-tpl-value="/content" data-value=""></textarea>-->
-                </div>
-            </template>
+            <?php if ($task->isEditable()) : ?>
+                <template id="taskElementContentTpl">
+                    <div class="inner taskElement-content">
+                        <!-- todo: bind js after adding template -->
+                        <?= $this->getData('editor')->render('task-edit'); ?>
+                        <?= $this->getData('editor')->getData('text')->render(
+                                'task-edit',
+                                'plain',
+                                'taskElementEdit',
+                                '', '',
+                                '/content', '{/api}task?id={?id}'
+                            ); ?>
+                    </div>
+                </template>
             <?php endif; ?>
             <?php $c = 0; $previous = null;
             foreach ($elements as $key => $element) : ++$c;
                 if ($element->getDescription() !== '') :
             ?>
-                <section id="taskelmenet-<?= $c; ?>" class="box wf-100 taskelement"
-                    data-ui-content="#elements"
-                    data-ui-element=".taskelement .taskelement-content"
+                <section id="taskelmenet-<?= $c; ?>" class="box wf-100 taskElement"
+                    data-update-content="#elements"
+                    data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
                     data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
@@ -181,8 +178,8 @@ echo $this->getData('nav')->render(); ?>
                     </div>
 
                     <?php if ($element->getDescription() !== '') : ?>
-                        <div class="inner taskelement-content">
-                            <article data-tpl-text="/content" data-tpl-value="{/api}task?id={?id}" data-tpl-value-path="/0/response/description" data-value=""><?= $element->getDescription(); ?></article>
+                        <div class="inner taskElement-content">
+                            <article data-tpl-text="/content" data-tpl-value="{/api}task/element?id={?id}" data-tpl-value-path="/0/response/description" data-value=""><?= $element->getDescription(); ?></article>
                         </div>
                     <?php endif; ?>
 
@@ -251,7 +248,13 @@ echo $this->getData('nav')->render(); ?>
 
     <div class="col-md-6 col-xs-12">
         <div class="portlet">
-            <form id="taskElementCreate" method="PUT" action="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+            <form
+                id="taskElementCreate" method="PUT"
+                action="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>"
+                data-add-content="#elements"
+                data-add-element=".taskElement-content"
+                data-add-tpl="#elementTpl"
+            >
                 <div class="portlet-head"><?= $this->getHtml('Message') ?></div>
                 <div class="portlet-body">
                     <table class="layout wf-100" style="table-layout: fixed">
@@ -298,7 +301,7 @@ echo $this->getData('nav')->render(); ?>
                     </table>
                 </div>
                 <div class="portlet-foot">
-                    <input type="submit" id="iTaskElementCreateButton" name="taskElementCreateButton" value="<?= $this->getHtml('Create', '0', '0'); ?>">
+                    <input class="add" data-form="" type="submit" id="iTaskElementCreateButton" name="taskElementCreateButton" value="<?= $this->getHtml('Create', '0', '0'); ?>">
                     <input type="hidden" name="task" value="<?= $this->printHtml($this->request->getData('id')); ?>"><input type="hidden" name="type" value="1">
                 </div>
             </form>
