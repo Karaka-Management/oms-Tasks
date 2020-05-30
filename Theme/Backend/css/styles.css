@@ -7,21 +7,21 @@
 }
 
 .tag.task-status-1 {
-    background: rgb(255, 104, 104);
+    background: #ff6250;
 }
 
 .tag.task-status-2 {
-    background: rgb(113, 197, 245);
+    background: #3498db;
 }
 
 .tag.task-status-3 {
-    background: rgb(255, 241, 114);
+    background: #f1c40f;
 }
 
 .tag.task-status-4 {
-    background: rgb(235, 151, 252);
+    background: #9b59b6;
 }
 
 .tag.task-status-5 {
-    background: rgb(79, 236, 118);
+    background: #46eb8b;
 }
