@@ -163,7 +163,7 @@ class TaskTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidStatus() : void
     {
-        self::expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
+        $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
 
         $task = new Task();
         $task->setStatus(9999);
@@ -171,7 +171,7 @@ class TaskTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidPriority() : void
     {
-        self::expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
+        $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
 
         $task = new Task();
         $task->setPriority(9999);
