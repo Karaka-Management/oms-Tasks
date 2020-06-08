@@ -15,9 +15,7 @@ declare(strict_types=1);
 use \Modules\Tasks\Models\TaskPriority;
 use \Modules\Tasks\Models\TaskType;
 
-/**
- * @var \phpOMS\Views\View $this
- */
+/** @var \phpOMS\Views\View $this */
 echo $this->getData('nav')->render(); ?>
 
 <div class="row">

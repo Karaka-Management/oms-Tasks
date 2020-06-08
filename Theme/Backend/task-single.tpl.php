@@ -17,10 +17,8 @@ use \Modules\Tasks\Models\GroupRelation;
 use \Modules\Tasks\Models\TaskPriority;
 use \Modules\Tasks\Models\TaskStatus;
 
-/**
- * @var \Modules\Tasks\Views\TaskView $this
- * @var \Modules\Tasks\Models\Task    $task
- */
+/** @var \Modules\Tasks\Views\TaskView $this */
+/** @var \Modules\Tasks\Models\Task $task */
 $task      = $this->getData('task');
 $taskMedia = $task->getMedia();
 $elements  = $task->getTaskElements();

@@ -23,10 +23,8 @@ use phpOMS\Uri\UriFactory;
  *  It could also make sense to implement checkboxes infront of the list items which then show a close/done etc. button which can be pressed and changes the status of all of the checked tasks.
  */
 
- /**
- * @var \phpOMS\Views\View           $this
- * @var \Modules\Tasks\Models\Task[] $tasks
- */
+/** @var \phpOMS\Views\View $this */
+/** @var \Modules\Tasks\Models\Task[] $tasks */
 $tasks = $this->getData('tasks') ?? [];
 
 $previous = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \reset($tasks)->getId() . '&ptype=-';
