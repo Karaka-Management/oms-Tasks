@@ -8,10 +8,12 @@
 
 .tag.task-status-1 {
     background: #ff6250;
+    color: #fff;
 }
 
 .tag.task-status-2 {
     background: #3498db;
+    color: #fff;
 }
 
 .tag.task-status-3 {
@@ -20,6 +22,7 @@
 
 .tag.task-status-4 {
     background: #9b59b6;
+    color: #fff;
 }
 
 .tag.task-status-5 {

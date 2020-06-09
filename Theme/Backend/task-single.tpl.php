@@ -29,16 +29,16 @@ echo $this->getData('nav')->render(); ?>
 
 <div class="row">
     <div class="col-md-6 col-xs-12">
-        <div id="task" class="portlet"
+        <section id="task" class="portlet"
             data-update-content="#task"
-            data-update-element="#task .portlet-head, #task .task-content"
+            data-update-element="#task .task-title, #task .task-content"
             data-update-tpl="#headTpl, #contentTpl"
             data-tag="form"
             data-method="POST"
             data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task?id={?id}&csrf={$CSRF}'); ?>">
             <?php if ($task->isEditable()) : ?>
                 <template id="headTpl">
-                    <div class="portlet-head"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title"></div>
+                    <h1 class="task-title"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title" autocomplete="off"></h1>
                 </template>
                 <template id="contentTpl">
                     <div class="task-content">
@@ -54,14 +54,25 @@ echo $this->getData('nav')->render(); ?>
                     </div>
                 </template>
             <?php endif; ?>
-            <div class="portlet-head" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->getTitle()); ?></div>
-            <div class="portlet-body">
-                <span id="task-status-badge" class="floatRight nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
-                    <?= $this->getHtml('S' . $task->getStatus()) ?>
-                </span>
-                <div>
-                    <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
+            <div class="portlet-head">
+                <div class="row middle-xs">
+                    <span class="col-xs-0">
+                        <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($task->getCreatedBy()); ?>">
+                    </span>
+                    <span>
+                        <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
+                    </span>
+                    <span class="col-xs end-xs plain-grid">
+                        <span id="task-status-badge" class="nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
+                            <?= $this->getHtml('S' . $task->getStatus()) ?>
+                        </span>
+                    </span>
                 </div>
+            </div>
+            <div class="portlet-body">
+                <span class="task-title" data-tpl-text="/title" data-tpl-value="/title" data-value="">
+                    <?= $this->printHtml($task->getTitle()); ?>
+                </span>
                 <article class="task-content"
                     data-tpl-text="{/base}/api/task?id={?id}"
                     data-tpl-value="{/base}/api/task?id={?id}"
@@ -69,37 +80,38 @@ echo $this->getData('nav')->render(); ?>
                     data-tpl-text-path="/0/response/description"
                     data-value=""
                     ><?= $task->getDescription(); ?></article>
-
-                <?php if (!empty($taskMedia)) : ?>
-                    <div class="inner">
-                        <?php foreach ($taskMedia as $media) : ?>
-                            <span><?= $media->getName(); ?></span>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
             </div>
-            <?php if ($task->isEditable()) : ?>
-            <div class="portlet-foot">
-                <div class="pAlignTable">
-                    <div class="vC wf-100">
-                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
-                            <?= $this->getHtml('Due') ?>: <?= $this->printHtml($task->getDue()->format('Y/m/d H:i')); ?>
-                        <?php else : ?>
-                            <?= $this->getHtml('Priority') ?>: <?= $this->getHtml('P' . $task->getPriority()) ?>
+            <div class="portlet-foot row">
+                <div class="row col-xs plain-grid">
+                    <div class="col-xs">
+                        <?php if (!empty($taskMedia)) : ?>
+                            <div>
+                                <?php foreach ($taskMedia as $media) : ?>
+                                    <span><?= $media->getName(); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div>
+                            <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                                <?= $this->getHtml('Due') ?>: <?= $this->printHtml($task->getDue()->format('Y/m/d H:i')); ?>
+                            <?php else : ?>
+                                <?= $this->getHtml('Priority') ?>: <?= $this->getHtml('P' . $task->getPriority()) ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-xs-0 end-xs plain-grid">
+                        <?php if ($task->isEditable() && $this->request->getHeader()->getAccount() === $task->getCreatedBy()->getId()) : ?>
+                            <div class="col-xs end-xs plain-grid">
+                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
+                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
+                                <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
+                            </div>
                         <?php endif; ?>
                     </div>
-
-                    <?php if ($task->isEditable() && $this->request->getHeader()->getAccount() === $task->getCreatedBy()->getId()) : ?>
-                        <div class="vC">
-                            <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
-                            <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
-                            <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
-                        </div>
-                    <?php endif; ?>
                 </div>
             </div>
-            <?php endif; ?>
-        </div>
+        </section>
 
         <div id="elements">
             <template id="elementTpl">
@@ -158,67 +170,73 @@ echo $this->getData('nav')->render(); ?>
             <?php endif; ?>
             <?php $c = 0; $previous = null;
             foreach ($elements as $key => $element) : ++$c;
-                if ($element->getDescription() !== '') :
-            ?>
-                <section id="taskelmenet-<?= $c; ?>" class="box wf-100 taskElement"
+                if ($element->getDescription() !== '') : ?>
+                <section id="taskelmenet-<?= $c; ?>" class="portlet taskElement"
                     data-update-content="#elements"
                     data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
                     data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
-                    <div class="inner pAlignTable">
-                        <div class="vC wf-100">
-                            <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
+                    <div class="portlet-head">
+                        <div class="row middle-xs">
+                            <span class="col-xs-0">
+                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($element->getCreatedBy()); ?>">
+                            </span>
+                            <span class="col-xs">
+                                <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
+                            </span>
+                            <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
+                                <?= $this->getHtml('S' . $element->getStatus()) ?>
+                            </span>
                         </div>
-                        <span class="vC tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
-                            <?= $this->getHtml('S' . $element->getStatus()) ?>
-                        </span>
                     </div>
 
                     <?php if ($element->getDescription() !== '') : ?>
-                        <div class="inner taskElement-content">
+                        <div class="portlet-body taskElement-content">
                             <article data-tpl-text="/content" data-tpl-value="{/api}task/element?id={?id}" data-tpl-value-path="/0/response/description" data-value=""><?= $element->getDescription(); ?></article>
                         </div>
                     <?php endif; ?>
 
-                    <?php $elementMedia = $element->getMedia(); if (!empty($elementMedia)) : ?>
-                    <div class="inner">
-                        <?php foreach ($elementMedia as $media) : ?>
-                            <span><?= $media->getName(); ?></span>
-                        <?php endforeach; ?>
-                    </div>
-                    <?php endif; ?>
 
-                    <div class="inner pAlignTable" style="background: #efefef; border-top: 1px solid #dfdfdf;">
-                    <?php if ($element->getStatus() !== TaskStatus::CANCELED
-                        || $element->getStatus() !== TaskStatus::DONE
-                        || $element->getStatus() !== TaskStatus::SUSPENDED
-                        || $c != $cElements
-                    ) : ?>
-                        <div class="vC wf-100 nobreak">
-                            <?php
-                                if ($element->getPriority() === TaskPriority::NONE
-                                    && ($previous !== null
-                                        && $previous->getDue()->format('Y/m/d H:i') !== $element->getDue()->format('Y/m/d H:i')
-                                    )
-                                ) : ?>
-                                <?= $this->getHtml('Due') ?>: <?= $this->printHtml($element->getDue()->format('Y/m/d H:i')); ?>
-                            <?php elseif ($previous !== null && $previous->getPriority() !== $element->getPriority()) : ?>
-                                <?= $this->getHtml('Priority') ?>: <?= $this->getHtml('P' . $element->getPriority()) ?>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
+                    <div class="portlet-foot row middle-xs">
+                        <?php $elementMedia = $element->getMedia();
+                        if (!empty($elementMedia)) : ?>
+                            <div>
+                                <?php foreach ($elementMedia as $media) : ?>
+                                    <span><?= $media->getName(); ?></span>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
 
-                    <?php if ($task->isEditable()
-                        && $this->request->getHeader()->getAccount() === $element->getCreatedBy()->getId()
-                    ) : ?>
-                        <div class="vC">
-                            <input type="hidden" value="<?= $element->getId(); ?>" name="id">
-                            <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
-                            <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
-                            <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
-                        </div>
-                    <?php endif; ?>
+                        <?php if ($element->getStatus() !== TaskStatus::CANCELED
+                            || $element->getStatus() !== TaskStatus::DONE
+                            || $element->getStatus() !== TaskStatus::SUSPENDED
+                            || $c != $cElements
+                        ) : ?>
+                            <div>
+                                <?php
+                                    if ($element->getPriority() === TaskPriority::NONE
+                                        && ($previous !== null
+                                            && $previous->getDue()->format('Y/m/d H:i') !== $element->getDue()->format('Y/m/d H:i')
+                                        )
+                                    ) : ?>
+                                    <?= $this->getHtml('Due') ?>: <?= $this->printHtml($element->getDue()->format('Y/m/d H:i')); ?>
+                                <?php elseif ($previous !== null && $previous->getPriority() !== $element->getPriority()) : ?>
+                                    <?= $this->getHtml('Priority') ?>: <?= $this->getHtml('P' . $element->getPriority()) ?>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($task->isEditable()
+                            && $this->request->getHeader()->getAccount() === $element->getCreatedBy()->getId()
+                        ) : ?>
+                            <div class="col-xs end-xs plain-grid">
+                                <input type="hidden" value="<?= $element->getId(); ?>" name="id">
+                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
+                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
+                                <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
+                            </div>
+                        <?php endif; ?>
                 </section>
                 <?php endif; ?>
 
