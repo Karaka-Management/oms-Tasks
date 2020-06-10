@@ -19,6 +19,8 @@ use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\DataStorage\Database\Query\Builder;
+use phpOMS\DataStorage\Database\Query\Where;
+use phpOMS\DataStorage\Database\RelationType;
 
 /**
  * Mapper class.
@@ -307,6 +309,122 @@ final class TaskMapper extends DataMapperAbstract
             ->orderBy(TaskElementMapper::getTable() . '.' . TaskElementMapper::getCreatedAt(), 'DESC');
 
         return self::getAllByQuery($query);
+    }
+
+    /**
+     * Get tasks that have something to do with the user
+     *
+     * @param int    $user      User
+     * @param mixed  $pivot     Pivot
+     * @param string $column    Sort column/pivot column
+     * @param int    $limit     Result limit
+     * @param string $order     Order of the elements
+     * @param int    $relations Load relations
+     * @param int    $depth     Relation depth
+     *
+     * @return Task[]
+     *
+     * @since 1.0.0
+     */
+    public static function getAnyBeforePivot(
+        int $user,
+        $pivot,
+        string $column = null,
+        int $limit = 50,
+        string $order = 'ASC',
+        int $relations = RelationType::ALL,
+        int $depth = 3
+    ) : array {
+        $depth = 3;
+        $userWhere = new Where(self::$db);
+        $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
+            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+
+        $query = self::getQuery();
+        $query->innerJoin(TaskElementMapper::getTable())
+                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+            ->innerJoin(AccountRelationMapper::getTable())
+                ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
+            ->where($userWhere)
+            ->andWhere(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), '<', $pivot)
+            ->orderBy(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), $order)
+            ->limit($limit);
+
+        return self::getAllByQuery($query);
+    }
+
+    /**
+     * Get tasks that have something to do with the user
+     *
+     * @param int    $user      User
+     * @param mixed  $pivot     Pivot
+     * @param string $column    Sort column/pivot column
+     * @param int    $limit     Result limit
+     * @param string $order     Order of the elements
+     * @param int    $relations Load relations
+     * @param int    $depth     Relation depth
+     *
+     * @return Task[]
+     *
+     * @since 1.0.0
+     */
+    public static function getAnyAfterPivot(
+        int $user,
+        $pivot,
+        string $column = null,
+        int $limit = 50,
+        string $order = 'ASC',
+        int $relations = RelationType::ALL,
+        int $depth = 3
+    ) : array {
+        $depth = 3;
+        $userWhere = new Where(self::$db);
+        $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
+            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+
+        $query = self::getQuery();
+        $query->innerJoin(TaskElementMapper::getTable())
+                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+            ->innerJoin(AccountRelationMapper::getTable())
+                ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
+            ->where($userWhere)
+            ->andWhere(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), '>', $pivot)
+            ->orderBy(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), $order)
+            ->limit($limit);
+
+        return self::getAllByQuery($query);
+    }
+
+    /**
+     * Check if a user has reading permission for a task
+     *
+     * @param int $user User id
+     * @param int $task Task id
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    public static function hasReadingPermission(int $user, int $task) : bool
+    {
+        $depth = 1;
+        $userWhere = new Where(self::$db);
+        $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
+            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+
+        $query = new Builder(self::$db);
+        $query->selectAs(self::$table . '_' . $depth . '.' . self::$primaryField, self::$primaryField . '_' . $depth)
+            ->fromAs(self::$table, self::$table . '_' . $depth)
+            ->innerJoin(TaskElementMapper::getTable())
+                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+            ->innerJoin(AccountRelationMapper::getTable())
+                ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
+            ->where($userWhere)
+            ->andWhere(self::$table . '_' . $depth . '.' . self::$primaryField, '=', $task);
+
+
+
+        return !empty(self::getAllByQuery($query, RelationType::ALL, 1));
     }
 
     /**
