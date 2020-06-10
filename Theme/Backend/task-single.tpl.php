@@ -198,9 +198,13 @@ echo $this->getData('nav')->render(); ?>
                     <?php endif; ?>
 
 
+                    <?php $elementMedia = $element->getMedia();
+                        if (!empty($elementMedia)
+                            || ($task->isEditable()
+                                && $this->request->getHeader()->getAccount() === $element->getCreatedBy()->getId())
+                        ) : ?>
                     <div class="portlet-foot row middle-xs">
-                        <?php $elementMedia = $element->getMedia();
-                        if (!empty($elementMedia)) : ?>
+                        <?php if (!empty($elementMedia)) : ?>
                             <div>
                                 <?php foreach ($elementMedia as $media) : ?>
                                     <span><?= $media->getName(); ?></span>
@@ -237,6 +241,8 @@ echo $this->getData('nav')->render(); ?>
                                 <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
                             </div>
                         <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                 </section>
                 <?php endif; ?>
 
