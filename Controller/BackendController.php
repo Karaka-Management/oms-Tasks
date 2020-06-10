@@ -74,17 +74,17 @@ final class BackendController extends Controller implements DashboardElementInte
         if ($request->getData('ptype') === '-') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
-                    ::getBeforePivot((int) ($request->getData('id') ?? 0), null, 25)
+                    ::getAnyBeforePivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
             );
         } elseif ($request->getData('ptype') === '+') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
-                    ::getAfterPivot((int) ($request->getData('id') ?? 0), null, 25)
+                    ::getAnyAfterPivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
             );
         } else {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
-                    ::getAfterPivot(0, null, 25)
+                    ::getAnyAfterPivot($request->getHeader()->getAccount(), 0, null, 25)
             );
         }
 
@@ -126,11 +126,23 @@ final class BackendController extends Controller implements DashboardElementInte
     {
         $view = new TaskView($this->app->l11nManager, $request, $response);
 
+        if (!TaskMapper::hasReadingPermission($request->getHeader()->getAccount(), (int) $request->getData('id'))) {
+            $response->getHeader()->setStatusCode(RequestStatusCode::R_403);
+            $view->setTemplate('/Web/Backend/Error/403');
+
+            $this->app->loadLanguageFromPath(
+                $response->getHeader()->getL11n()->getLanguage(),
+                __DIR__ . '/../../../Web/Backend/Error/lang/' . $response->getHeader()->getL11n()->getLanguage() . '.lang.php'
+            );
+
+            return $view;
+        }
+
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->get('Content')->getData('head');
         $head->addAsset(AssetType::CSS, '/Modules/Tasks/Theme/Backend/css/styles.css');
 
-        $task      = TaskMapper::get((int) $request->getData('id'), RelationType::ALL, 5);
+        $task      = TaskMapper::get((int) $request->getData('id'), RelationType::ALL, 3);
         $accountId = $request->getHeader()->getAccount();
 
         if (!($task->getCreatedBy()->getId() === $accountId
