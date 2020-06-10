@@ -12,13 +12,14 @@
  */
 declare(strict_types=1);
 
-use \Modules\Tasks\Models\AccountRelation;
-use \Modules\Tasks\Models\GroupRelation;
-use \Modules\Tasks\Models\TaskPriority;
-use \Modules\Tasks\Models\TaskStatus;
+use Modules\Tasks\Models\AccountRelation;
+use Modules\Tasks\Models\GroupRelation;
+use Modules\Tasks\Models\TaskPriority;
+use Modules\Tasks\Models\TaskStatus;
+use phpOMS\Uri\UriFactory;
 
-/** @var \Modules\Tasks\Views\TaskView $this */
-/** @var \Modules\Tasks\Models\Task $task */
+/** @var Modules\Tasks\Views\TaskView $this */
+/** @var Modules\Tasks\Models\Task $task */
 $task      = $this->getData('task');
 $taskMedia = $task->getMedia();
 $elements  = $task->getTaskElements();
@@ -35,7 +36,7 @@ echo $this->getData('nav')->render(); ?>
             data-update-tpl="#headTpl, #contentTpl"
             data-tag="form"
             data-method="POST"
-            data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task?id={?id}&csrf={$CSRF}'); ?>">
+            data-uri="<?= UriFactory::build('{/api}task?id={?id}&csrf={$CSRF}'); ?>">
             <?php if ($task->isEditable()) : ?>
                 <template id="headTpl">
                     <h1 class="task-title"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title" autocomplete="off"></h1>
@@ -120,7 +121,7 @@ echo $this->getData('nav')->render(); ?>
                     data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
-                    data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+                    data-uri="<?= UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
                     <div class="inner pAlignTable">
                         <div class="vC wf-100">
                             <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdBy/name/0"></span>
@@ -175,9 +176,11 @@ echo $this->getData('nav')->render(); ?>
                 ) : ?>
                     <section class="box wf-100">
                         <div class="inner">
-                            Status change by <?= $this->printHtml($element->getCreatedBy()->getName1()); ?>
-                            on <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
-                            to <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
+                            <?= $this->printHtml(\sprintf($this->getHtml('status_change'),
+                                $element->getCreatedBy()->getName1(),
+                                $element->getCreatedAt()->format('Y-m-d H:i')
+                            )); ?>
+                            <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
                                 <?= $this->getHtml('S' . $element->getStatus()) ?>
                             </span>
                         </div>
@@ -190,7 +193,7 @@ echo $this->getData('nav')->render(); ?>
                     data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
-                    data-uri="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+                    data-uri="<?= UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
                     <div class="portlet-head">
                         <div class="row middle-xs">
                             <span class="col-xs-0">
@@ -267,7 +270,7 @@ echo $this->getData('nav')->render(); ?>
                     ) : ?>
                     <section class="box wf-100">
                         <div class="inner">
-                            <?= $this->getHtml('ForwardedTo') ?>
+                        <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> <?= $this->getHtml('forwarded_to') ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
                                     <a href="<?= phpOMS\Uri\UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()) ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
@@ -286,7 +289,7 @@ echo $this->getData('nav')->render(); ?>
         <div class="portlet">
             <form
                 id="taskElementCreate" method="PUT"
-                action="<?= \phpOMS\Uri\UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>"
+                action="<?= UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>"
                 data-add-content="#elements"
                 data-add-element=".taskElement-content"
                 data-add-tpl="#elementTpl"
