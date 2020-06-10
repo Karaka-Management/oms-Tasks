@@ -169,8 +169,22 @@ echo $this->getData('nav')->render(); ?>
                 </template>
             <?php endif; ?>
             <?php $c = 0; $previous = null;
-            foreach ($elements as $key => $element) : ++$c;
-                if ($element->getDescription() !== '') : ?>
+            foreach ($elements as $key => $element) : ++$c; ?>
+                <?php if (($c === 1 && $element->getStatus() !== TaskStatus::OPEN)
+                    || ($previous !== null && $element->getStatus() !== $previous->getStatus())
+                ) : ?>
+                    <section class="box wf-100">
+                        <div class="inner">
+                            Status change by <?= $this->printHtml($element->getCreatedBy()->getName1()); ?>
+                            on <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
+                            to <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
+                                <?= $this->getHtml('S' . $element->getStatus()) ?>
+                            </span>
+                        </div>
+                    </section>
+                <?php endif; ?>
+
+                <?php if ($element->getDescription() !== '') : ?>
                 <section id="taskelmenet-<?= $c; ?>" class="portlet taskElement"
                     data-update-content="#elements"
                     data-update-element=".taskElement .taskElement-content"
@@ -263,8 +277,8 @@ echo $this->getData('nav')->render(); ?>
                             <?php endforeach; ?>
                         </div>
                     </section>
-                <?php endif; $previous = $element; ?>
-            <?php endforeach; ?>
+                <?php endif; ?>
+            <?php $previous = $element; endforeach; ?>
         </div>
     </div>
 
