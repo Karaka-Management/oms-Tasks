@@ -202,9 +202,6 @@ echo $this->getData('nav')->render(); ?>
                             <span class="col-xs">
                                 <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
                             </span>
-                            <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
-                                <?= $this->getHtml('S' . $element->getStatus()) ?>
-                            </span>
                         </div>
                     </div>
 
