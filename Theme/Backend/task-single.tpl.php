@@ -58,7 +58,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="portlet-head">
                 <div class="row middle-xs">
                     <span class="col-xs-0">
-                        <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($task->getCreatedBy()); ?>">
+                        <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($task->getCreatedBy()->getId()); ?>">
                     </span>
                     <span>
                         <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
@@ -115,42 +115,40 @@ echo $this->getData('nav')->render(); ?>
 
         <div id="elements">
             <template id="elementTpl">
-                <section id="taskelmenet-0" class="box wf-100 taskElement"
+                <section id="taskelmenet-0" class="portlet taskElement"
                     data-update-content="#elements"
                     data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
                     data-uri="<?= UriFactory::build('{/api}task/element?id={?id}&csrf={$CSRF}'); ?>">
-                    <div class="inner pAlignTable">
-                        <div class="vC wf-100">
-                            <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdBy/name/0"></span>
-                            -
-                            <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdAt/date"></span>
+                    <div class="portlet-head">
+                        <div class="row middle-xs">
+                            <span class="col-xs-0">
+                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($this->request->getHeader()->getAccount()); ?>">
+                            </span>
+                            <span class="col-xs">
+                                <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdBy/name/0"></span>
+                                - <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdAt/date"></span>
+                            </span>
                         </div>
-                        <span class="vC tag task-status-0">
-                            <!-- status-->
-                        </span>
                     </div>
 
-                    <div class="inner taskElement-content">
-                        <article data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/description" data-value=""></article>
+                    <div class="portlet-body">
+                        <article class="taskElement-content" data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/description" data-value=""></article>
                     </div>
 
-                    <div class="inner">
-                        <!-- media here -->
-                    </div>
-
-                    <div class="inner pAlignTable" style="background: #efefef; border-top: 1px solid #dfdfdf;">
-                        <div class="vC wf-100 nobreak">
+                    <div class="portlet-foot row middle-xs">
+                        <div class="nobreak">
                             <!-- due / priority -->
                         </div>
 
-                        <div class="vC">
+                        <div class="col-xs end-xs plain-grid">
                             <input type="hidden" value="" name="id">
                             <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
                             <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
                             <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
                         </div>
+                    </div>
                 </section>
             </template>
             <?php if ($task->isEditable()) : ?>
@@ -198,7 +196,7 @@ echo $this->getData('nav')->render(); ?>
                     <div class="portlet-head">
                         <div class="row middle-xs">
                             <span class="col-xs-0">
-                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($element->getCreatedBy()); ?>">
+                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($element->getCreatedBy()->getId()); ?>">
                             </span>
                             <span class="col-xs">
                                 <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>

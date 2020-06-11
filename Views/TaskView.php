@@ -35,15 +35,15 @@ class TaskView extends View
      *
      * If the profile doesn't have an image a random default image is used
      *
-     * @param Account $account Account
+     * @param int $account Account
      *
      * @return string
      *
      * @since 1.0.0
      */
-    public function getAccountImage(Account $account) : string
+    public function getAccountImage(int $account) : string
     {
-        $profile = ProfileMapper::getFor($account->getId(), 'account');
+        $profile = ProfileMapper::getFor($account, 'account');
 
         if ($profile === null || $profile->getImage()->getPath() === '') {
             return UriFactory::build('Web/Backend/img/user_default_' . \mt_rand(1, 6) . '.png');
