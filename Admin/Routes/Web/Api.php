@@ -60,7 +60,7 @@ return [
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
                 'type'  => PermissionType::READ,
-                'state' => PermissionState::ELEMENT,
+                'state' => PermissionState::TASK,
             ],
         ],
     ],
