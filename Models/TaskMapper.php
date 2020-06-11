@@ -416,9 +416,9 @@ final class TaskMapper extends DataMapperAbstract
         $query->selectAs(self::$table . '_' . $depth . '.' . self::$primaryField, self::$primaryField . '_' . $depth)
             ->fromAs(self::$table, self::$table . '_' . $depth)
             ->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_' . $depth . '.' . self::$primaryField, '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
-                ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
+                ->on(TaskElementMapper::getTable() . '.' . TaskElementMapper::getPrimaryField(), '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where($userWhere)
             ->andWhere(self::$table . '_' . $depth . '.' . self::$primaryField, '=', $task);
 
