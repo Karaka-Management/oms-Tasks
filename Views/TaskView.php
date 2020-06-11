@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Views;
 
-use Modules\Tasks\Models\TaskStatus;
-use phpOMS\Views\View;
-use phpOMS\Uri\UriFactory;
 use Modules\Profile\Models\ProfileMapper;
+use Modules\Tasks\Models\TaskStatus;
+use phpOMS\Uri\UriFactory;
+use phpOMS\Views\View;
 
 /**
  * Task view class.
