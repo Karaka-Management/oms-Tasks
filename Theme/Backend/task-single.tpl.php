@@ -48,7 +48,7 @@ echo $this->getData('nav')->render(); ?>
                         <?= $this->getData('editor')->getData('text')->render(
                             'task-edit',
                             'plain',
-                            'taskElementEdit',
+                            'taskEdit',
                             '', '',
                             '{/base}/api/task?id={?id}', '{/base}/api/task?id={?id}',
                         ); ?>
@@ -79,8 +79,7 @@ echo $this->getData('nav')->render(); ?>
                     data-tpl-value="{/base}/api/task?id={?id}"
                     data-tpl-value-path="/0/response/descriptionRaw"
                     data-tpl-text-path="/0/response/description"
-                    data-value=""
-                    ><?= $task->getDescription(); ?></article>
+                    data-value=""><?= $task->getDescription(); ?></article>
             </div>
             <div class="portlet-foot row">
                 <div class="row col-xs plain-grid">
@@ -121,7 +120,7 @@ echo $this->getData('nav')->render(); ?>
                     data-update-element=".taskElement .taskElement-content"
                     data-tag="form"
                     data-method="POST"
-                    data-uri="<?= UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+                    data-uri="<?= UriFactory::build('{/api}task/element?id={?id}&csrf={$CSRF}'); ?>">
                     <div class="inner pAlignTable">
                         <div class="vC wf-100">
                             <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdBy/name/0"></span>
@@ -156,15 +155,15 @@ echo $this->getData('nav')->render(); ?>
             </template>
             <?php if ($task->isEditable()) : ?>
                 <template id="taskElementContentTpl">
-                    <div class="inner taskElement-content">
+                    <div class="taskElement-content">
                         <!-- todo: bind js after adding template -->
-                        <?= $this->getData('editor')->render('task-edit'); ?>
+                        <?= $this->getData('editor')->render('task-element-edit'); ?>
                         <?= $this->getData('editor')->getData('text')->render(
-                                'task-edit',
+                                'task-element-edit',
                                 'plain',
                                 'taskElementEdit',
                                 '', '',
-                                '/content', '{/api}task?id={?id}'
+                                '{/base}/api/task/element?id={$id}', '{/base}/api/task/element?id={$id}',
                             ); ?>
                     </div>
                 </template>
@@ -188,12 +187,14 @@ echo $this->getData('nav')->render(); ?>
                 <?php endif; ?>
 
                 <?php if ($element->getDescription() !== '') : ?>
-                <section id="taskelmenet-<?= $c; ?>" class="portlet taskElement"
+                <section id="taskelmenet-<?= $element->getId(); ?>" class="portlet taskElement"
                     data-update-content="#elements"
                     data-update-element=".taskElement .taskElement-content"
+                    data-update-tpl="#taskElementContentTpl"
                     data-tag="form"
                     data-method="POST"
-                    data-uri="<?= UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>">
+                    data-id="<?= $element->getId(); ?>"
+                    data-uri="<?= UriFactory::build('{/api}task/element?id=' . $element->getId() .'&csrf={$CSRF}'); ?>">
                     <div class="portlet-head">
                         <div class="row middle-xs">
                             <span class="col-xs-0">
@@ -206,8 +207,12 @@ echo $this->getData('nav')->render(); ?>
                     </div>
 
                     <?php if ($element->getDescription() !== '') : ?>
-                        <div class="portlet-body taskElement-content">
-                            <article data-tpl-text="/content" data-tpl-value="{/api}task/element?id={?id}" data-tpl-value-path="/0/response/description" data-value=""><?= $element->getDescription(); ?></article>
+                        <div class="portlet-body">
+                            <article class="taskElement-content" data-tpl-text="{/base}/api/task/element?id={$id}"
+                                data-tpl-value="{/base}/api/task/element?id={$id}"
+                                data-tpl-value-path="/0/response/descriptionRaw"
+                                data-tpl-text-path="/0/response/description"
+                                data-value=""><?= $element->getDescription(); ?></article>
                         </div>
                     <?php endif; ?>
 
