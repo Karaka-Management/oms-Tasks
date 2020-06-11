@@ -656,15 +656,16 @@ class TaskElement implements \JsonSerializable
     public function toArray() : array
     {
         return [
-            'id'          => $this->id,
-            'task'        => $this->task,
-            'createdBy'   => $this->createdBy,
-            'createdAt'   => $this->createdAt,
-            'description' => $this->description,
-            'status'      => $this->status,
-            'to'          => $this->getTo(),
-            'cc'          => $this->getCC(),
-            'due'         => $this->due,
+            'id'             => $this->id,
+            'task'           => $this->task,
+            'createdBy'      => $this->createdBy,
+            'createdAt'      => $this->createdAt,
+            'description'    => $this->description,
+            'descriptionRaw' => $this->descriptionRaw,
+            'status'         => $this->status,
+            'to'             => $this->getTo(),
+            'cc'             => $this->getCC(),
+            'due'            => $this->due,
         ];
     }
 
