@@ -17,7 +17,6 @@ namespace Modules\Tasks\Views;
 use Modules\Tasks\Models\TaskStatus;
 use phpOMS\Views\View;
 use phpOMS\Uri\UriFactory;
-use Modules\Admin\Models\Account;
 use Modules\Profile\Models\ProfileMapper;
 
 /**
