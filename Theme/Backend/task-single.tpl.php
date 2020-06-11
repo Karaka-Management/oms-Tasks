@@ -71,9 +71,7 @@ echo $this->getData('nav')->render(); ?>
                 </div>
             </div>
             <div class="portlet-body">
-                <span class="task-title" data-tpl-text="/title" data-tpl-value="/title" data-value="">
-                    <?= $this->printHtml($task->getTitle()); ?>
-                </span>
+                <span class="task-title" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->getTitle()); ?></span>
                 <article class="task-content"
                     data-tpl-text="{/base}/api/task?id={?id}"
                     data-tpl-value="{/base}/api/task?id={?id}"
@@ -118,6 +116,7 @@ echo $this->getData('nav')->render(); ?>
                 <section id="taskelmenet-0" class="portlet taskElement"
                     data-update-content="#elements"
                     data-update-element=".taskElement .taskElement-content"
+                    data-update-tpl="#taskElementContentTpl"
                     data-tag="form"
                     data-method="POST"
                     data-uri="<?= UriFactory::build('{/api}task/element?id={?id}&csrf={$CSRF}'); ?>">
