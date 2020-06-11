@@ -335,7 +335,7 @@ final class TaskMapper extends DataMapperAbstract
         int $relations = RelationType::ALL,
         int $depth = 3
     ) : array {
-        $depth = 3;
+        $depth     = 3;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
@@ -377,7 +377,7 @@ final class TaskMapper extends DataMapperAbstract
         int $relations = RelationType::ALL,
         int $depth = 3
     ) : array {
-        $depth = 3;
+        $depth     = 3;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
@@ -407,7 +407,7 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function hasReadingPermission(int $user, int $task) : bool
     {
-        $depth = 1;
+        $depth     = 1;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
@@ -441,7 +441,7 @@ final class TaskMapper extends DataMapperAbstract
         try {
             $query = new Builder(self::$db);
 
-            $query->count('*')
+            $query->count('DISTINCT ' . self::$table . '.' . self::$primaryField)
                 ->from(self::$table)
                 ->innerJoin(TaskElementMapper::getTable())
                     ->on(self::$table . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
