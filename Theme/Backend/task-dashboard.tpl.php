@@ -49,7 +49,7 @@ echo $this->getData('nav')->render(); ?>
                     $c = 0; foreach ($tasks as $key => $task) : ++$c;
                     $url = UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
                 ?>
-                    <tr data-href="<?= $url; ?>">
+                    <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Status') ?>">
                             <a href="<?= $url; ?>">
                                 <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">

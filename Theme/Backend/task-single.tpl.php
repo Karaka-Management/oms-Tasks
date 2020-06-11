@@ -184,6 +184,22 @@ echo $this->getData('nav')->render(); ?>
                     </section>
                 <?php endif; ?>
 
+                <?php if (($c === 1 && $element->getPriority() !== $task->getPriority())
+                    || ($previous !== null && $element->getPriority() !== $previous->getPriority())
+                ) : ?>
+                    <section class="box wf-100">
+                        <div class="inner">
+                            <?= $this->printHtml(\sprintf($this->getHtml('priority_change'),
+                                $element->getCreatedBy()->getName1(),
+                                $element->getCreatedAt()->format('Y-m-d H:i')
+                            )); ?>
+                            <span class="tag task-priority-<?= $this->printHtml($element->getPriority()); ?>">
+                                <?= $this->getHtml('P' . $element->getPriority()) ?>
+                            </span>
+                        </div>
+                    </section>
+                <?php endif; ?>
+
                 <?php if ($element->getDescription() !== '') : ?>
                 <section id="taskelmenet-<?= $element->getId(); ?>" class="portlet taskElement"
                     data-update-content="#elements"
