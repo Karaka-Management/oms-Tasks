@@ -444,9 +444,9 @@ final class TaskMapper extends DataMapperAbstract
             $query->count('DISTINCT ' . self::$table . '.' . self::$primaryField)
                 ->from(self::$table)
                 ->innerJoin(TaskElementMapper::getTable())
-                    ->on(self::$table . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                    ->on(self::$table . '.' . self::$primaryField, '=', TaskElementMapper::getTable() . '.task_element_task')
                 ->innerJoin(AccountRelationMapper::getTable())
-                    ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
+                    ->on(TaskElementMapper::getTable() . '.' . TaskElementMapper::getPrimaryField(), '=', AccountRelationMapper::getTable() . '.task_account_task_element')
                 ->where(self::$table . '.task_status', '=', TaskStatus::OPEN)
                 ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user);
 
