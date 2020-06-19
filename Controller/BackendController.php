@@ -66,7 +66,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->get('Content')->getData('head');
-        $head->addAsset(AssetType::CSS, '/Modules/Tasks/Theme/Backend/css/styles.css');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-dashboard');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
@@ -140,7 +140,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->get('Content')->getData('head');
-        $head->addAsset(AssetType::CSS, '/Modules/Tasks/Theme/Backend/css/styles.css');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
         $task      = TaskMapper::get((int) $request->getData('id'), RelationType::ALL, 4);
         $accountId = $request->getHeader()->getAccount();
