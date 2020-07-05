@@ -42,50 +42,123 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(TaskPriority::NONE, $task->getPriority());
     }
 
-    public function testSetGet() : void
+    public function testCreatedByInputOutput() : void
     {
         $task = new TaskElement();
 
         $task->setCreatedBy(new NullAccount(1));
         self::assertEquals(1, $task->getCreatedBy()->getId());
+    }
+
+    public function testDueInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->setDue($date = new \DateTime('2000-05-07'));
         self::assertEquals($date->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
+    }
+
+    public function testStatusInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->setStatus(TaskStatus::DONE);
         self::assertEquals(TaskStatus::DONE, $task->getStatus());
+    }
+
+    public function testPriorityInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->setPriority(TaskPriority::MEDIUM);
         self::assertEquals(TaskPriority::MEDIUM, $task->getPriority());
+    }
+
+    public function testDescriptionInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->setDescription('Description');
         self::assertEquals('Description', $task->getDescription());
+    }
+
+    public function testDescriptionRawInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->setDescriptionRaw('DescriptionRaw');
         self::assertEquals('DescriptionRaw', $task->getDescriptionRaw());
+    }
+
+    public function testTaskInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->setTask(2);
         self::assertEquals(2, $task->getTask());
+    }
+
+    public function testAccountToInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->addTo(new NullAccount(3));
         $task->addTo(new NullAccount(3)); // test duplicate
         self::assertTrue($task->isToAccount(3));
+    }
+
+    public function testGroupToInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->addGroupTo(new NullGroup(4));
         $task->addGroupTo(new NullGroup(4)); // test duplicate
         self::assertTrue($task->isToGroup(4));
+    }
+
+    public function testAccountCCInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->addCC(new NullAccount(5));
         $task->addCC(new NullAccount(5)); // test duplicate
         self::assertTrue($task->isCCAccount(5));
+    }
+
+    public function testGroupCCInputOutput() : void
+    {
+        $task = new TaskElement();
 
         $task->addGroupCC(new NullGroup(6));
         $task->addGroupCC(new NullGroup(6)); // test duplicate
         self::assertTrue($task->isCCGroup(6));
+    }
+
+    public function testInvalidAccountTo() : void
+    {
+        $task = new TaskElement();
 
         self::assertFalse($task->isToAccount(7));
+    }
+
+    public function testInvalidAccountCC() : void
+    {
+        $task = new TaskElement();
+
         self::assertFalse($task->isCCAccount(8));
+    }
+
+    public function testInvalidGroupTo() : void
+    {
+        $task = new TaskElement();
+
         self::assertFalse($task->isToGroup(9));
+    }
+
+    public function testInvalidGroupCC() : void
+    {
+        $task = new TaskElement();
+
         self::assertFalse($task->isCCGroup(10));
     }
 
