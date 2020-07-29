@@ -4,7 +4,7 @@
             <div class="advancedSelect" id="<?= $this->printHtml($this->getId()); ?>"
                     data-search="true"
                     data-multiple="false"
-                    data-src="api/admin/find/accgrp?search={#i<?= $this->printHtml($this->getId()); ?>}">
+                    data-src="api/admin/find/accgrp?search={!#i<?= $this->printHtml($this->getId()); ?>}">
                 <template><!-- Template for the selected element --></template>
             </div>
             <div id="<?= $this->printHtml($this->getId()); ?>-dropdown" class="dropdown" data-active="true" data-selected="<?= $task->getStatus(); ?>">
