@@ -27,8 +27,8 @@ use phpOMS\Uri\UriFactory;
 /** @var \Modules\Tasks\Models\Task[] $tasks */
 $tasks = $this->getData('tasks') ?? [];
 
-$previous = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \reset($tasks)->getId() . '&ptype=-';
-$next     = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \end($tasks)->getId() . '&ptype=+';
+$previous = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \reset($tasks)->getId() . '&ptype=p';
+$next     = empty($tasks) ? '{/prefix}task/dashboard' : '{/prefix}task/dashboard?{?}&id=' . \end($tasks)->getId() . '&ptype=n';
 
 echo $this->getData('nav')->render(); ?>
 

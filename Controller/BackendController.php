@@ -71,12 +71,12 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-dashboard');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
 
-        if ($request->getData('ptype') === '-') {
+        if ($request->getData('ptype') === 'p') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
                     ::getAnyBeforePivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
             );
-        } elseif ($request->getData('ptype') === '+') {
+        } elseif ($request->getData('ptype') === 'n') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
                     ::getAnyAfterPivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
