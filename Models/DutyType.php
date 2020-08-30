@@ -27,5 +27,6 @@ use phpOMS\Stdlib\Base\Enum;
 abstract class DutyType extends Enum
 {
     public const TO = 1;
+
     public const CC = 2;
 }

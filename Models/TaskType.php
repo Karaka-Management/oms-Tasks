@@ -27,6 +27,8 @@ use phpOMS\Stdlib\Base\Enum;
 abstract class TaskType extends Enum
 {
     public const TEMPLATE = 1;
+
     public const SINGLE   = 2;
+
     public const HIDDEN   = 3;
 }

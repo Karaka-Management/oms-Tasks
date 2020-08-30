@@ -37,6 +37,7 @@ use phpOMS\Utils\TestUtils;
 class ControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected $app    = null;
+
     protected $module = null;
 
     protected function setUp() : void

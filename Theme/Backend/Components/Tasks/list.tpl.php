@@ -5,9 +5,9 @@ use Modules\Tasks\Models\TaskStatus;
 ?>
 <table class="default">
     <thead>
-        <td><?= $this->getHtml('Status', 'Tasks') ?>
-        <td><?= $this->getHtml('Due/Priority', 'Tasks') ?>
-        <td class="wf-100"><?= $this->getHtml('Title', 'Tasks') ?>
+        <td><?= $this->getHtml('Status', 'Tasks'); ?>
+        <td><?= $this->getHtml('Due/Priority', 'Tasks'); ?>
+        <td class="wf-100"><?= $this->getHtml('Title', 'Tasks'); ?>
     <tfoot>
     <tbody>
     <?php $c = 0; foreach ($this->tasks as $key => $task) : ++$c;
@@ -19,7 +19,7 @@ use Modules\Tasks\Models\TaskStatus;
     elseif ($task->getStatus() === TaskStatus::CANCELED) { $color = 'red'; }
     elseif ($task->getStatus() === TaskStatus::SUSPENDED) { $color = 'yellow'; } ?>
         <tr data-href="<?= $url; ?>">
-            <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml($color); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks') ?></span></a>
+            <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml($color); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?></span></a>
             <td><a href="<?= $url; ?>">
                 <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
                     <?= $this->printHtml($task->getDue()->format('Y-m-d H:i')); ?>

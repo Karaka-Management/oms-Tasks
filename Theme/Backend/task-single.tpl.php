@@ -65,7 +65,7 @@ echo $this->getData('nav')->render(); ?>
                     </span>
                     <span class="col-xs end-xs plain-grid">
                         <span id="task-status-badge" class="nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
-                            <?= $this->getHtml('S' . $task->getStatus()) ?>
+                            <?= $this->getHtml('S' . $task->getStatus()); ?>
                         </span>
                     </span>
                 </div>
@@ -92,18 +92,18 @@ echo $this->getData('nav')->render(); ?>
 
                         <div>
                             <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
-                                <?= $this->getHtml('Due') ?>: <?= $this->printHtml($task->getDue()->format('Y/m/d H:i')); ?>
+                                <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($task->getDue()->format('Y/m/d H:i')); ?>
                             <?php else : ?>
-                                <?= $this->getHtml('Priority') ?>: <?= $this->getHtml('P' . $task->getPriority()) ?>
+                                <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $task->getPriority()); ?>
                             <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-xs-0 end-xs plain-grid">
                         <?php if ($task->isEditable() && $this->request->getHeader()->getAccount() === $task->getCreatedBy()->getId()) : ?>
                             <div class="col-xs end-xs plain-grid">
-                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
-                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
-                                <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
+                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
+                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
+                                <button class="update"><?= $this->getHtml('Edit', '0', '0'); ?></button>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -143,9 +143,9 @@ echo $this->getData('nav')->render(); ?>
 
                         <div class="col-xs end-xs plain-grid">
                             <input type="hidden" value="" name="id">
-                            <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
-                            <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
-                            <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
+                            <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
+                            <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
+                            <button class="update"><?= $this->getHtml('Edit', '0', '0'); ?></button>
                         </div>
                     </div>
                 </section>
@@ -177,7 +177,7 @@ echo $this->getData('nav')->render(); ?>
                                 $element->getCreatedAt()->format('Y-m-d H:i')
                             )); ?>
                             <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
-                                <?= $this->getHtml('S' . $element->getStatus()) ?>
+                                <?= $this->getHtml('S' . $element->getStatus()); ?>
                             </span>
                         </div>
                     </section>
@@ -193,7 +193,7 @@ echo $this->getData('nav')->render(); ?>
                                 $element->getCreatedAt()->format('Y-m-d H:i')
                             )); ?>
                             <span class="tag task-priority-<?= $this->printHtml($element->getPriority()); ?>">
-                                <?= $this->getHtml('P' . $element->getPriority()) ?>
+                                <?= $this->getHtml('P' . $element->getPriority()); ?>
                             </span>
                         </div>
                     </section>
@@ -256,9 +256,9 @@ echo $this->getData('nav')->render(); ?>
                                             && $previous->getDue()->format('Y/m/d H:i') !== $element->getDue()->format('Y/m/d H:i')
                                         )
                                     ) : ?>
-                                    <?= $this->getHtml('Due') ?>: <?= $this->printHtml($element->getDue()->format('Y/m/d H:i')); ?>
+                                    <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($element->getDue()->format('Y/m/d H:i')); ?>
                                 <?php elseif ($previous !== null && $previous->getPriority() !== $element->getPriority()) : ?>
-                                    <?= $this->getHtml('Priority') ?>: <?= $this->getHtml('P' . $element->getPriority()) ?>
+                                    <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $element->getPriority()); ?>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
@@ -268,9 +268,9 @@ echo $this->getData('nav')->render(); ?>
                         ) : ?>
                             <div class="col-xs end-xs plain-grid">
                                 <input type="hidden" value="<?= $element->getId(); ?>" name="id">
-                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0') ?></button>
-                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0') ?></button>
-                                <button class="update"><?= $this->getHtml('Edit', '0', '0') ?></button>
+                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
+                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
+                                <button class="update"><?= $this->getHtml('Edit', '0', '0'); ?></button>
                             </div>
                         <?php endif; ?>
                     </div>
@@ -285,10 +285,10 @@ echo $this->getData('nav')->render(); ?>
                     ) : ?>
                     <section class="box wf-100">
                         <div class="inner">
-                        <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> <?= $this->getHtml('forwarded_to') ?>
+                        <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
-                                    <a href="<?= phpOMS\Uri\UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()) ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
+                                    <a href="<?= phpOMS\Uri\UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
                                 <?php elseif ($to instanceof GroupRelation) : ?>
                                     <?= $this->printHtml($to->getRelation()->getName()); ?>
                                 <?php endif; ?>
@@ -309,7 +309,7 @@ echo $this->getData('nav')->render(); ?>
                 data-add-element=".taskElement-content"
                 data-add-tpl="#elementTpl"
             >
-                <div class="portlet-head"><?= $this->getHtml('Message') ?></div>
+                <div class="portlet-head"><?= $this->getHtml('Message'); ?></div>
                 <div class="portlet-body">
                     <table class="layout wf-100" style="table-layout: fixed">
                         <tr><td><?= $this->getData('editor')->render('task-editor'); ?>
@@ -320,36 +320,36 @@ echo $this->getData('nav')->render(); ?>
                             '', '',
                             '/content', '{/api}task?id={?id}'
                             ); ?>
-                        <tr><td><label for="iPriority"><?= $this->getHtml('Priority') ?></label>
+                        <tr><td><label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
                         <tr><td>
                             <select id="iPriority" name="priority">
-                                <option value="<?= TaskPriority::NONE; ?>"<?= $task->getPriority() === TaskPriority::NONE ? ' selected' : ''?>><?= $this->getHtml('P0') ?>
-                                <option value="<?= TaskPriority::VLOW; ?>"<?= $task->getPriority() === TaskPriority::VLOW ? ' selected' : ''?>><?= $this->getHtml('P1') ?>
-                                <option value="<?= TaskPriority::LOW; ?>"<?= $task->getPriority() === TaskPriority::LOW ? ' selected' : ''?>><?= $this->getHtml('P2') ?>
-                                <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->getPriority() === TaskPriority::MEDIUM ? ' selected' : ''?>><?= $this->getHtml('P3') ?>
-                                <option value="<?= TaskPriority::HIGH; ?>"<?= $task->getPriority() === TaskPriority::HIGH ? ' selected' : ''?>><?= $this->getHtml('P4') ?>
-                                <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->getPriority() === TaskPriority::VHIGH ? ' selected' : ''?>><?= $this->getHtml('P5') ?>
+                                <option value="<?= TaskPriority::NONE; ?>"<?= $task->getPriority() === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
+                                <option value="<?= TaskPriority::VLOW; ?>"<?= $task->getPriority() === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
+                                <option value="<?= TaskPriority::LOW; ?>"<?= $task->getPriority() === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
+                                <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->getPriority() === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
+                                <option value="<?= TaskPriority::HIGH; ?>"<?= $task->getPriority() === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
+                                <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->getPriority() === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
                             </select>
-                        <tr><td><label for="iDue"><?= $this->getHtml('Due') ?></label>
+                        <tr><td><label for="iDue"><?= $this->getHtml('Due'); ?></label>
                         <tr><td><input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
                                 !empty($elements) ? \end($elements)->getDue()->format('Y-m-d\TH:i:s') : $task->getDue()->format('Y-m-d\TH:i:s')
                             ); ?>">
-                        <tr><td><label for="iStatus"><?= $this->getHtml('Status') ?></label>
+                        <tr><td><label for="iStatus"><?= $this->getHtml('Status'); ?></label>
                         <tr><td><select id="iStatus" name="status">
-                                    <option value="<?= TaskStatus::OPEN; ?>"<?= $task->getStatus() === TaskStatus::OPEN ? ' selected' : ''?>><?= $this->getHtml('S1') ?>
-                                    <option value="<?= TaskStatus::WORKING; ?>"<?= $task->getStatus() === TaskStatus::WORKING ? ' selected' : ''?>><?= $this->getHtml('S2') ?>
-                                    <option value="<?= TaskStatus::SUSPENDED; ?>"<?= $task->getStatus() === TaskStatus::SUSPENDED ? ' selected' : ''?>><?= $this->getHtml('S3') ?>
-                                    <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->getStatus() === TaskStatus::CANCELED ? ' selected' : ''?>><?= $this->getHtml('S4') ?>
-                                    <option value="<?= TaskStatus::DONE; ?>"<?= $task->getStatus() === TaskStatus::DONE ? ' selected' : ''?>><?= $this->getHtml('S5') ?>
+                                    <option value="<?= TaskStatus::OPEN; ?>"<?= $task->getStatus() === TaskStatus::OPEN ? ' selected' : '';?>><?= $this->getHtml('S1'); ?>
+                                    <option value="<?= TaskStatus::WORKING; ?>"<?= $task->getStatus() === TaskStatus::WORKING ? ' selected' : '';?>><?= $this->getHtml('S2'); ?>
+                                    <option value="<?= TaskStatus::SUSPENDED; ?>"<?= $task->getStatus() === TaskStatus::SUSPENDED ? ' selected' : '';?>><?= $this->getHtml('S3'); ?>
+                                    <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->getStatus() === TaskStatus::CANCELED ? ' selected' : '';?>><?= $this->getHtml('S4'); ?>
+                                    <option value="<?= TaskStatus::DONE; ?>"<?= $task->getStatus() === TaskStatus::DONE ? ' selected' : '';?>><?= $this->getHtml('S5'); ?>
                                 </select>
-                        <tr><td><label for="iReceiver"><?= $this->getHtml('To') ?></label>
+                        <tr><td><label for="iReceiver"><?= $this->getHtml('To'); ?></label>
                         <tr><td><?= $this->getData('accGrpSelector')->render('iReceiver', 'to', true); ?>
-                        <tr><td><label for="iMedia"><?= $this->getHtml('Media') ?></label>
+                        <tr><td><label for="iMedia"><?= $this->getHtml('Media'); ?></label>
                         <tr><td><div class="ipt-wrap">
                                 <div class="ipt-first"><input type="text" id="iMedia" placeholder="&#xf15b; File"></div>
-                                <div class="ipt-second"><button><?= $this->getHtml('Select') ?></button></div>
+                                <div class="ipt-second"><button><?= $this->getHtml('Select'); ?></button></div>
                             </div>
-                        <tr><td><label for="iUpload"><?= $this->getHtml('Upload') ?></label>
+                        <tr><td><label for="iUpload"><?= $this->getHtml('Upload'); ?></label>
                         <tr><td>
                             <input type="file" id="iUpload" name="fileUpload" form="fTask">
                     </table>

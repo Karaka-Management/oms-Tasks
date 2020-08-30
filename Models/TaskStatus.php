@@ -27,8 +27,12 @@ use phpOMS\Stdlib\Base\Enum;
 abstract class TaskStatus extends Enum
 {
     public const OPEN      = 1;
+
     public const WORKING   = 2;
+
     public const SUSPENDED = 3;
+
     public const CANCELED  = 4;
+
     public const DONE      = 5;
 }
