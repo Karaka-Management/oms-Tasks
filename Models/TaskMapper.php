@@ -422,8 +422,6 @@ final class TaskMapper extends DataMapperAbstract
             ->where($userWhere)
             ->andWhere(self::$table . '_' . $depth . '.' . self::$primaryField, '=', $task);
 
-
-
         return !empty(self::getAllByQuery($query, RelationType::ALL, 1));
     }
 

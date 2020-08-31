@@ -18,7 +18,6 @@ use Modules\Dashboard\Models\DashboardElementInterface;
 use Modules\Tasks\Models\PermissionState;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Views\TaskView;
-
 use phpOMS\Account\PermissionType;
 use phpOMS\Asset\AssetType;
 use phpOMS\Contract\RenderableInterface;

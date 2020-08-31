@@ -15,9 +15,7 @@ declare(strict_types=1);
 namespace Modules\Task\tests;
 
 use Model\CoreSettings;
-
 use Modules\Admin\Models\AccountPermission;
-
 use phpOMS\Account\Account;
 use phpOMS\Account\AccountManager;
 use phpOMS\Account\PermissionType;

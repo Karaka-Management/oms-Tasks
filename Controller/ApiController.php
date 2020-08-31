@@ -20,7 +20,6 @@ use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskStatus;
-
 use Modules\Tasks\Models\TaskType;
 use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
