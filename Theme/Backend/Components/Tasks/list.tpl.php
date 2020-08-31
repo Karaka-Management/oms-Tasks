@@ -10,13 +10,13 @@ use Modules\Tasks\Models\TaskStatus;
         <td class="wf-100"><?= $this->getHtml('Title', 'Tasks'); ?>
     <tfoot>
     <tbody>
-    <?php $c = 0; foreach ($this->tasks as $key => $task) : ++$c;
-    $url = \phpOMS\Uri\UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
-    $color = 'darkred';
-    if ($task->getStatus() === TaskStatus::DONE) { $color = 'green'; }
-    elseif ($task->getStatus() === TaskStatus::OPEN) { $color = 'darkblue'; }
-    elseif ($task->getStatus() === TaskStatus::WORKING) { $color = 'purple'; }
-    elseif ($task->getStatus() === TaskStatus::CANCELED) { $color = 'red'; }
+    <?php $c                                                       = 0; foreach ($this->tasks as $key => $task) : ++$c;
+    $url                                                           = \phpOMS\Uri\UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
+    $color                                                         = 'darkred';
+    if ($task->getStatus() === TaskStatus::DONE) { $color          = 'green'; }
+    elseif ($task->getStatus() === TaskStatus::OPEN) { $color      = 'darkblue'; }
+    elseif ($task->getStatus() === TaskStatus::WORKING) { $color   = 'purple'; }
+    elseif ($task->getStatus() === TaskStatus::CANCELED) { $color  = 'red'; }
     elseif ($task->getStatus() === TaskStatus::SUSPENDED) { $color = 'yellow'; } ?>
         <tr data-href="<?= $url; ?>">
             <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml($color); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?></span></a>

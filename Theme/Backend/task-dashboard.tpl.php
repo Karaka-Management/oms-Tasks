@@ -46,7 +46,7 @@ echo $this->getData('nav')->render(); ?>
                 <tfoot>
                 <tbody>
                 <?php
-                    $c = 0; foreach ($tasks as $key => $task) : ++$c;
+                    $c   = 0; foreach ($tasks as $key => $task) : ++$c;
                     $url = UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
                 ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">

@@ -8,59 +8,59 @@ use phpOMS\Router\RouteVerb;
 return [
     '^.*/task(\?.*|$)' => [
         [
-            'dest' => '\Modules\Tasks\Controller\ApiController:apiTaskCreate',
-            'verb' => RouteVerb::PUT,
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskCreate',
+            'verb'       => RouteVerb::PUT,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::CREATE,
-                'state' => PermissionState::TASK,
+                'type'   => PermissionType::CREATE,
+                'state'  => PermissionState::TASK,
             ],
         ],
         [
-            'dest' => '\Modules\Tasks\Controller\ApiController:apiTaskSet',
-            'verb' => RouteVerb::SET,
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskSet',
+            'verb'       => RouteVerb::SET,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::MODIFY,
-                'state' => PermissionState::TASK,
+                'type'   => PermissionType::MODIFY,
+                'state'  => PermissionState::TASK,
             ],
         ],
         [
-            'dest' => '\Modules\Tasks\Controller\ApiController:apiTaskGet',
-            'verb' => RouteVerb::GET,
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskGet',
+            'verb'       => RouteVerb::GET,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::READ,
-                'state' => PermissionState::TASK,
+                'type'   => PermissionType::READ,
+                'state'  => PermissionState::TASK,
             ],
         ],
     ],
     '^.*/task/element.*$' => [
         [
-            'dest' => '\Modules\Tasks\Controller\ApiController:apiTaskElementCreate',
-            'verb' => RouteVerb::PUT,
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementCreate',
+            'verb'       => RouteVerb::PUT,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::CREATE,
-                'state' => PermissionState::ELEMENT,
+                'type'   => PermissionType::CREATE,
+                'state'  => PermissionState::ELEMENT,
             ],
         ],
         [
-            'dest' => '\Modules\Tasks\Controller\ApiController:apiTaskElementSet',
-            'verb' => RouteVerb::SET,
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementSet',
+            'verb'       => RouteVerb::SET,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::MODIFY,
-                'state' => PermissionState::ELEMENT,
+                'type'   => PermissionType::MODIFY,
+                'state'  => PermissionState::ELEMENT,
             ],
         ],
         [
-            'dest' => '\Modules\Tasks\Controller\ApiController:apiTaskElementGet',
-            'verb' => RouteVerb::GET,
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementGet',
+            'verb'       => RouteVerb::GET,
             'permission' => [
                 'module' => ApiController::MODULE_NAME,
-                'type'  => PermissionType::READ,
-                'state' => PermissionState::TASK,
+                'type'   => PermissionType::READ,
+                'state'  => PermissionState::TASK,
             ],
         ],
     ],

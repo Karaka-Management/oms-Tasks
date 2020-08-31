@@ -214,16 +214,16 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         $task = new Task();
 
         $arr = [
-            'id' => 0,
-            'createdBy' => $task->getCreatedBy(),
-            'createdAt' => $task->getCreatedAt(),
-            'title' => $task->getTitle(),
+            'id'          => 0,
+            'createdBy'   => $task->getCreatedBy(),
+            'createdAt'   => $task->getCreatedAt(),
+            'title'       => $task->getTitle(),
             'description' => $task->getDescription(),
-            'status' => $task->getStatus(),
-            'type' => $task->getType(),
-            'priority' => $task->getPriority(),
-            'due' => $task->getDue(),
-            'done' => $task->getDone(),
+            'status'      => $task->getStatus(),
+            'type'        => $task->getType(),
+            'priority'    => $task->getPriority(),
+            'due'         => $task->getDue(),
+            'done'        => $task->getDone(),
         ];
 
         $isSubset = true;
@@ -242,16 +242,16 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         $task = new Task();
 
         $arr = [
-            'id' => 0,
-            'createdBy' => $task->getCreatedBy(),
-            'createdAt' => $task->getCreatedAt(),
-            'title' => $task->getTitle(),
+            'id'          => 0,
+            'createdBy'   => $task->getCreatedBy(),
+            'createdAt'   => $task->getCreatedAt(),
+            'title'       => $task->getTitle(),
             'description' => $task->getDescription(),
-            'status' => $task->getStatus(),
-            'type' => $task->getType(),
-            'priority' => $task->getPriority(),
-            'due' => $task->getDue(),
-            'done' => $task->getDone(),
+            'status'      => $task->getStatus(),
+            'type'        => $task->getType(),
+            'priority'    => $task->getPriority(),
+            'due'         => $task->getDue(),
+            'done'        => $task->getDone(),
         ];
 
         $isSubset = true;

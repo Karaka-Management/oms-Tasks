@@ -38,8 +38,8 @@ class AccountRelationTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(DutyType::CC, $obj->getDuty());
 
         self::assertEquals([
-            'id' => 0,
-            'duty' => DutyType::CC,
+            'id'       => 0,
+            'duty'     => DutyType::CC,
             'relation' => $a,
         ], $obj->toArray());
         self::assertEquals($obj->toArray(), $obj->jsonSerialize());

@@ -54,22 +54,22 @@ final class TaskElementMapper extends DataMapperAbstract
      */
     protected static array $hasMany = [
         'media' => [
-            'mapper' => MediaMapper::class,
-            'table'  => 'task_element_media',
+            'mapper'   => MediaMapper::class,
+            'table'    => 'task_element_media',
             'external' => 'task_element_media_src',
-            'self'   => 'task_element_media_dst',
+            'self'     => 'task_element_media_dst',
         ],
         'accRelation'          => [
-            'mapper' => AccountRelationMapper::class,
-            'table'  => 'task_account',
+            'mapper'   => AccountRelationMapper::class,
+            'table'    => 'task_account',
             'external' => 'task_account_task_element',
-            'self'   => null,
+            'self'     => null,
         ],
         'grpRelation'          => [
-            'mapper' => GroupRelationMapper::class,
-            'table'  => 'task_group',
+            'mapper'   => GroupRelationMapper::class,
+            'table'    => 'task_group',
             'external' => 'task_group_task_element',
-            'self'   => null,
+            'self'     => null,
         ],
     ];
 
