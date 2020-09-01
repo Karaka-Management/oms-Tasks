@@ -26,15 +26,15 @@ use phpOMS\Stdlib\Base\Enum;
  */
 abstract class TaskPriority extends Enum
 {
-    public const NONE   = 0;
+    public const NONE = 0;
 
-    public const VLOW   = 1;
+    public const VLOW = 1;
 
-    public const LOW    = 2;
+    public const LOW = 2;
 
     public const MEDIUM = 3;
 
-    public const HIGH   = 4;
+    public const HIGH = 4;
 
-    public const VHIGH  = 5;
+    public const VHIGH = 5;
 }

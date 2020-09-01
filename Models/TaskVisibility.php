@@ -26,9 +26,9 @@ use phpOMS\Stdlib\Base\Enum;
  */
 abstract class TaskVisibility extends Enum
 {
-    public const TO  = 1;
+    public const TO = 1;
 
-    public const CC  = 2;
+    public const CC = 2;
 
     public const BCC = 3;
 }
