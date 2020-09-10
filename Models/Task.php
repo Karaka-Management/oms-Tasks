@@ -62,7 +62,7 @@ class Task implements \JsonSerializable
      * @var \DateTime
      * @since 1.0.0
      */
-    protected \DateTime $createdAt;
+    protected \DateTimeImmutable $createdAt;
 
     /**
      * Description.
@@ -184,7 +184,7 @@ class Task implements \JsonSerializable
     public function __construct()
     {
         $this->createdBy = new NullAccount();
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = new \DateTimeImmutable('now');
         $this->schedule  = new Schedule();
         $this->start     = new \DateTime('now');
         $this->due       = new \DateTime('now');
@@ -410,7 +410,7 @@ class Task implements \JsonSerializable
      *
      * @since 1.0.0
      */
-    public function getCreatedAt() : \DateTime
+    public function getCreatedAt() : \DateTimeInterface
     {
         return $this->createdAt;
     }

@@ -76,7 +76,7 @@ class TaskElement implements \JsonSerializable
      * @var \DateTime
      * @since 1.0.0
      */
-    private \DateTime $createdAt;
+    private \DateTimeImmutable $createdAt;
 
     /**
      * Status.
@@ -135,7 +135,7 @@ class TaskElement implements \JsonSerializable
     {
         $this->due = new \DateTime('now');
         $this->due->modify('+1 day');
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = new \DateTimeImmutable('now');
         $this->createdBy = new NullAccount();
     }
 
@@ -156,7 +156,7 @@ class TaskElement implements \JsonSerializable
      *
      * @since 1.0.0
      */
-    public function getCreatedAt() : \DateTime
+    public function getCreatedAt() : \DateTimeInterface
     {
         return $this->createdAt;
     }

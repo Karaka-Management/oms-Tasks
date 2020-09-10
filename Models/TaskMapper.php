@@ -53,7 +53,7 @@ final class TaskMapper extends DataMapperAbstract
         'task_schedule'   => ['name' => 'task_schedule',   'type' => 'int',      'internal' => 'schedule'],
         'task_start'      => ['name' => 'task_start',      'type' => 'DateTime', 'internal' => 'start'],
         'task_created_by' => ['name' => 'task_created_by', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
-        'task_created_at' => ['name' => 'task_created_at', 'type' => 'DateTime', 'internal' => 'createdAt', 'readonly' => true],
+        'task_created_at' => ['name' => 'task_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
     ];
 
     /**
