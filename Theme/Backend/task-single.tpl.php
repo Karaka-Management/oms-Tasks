@@ -58,7 +58,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="portlet-head">
                 <div class="row middle-xs">
                     <span class="col-xs-0">
-                        <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($task->getCreatedBy()->getId()); ?>">
+                        <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($task->getCreatedBy()->getId()); ?>">
                     </span>
                     <span>
                         <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
@@ -211,7 +211,7 @@ echo $this->getData('nav')->render(); ?>
                     <div class="portlet-head">
                         <div class="row middle-xs">
                             <span class="col-xs-0">
-                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" data-lazyload="<?= $this->getAccountImage($element->getCreatedBy()->getId()); ?>">
+                                <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($element->getCreatedBy()->getId()); ?>">
                             </span>
                             <span class="col-xs">
                                 <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
