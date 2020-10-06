@@ -26,6 +26,7 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\Utils\Parser\Markdown\Markdown;
+use phpOMS\Message\Http\RequestStatusCode;
 
 /**
  * Api controller for the tasks module.
@@ -93,6 +94,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
             $response->set($request->getUri()->__toString(), new FormValidation($val));
+            $response->getHeader()->setStatusCode(RequestStatusCode::R_400);
 
             return;
         }
@@ -238,6 +240,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
             $response->set('task_element_create', new FormValidation($val));
+            $response->getHeader()->setStatusCode(RequestStatusCode::R_400);
 
             return;
         }
