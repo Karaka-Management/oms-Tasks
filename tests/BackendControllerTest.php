@@ -75,6 +75,10 @@ class BackendControllerTest extends \PHPUnit\Framework\TestCase
         TestUtils::setMember($this->module, 'app', $this->app);
     }
 
+    /**
+     * @covers Modules\Tasks\Controller\BackendController
+     * @group module
+     */
     public function testNavigation() : void
     {
         self::assertEquals(0, $this->module->openNav(999));

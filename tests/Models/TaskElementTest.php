@@ -25,6 +25,10 @@ use Modules\Tasks\Models\TaskStatus;
  */
 class TaskElementTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testDefault() : void
     {
         $task = new TaskElement();
@@ -42,6 +46,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(TaskPriority::NONE, $task->getPriority());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testCreatedByInputOutput() : void
     {
         $task = new TaskElement();
@@ -50,6 +58,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(1, $task->getCreatedBy()->getId());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testDueInputOutput() : void
     {
         $task = new TaskElement();
@@ -58,6 +70,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($date->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testStatusInputOutput() : void
     {
         $task = new TaskElement();
@@ -66,6 +82,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(TaskStatus::DONE, $task->getStatus());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testPriorityInputOutput() : void
     {
         $task = new TaskElement();
@@ -74,6 +94,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(TaskPriority::MEDIUM, $task->getPriority());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testDescriptionInputOutput() : void
     {
         $task = new TaskElement();
@@ -82,6 +106,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Description', $task->getDescription());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testDescriptionRawInputOutput() : void
     {
         $task = new TaskElement();
@@ -90,6 +118,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('DescriptionRaw', $task->getDescriptionRaw());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testTaskInputOutput() : void
     {
         $task = new TaskElement();
@@ -98,6 +130,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(2, $task->getTask());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testAccountToInputOutput() : void
     {
         $task = new TaskElement();
@@ -107,6 +143,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($task->isToAccount(3));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testGroupToInputOutput() : void
     {
         $task = new TaskElement();
@@ -116,6 +156,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($task->isToGroup(4));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testAccountCCInputOutput() : void
     {
         $task = new TaskElement();
@@ -125,6 +169,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($task->isCCAccount(5));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testGroupCCInputOutput() : void
     {
         $task = new TaskElement();
@@ -134,6 +182,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($task->isCCGroup(6));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testInvalidAccountTo() : void
     {
         $task = new TaskElement();
@@ -141,6 +193,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($task->isToAccount(7));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testInvalidAccountCC() : void
     {
         $task = new TaskElement();
@@ -148,6 +204,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($task->isCCAccount(8));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testInvalidGroupTo() : void
     {
         $task = new TaskElement();
@@ -155,6 +215,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($task->isToGroup(9));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testInvalidGroupCC() : void
     {
         $task = new TaskElement();
@@ -162,6 +226,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($task->isCCGroup(10));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testInvalidStatus() : void
     {
         $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
@@ -170,6 +238,10 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         $task->setStatus(9999);
     }
 
+    /**
+     * @covers Modules\Tasks\Models\TaskElement
+     * @group module
+     */
     public function testInvalidPriority() : void
     {
         $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);

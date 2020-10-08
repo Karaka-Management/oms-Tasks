@@ -195,6 +195,10 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('This is a changed description', $response->get('')['response']->getDescriptionRaw());
     }
 
+    /**
+     * @covers Modules\Tasks\Controller\ApiController
+     * @group module
+     */
     public function testInvalidTaskCreate() : void
     {
         $response = new HttpResponse();

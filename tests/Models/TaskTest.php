@@ -27,6 +27,10 @@ use Modules\Tasks\Models\TaskType;
  */
 class TaskTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testDefault() : void
     {
         $task = new Task();
@@ -53,6 +57,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf('\Modules\Tasks\Models\NullTaskElement', $task->getTaskElement(1));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testCreatedByInputOutput() : void
     {
         $task = new Task();
@@ -61,6 +69,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(1, $task->getCreatedBy()->getId());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testStartInputOutput() : void
     {
         $task = new Task();
@@ -69,6 +81,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($date->format('Y-m-d'), $task->getStart()->format('Y-m-d'));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testTitleInputOutput() : void
     {
         $task = new Task();
@@ -77,6 +93,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Title', $task->getTitle());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testDoneInputOutput() : void
     {
         $task = new Task();
@@ -85,6 +105,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($date->format('Y-m-d'), $task->getDone()->format('Y-m-d'));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testDueInputOutput() : void
     {
         $task = new Task();
@@ -93,6 +117,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($date->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testStatusInputOutput() : void
     {
         $task = new Task();
@@ -101,6 +129,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(TaskStatus::DONE, $task->getStatus());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testClosableInputOutput() : void
     {
         $task = new Task();
@@ -109,6 +141,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($task->isClosable());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testPriority() : void
     {
         $task = new Task();
@@ -117,6 +153,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(TaskPriority::LOW, $task->getPriority());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testElementInputOutput() : void
     {
         $task = new Task();
@@ -151,6 +191,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(0, $task->getTaskElement(0)->getId());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testElementRemoval() : void
     {
         $task = new Task();
@@ -177,6 +221,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($success);
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testInvalidElementRemoval() : void
     {
         $task = new Task();
@@ -185,6 +233,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($success);
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testDescriptionInputOutput() : void
     {
         $task = new Task();
@@ -193,6 +245,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('Description', $task->getDescription());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testDescriptionRawInputOutput() : void
     {
         $task = new Task();
@@ -201,6 +257,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('DescriptionRaw', $task->getDescriptionRaw());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testEditableInputOutput() : void
     {
         $task = new Task();
@@ -209,6 +269,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertFalse($task->isEditable());
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testToArray() : void
     {
         $task = new Task();
@@ -237,6 +301,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($isSubset);
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testToJson() : void
     {
         $task = new Task();
@@ -265,6 +333,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($isSubset);
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testInvalidStatus() : void
     {
         $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
@@ -273,6 +345,10 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         $task->setStatus(9999);
     }
 
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
     public function testInvalidPriority() : void
     {
         $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
