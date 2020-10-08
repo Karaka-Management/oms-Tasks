@@ -29,6 +29,10 @@ use phpOMS\Utils\RnG\Text;
  */
 class TaskMapperTest extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @covers Modules\Tasks\Models\TaskMapper
+     * @group module
+     */
     public function testDefault() : void
     {
         self::assertEquals([], TaskMapper::getOpenCreatedBy(999));
