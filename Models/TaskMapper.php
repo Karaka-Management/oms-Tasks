@@ -66,20 +66,20 @@ final class TaskMapper extends DataMapperAbstract
         'taskElements' => [
             'mapper'   => TaskElementMapper::class,
             'table'    => 'task_element',
-            'external' => 'task_element_task',
-            'self'     => null,
+            'self' => 'task_element_task',
+            'external'     => null,
         ],
         'media'        => [
             'mapper'   => MediaMapper::class,
             'table'    => 'task_media',
-            'external' => 'task_media_src',
-            'self'     => 'task_media_dst',
+            'external' => 'task_media_dst',
+            'self'     => 'task_media_src',
         ],
         'tags'         => [
             'mapper'   => MediaMapper::class,
             'table'    => 'task_tag',
-            'external' => 'task_tag_src',
-            'self'     => 'task_tag_dst',
+            'external' => 'task_tag_dst',
+            'self'     => 'task_tag_src',
         ],
     ];
 
@@ -92,7 +92,7 @@ final class TaskMapper extends DataMapperAbstract
     protected static array $belongsTo = [
         'createdBy' => [
             'mapper' => AccountMapper::class,
-            'self'   => 'task_created_by',
+            'external'   => 'task_created_by',
         ],
     ];
 
@@ -105,7 +105,7 @@ final class TaskMapper extends DataMapperAbstract
     protected static array $ownsOne = [
         'schedule' => [
             'mapper' => ScheduleMapper::class,
-            'self'   => 'task_schedule',
+            'external'   => 'task_schedule',
         ],
     ];
 

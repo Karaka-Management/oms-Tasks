@@ -56,20 +56,20 @@ final class TaskElementMapper extends DataMapperAbstract
         'media' => [
             'mapper'   => MediaMapper::class,
             'table'    => 'task_element_media',
-            'external' => 'task_element_media_src',
-            'self'     => 'task_element_media_dst',
+            'external' => 'task_element_media_dst',
+            'self'     => 'task_element_media_src',
         ],
         'accRelation'          => [
             'mapper'   => AccountRelationMapper::class,
             'table'    => 'task_account',
-            'external' => 'task_account_task_element',
-            'self'     => null,
+            'self' => 'task_account_task_element',
+            'external'     => null,
         ],
         'grpRelation'          => [
             'mapper'   => GroupRelationMapper::class,
             'table'    => 'task_group',
-            'external' => 'task_group_task_element',
-            'self'     => null,
+            'self' => 'task_group_task_element',
+            'external'     => null,
         ],
     ];
 
@@ -82,7 +82,7 @@ final class TaskElementMapper extends DataMapperAbstract
     protected static array $belongsTo = [
         'createdBy' => [
             'mapper' => AccountMapper::class,
-            'self'   => 'task_element_created_by',
+            'external'   => 'task_element_created_by',
         ],
     ];
 
