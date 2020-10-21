@@ -48,7 +48,7 @@ final class GroupRelationMapper extends DataMapperAbstract
      */
     protected static array $ownsOne = [
         'relation' => [
-            'mapper' => GroupMapper::class,
+            'mapper'     => GroupMapper::class,
             'external'   => 'task_group_group',
         ],
     ];

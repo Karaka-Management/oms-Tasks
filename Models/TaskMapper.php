@@ -64,9 +64,9 @@ final class TaskMapper extends DataMapperAbstract
      */
     protected static array $hasMany = [
         'taskElements' => [
-            'mapper'   => TaskElementMapper::class,
-            'table'    => 'task_element',
-            'self' => 'task_element_task',
+            'mapper'       => TaskElementMapper::class,
+            'table'        => 'task_element',
+            'self'         => 'task_element_task',
             'external'     => null,
         ],
         'media'        => [
@@ -91,7 +91,7 @@ final class TaskMapper extends DataMapperAbstract
      */
     protected static array $belongsTo = [
         'createdBy' => [
-            'mapper' => AccountMapper::class,
+            'mapper'     => AccountMapper::class,
             'external'   => 'task_created_by',
         ],
     ];
@@ -104,7 +104,7 @@ final class TaskMapper extends DataMapperAbstract
      */
     protected static array $ownsOne = [
         'schedule' => [
-            'mapper' => ScheduleMapper::class,
+            'mapper'     => ScheduleMapper::class,
             'external'   => 'task_schedule',
         ],
     ];
