@@ -43,7 +43,7 @@ final class GroupRelationMapper extends DataMapperAbstract
     /**
      * Has one relation.
      *
-     * @var array<string, array{mapper:string, self:string, by?:string, column?:string}>
+     * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
      * @since 1.0.0
      */
     protected static array $ownsOne = [

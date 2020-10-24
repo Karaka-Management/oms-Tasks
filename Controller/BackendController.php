@@ -30,6 +30,8 @@ use phpOMS\Views\View;
 /**
  * Backend controller for the tasks module.
  *
+ * @property \Web\WebApplication $app
+ *
  * @package Modules\Tasks
  * @license OMS License 1.0
  * @link    https://orange-management.org
