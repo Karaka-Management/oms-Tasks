@@ -27,6 +27,8 @@ use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\Utils\Parser\Markdown\Markdown;
+use Modules\Tag\Models\NullTag;
+use phpOMS\Message\Http\HttpResponse;
 
 /**
  * Api controller for the tasks module.
@@ -69,7 +71,6 @@ final class ApiController extends Controller
         $val = [];
         if (($val['title'] = empty($request->getData('title')))
             || ($val['plain'] = empty($request->getData('plain')))
-            || ($val['due'] = !((bool) \strtotime((string) $request->getData('due'))))
         ) {
             return $val;
         }
@@ -120,10 +121,30 @@ final class ApiController extends Controller
         $task->setDescription(Markdown::parse((string) ($request->getData('plain') ?? '')));
         $task->setDescriptionRaw((string) ($request->getData('plain') ?? ''));
         $task->setCreatedBy(new NullAccount($request->getHeader()->getAccount()));
-        $task->setDue(new \DateTime($request->getData('due')));
         $task->setStatus(TaskStatus::OPEN);
         $task->setType(TaskType::SINGLE);
-        $task->setPriority((int) $request->getData('priority'));
+
+        if (empty($request->getData('priority'))) {
+            $task->setDue(empty($request->getData('due')) ? null : new \DateTime($request->getData('due')));
+        } else {
+            $task->setPriority((int) $request->getData('priority'));
+        }
+
+        if (!empty($tags = $request->getDataJson('tags'))) {
+            foreach ($tags as $tag) {
+                if (!isset($tag['id'])) {
+                    $request->setData('title', $tag['title'], true);
+                    $request->setData('color', $tag['color'], true);
+                    $request->setData('language', $tag['language'], true);
+
+                    $internalResponse = new HttpResponse();
+                    $this->app->moduleManager->get('Tag')->apiTagCreate($request, $internalResponse, null);
+                    $task->addTag($internalResponse->get($request->getUri()->__toString())['response']);
+                } else {
+                    $task->addTag(new NullTag((int) $tag['id']));
+                }
+            }
+        }
 
         $element = new TaskElement();
         $element->addTo(new NullAccount((int) ($request->getData('forward') ?? $request->getHeader()->getAccount())));
@@ -250,10 +271,11 @@ final class ApiController extends Controller
          *  Validate that the user is allowed to create a task element for a specific task
          */
 
-        $element = $this->createTaskElementFromRequest($request);
-        $task    = TaskMapper::get($element->getTask());
+        $task    = TaskMapper::get((int) ($request->getData('task')));
+        $element = $this->createTaskElementFromRequest($request, $task);
         $task->setStatus($element->getStatus());
         $task->setPriority($element->getPriority());
+        $task->setDue($element->getDue());
 
         $this->createModel($request->getHeader()->getAccount(), $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
         $this->updateModel($request->getHeader()->getAccount(), $task, $task, TaskMapper::class, 'task', $request->getOrigin());
@@ -264,19 +286,20 @@ final class ApiController extends Controller
      * Method to create task element from request.
      *
      * @param RequestAbstract $request Request
+     * @param Task            $task    Task
      *
      * @return TaskElement Returns the task created from the request
      *
      * @since 1.0.0
      */
-    private function createTaskElementFromRequest(RequestAbstract $request) : TaskElement
+    private function createTaskElementFromRequest(RequestAbstract $request, Task $task) : TaskElement
     {
         $element = new TaskElement();
         $element->setCreatedBy(new NullAccount($request->getHeader()->getAccount()));
-        $element->setDue(new \DateTime((string) ($request->getData('due') ?? 'now')));
-        $element->setPriority((int) $request->getData('priority'));
+        $element->setDue(!empty($request->getData('due')) ? new \DateTime((string) ($request->getData('due'))) : $task->getDue());
+        $element->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
         $element->setStatus((int) ($request->getData('status')));
-        $element->setTask((int) ($request->getData('task')));
+        $element->setTask($task->getId());
         $element->setDescription(Markdown::parse((string) ($request->getData('plain') ?? '')));
         $element->setDescriptionRaw((string) ($request->getData('plain') ?? ''));
 

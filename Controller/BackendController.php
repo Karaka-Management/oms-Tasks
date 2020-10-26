@@ -143,7 +143,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $head = $response->get('Content')->getData('head');
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
-        $task      = TaskMapper::get((int) $request->getData('id'), RelationType::ALL, 4);
+        $task      = TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())::get((int) $request->getData('id'), RelationType::ALL, 4);
         $accountId = $request->getHeader()->getAccount();
 
         if (!($task->getCreatedBy()->getId() === $accountId

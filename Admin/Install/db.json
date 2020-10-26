@@ -162,7 +162,8 @@
             "task_element_due": {
                 "name": "task_element_due",
                 "type": "DATETIME",
-                "null": false
+                "null": true,
+                "default": null
             },
             "task_element_created_at": {
                 "name": "task_element_created_at",

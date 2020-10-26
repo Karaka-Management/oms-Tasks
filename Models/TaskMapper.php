@@ -17,6 +17,7 @@ namespace Modules\Tasks\Models;
 use Modules\Admin\Models\AccountMapper;
 use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
+use Modules\Tag\Models\TagMapper;
 use phpOMS\DataStorage\Database\DataMapperAbstract;
 use phpOMS\DataStorage\Database\Query\Builder;
 use phpOMS\DataStorage\Database\Query\Where;
@@ -76,7 +77,7 @@ final class TaskMapper extends DataMapperAbstract
             'self'     => 'task_media_src',
         ],
         'tags'         => [
-            'mapper'   => MediaMapper::class,
+            'mapper'   => TagMapper::class,
             'table'    => 'task_tag',
             'external' => 'task_tag_dst',
             'self'     => 'task_tag_src',

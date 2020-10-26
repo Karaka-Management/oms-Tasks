@@ -96,6 +96,10 @@ echo $this->getData('nav')->render(); ?>
                             <?php else : ?>
                                 <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $task->getPriority()); ?>
                             <?php endif; ?>
+
+                            <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                                <span class="tag" style="background: <?= $this->printHtml($tag->getColor()); ?>"><?= $this->printHtml($tag->getTitle()); ?></span>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="col-xs-0 end-xs plain-grid">
@@ -281,14 +285,14 @@ echo $this->getData('nav')->render(); ?>
                 <?php
                     $tos = $element->getTo();
                     if (\count($tos) > 1
-                        || (\count($tos) > 0 && $tos[0]->getRelation()->getId() !== $task->getCreatedBy()->getId())
+                        || (!empty($tos) && $tos[0]->getRelation()->getId() !== $element->getCreatedBy()->getId())
                     ) : ?>
                     <section class="box wf-100">
                         <div class="inner">
                         <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
-                                    <a href="<?= phpOMS\Uri\UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
+                                    <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
                                 <?php elseif ($to instanceof GroupRelation) : ?>
                                     <?= $this->printHtml($to->getRelation()->getName()); ?>
                                 <?php endif; ?>
