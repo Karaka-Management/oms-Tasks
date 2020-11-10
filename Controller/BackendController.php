@@ -74,17 +74,17 @@ final class BackendController extends Controller implements DashboardElementInte
 
         if ($request->getData('ptype') === 'p') {
             $view->setData('tasks',
-                TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
+                TaskMapper::withConditional('language', $response->getLanguage())
                     ::getAnyBeforePivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
             );
         } elseif ($request->getData('ptype') === 'n') {
             $view->setData('tasks',
-                TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
+                TaskMapper::withConditional('language', $response->getLanguage())
                     ::getAnyAfterPivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
             );
         } else {
             $view->setData('tasks',
-                TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())
+                TaskMapper::withConditional('language', $response->getLanguage())
                     ::getAnyAfterPivot($request->getHeader()->getAccount(), 0, null, 25)
             );
         }
@@ -132,8 +132,8 @@ final class BackendController extends Controller implements DashboardElementInte
             $view->setTemplate('/Web/Backend/Error/403');
 
             $this->app->loadLanguageFromPath(
-                $response->getHeader()->getL11n()->getLanguage(),
-                __DIR__ . '/../../../Web/Backend/Error/lang/' . $response->getHeader()->getL11n()->getLanguage() . '.lang.php'
+                $response->getLanguage(),
+                __DIR__ . '/../../../Web/Backend/Error/lang/' . $response->getLanguage() . '.lang.php'
             );
 
             return $view;
@@ -143,7 +143,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $head = $response->get('Content')->getData('head');
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
-        $task      = TaskMapper::withConditional('language', $response->getHeader()->getL11n()->getLanguage())::get((int) $request->getData('id'), RelationType::ALL, 4);
+        $task      = TaskMapper::withConditional('language', $response->getLanguage())::get((int) $request->getData('id'), RelationType::ALL, 4);
         $accountId = $request->getHeader()->getAccount();
 
         if (!($task->getCreatedBy()->getId() === $accountId
