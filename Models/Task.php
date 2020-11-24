@@ -376,7 +376,7 @@ class Task implements \JsonSerializable
      */
     public function setCreatedBy(Account $account) : void
     {
-        $this->createdBy = $account;
+        $this->createdBy           = $account;
         $this->schedule->createdBy = $account;
     }
 

@@ -49,34 +49,34 @@ class TaskMapperTest extends \PHPUnit\Framework\TestCase
 
         $task->setCreatedBy(new NullAccount(1));
         $task->getSchedule()->createdBy = new NullAccount(1);
-        $task->start = new \DateTime('2005-05-05');
-        $task->title = 'Task Test';
+        $task->start                    = new \DateTime('2005-05-05');
+        $task->title                    = 'Task Test';
         $task->setStatus(TaskStatus::OPEN);
         $task->isClosable = false;
         $task->setPriority(TaskPriority::HIGH);
-        $task->description = 'Description';
+        $task->description    = 'Description';
         $task->descriptionRaw = 'DescriptionRaw';
-        $task->done = new \DateTime('2000-05-06');
-        $task->due = new \DateTime('2000-05-05');
+        $task->done           = new \DateTime('2000-05-06');
+        $task->due            = new \DateTime('2000-05-05');
 
-        $taskElement1 = new TaskElement();
+        $taskElement1              = new TaskElement();
         $taskElement1->description = 'Desc1';
-        $taskElement1->createdBy = new NullAccount(1);
+        $taskElement1->createdBy   = new NullAccount(1);
         $taskElement1->setStatus($task->getStatus());
         $task->addElement($taskElement1);
 
-        $media = new Media();
-        $media->createdBy = new NullAccount(1);
+        $media              = new Media();
+        $media->createdBy   = new NullAccount(1);
         $media->description = 'desc';
         $media->setPath('some/path');
-        $media->size = 11;
+        $media->size      = 11;
         $media->extension = 'png';
-        $media->name = 'Task Element Media';
+        $media->name      = 'Task Element Media';
         $taskElement1->addMedia($media);
 
-        $taskElement2 = new TaskElement();
+        $taskElement2              = new TaskElement();
         $taskElement2->description = 'Desc2';
-        $taskElement2->createdBy = new NullAccount(1);
+        $taskElement2->createdBy   = new NullAccount(1);
         $taskElement2->setStatus($task->getStatus());
         $taskElement2->addAccountTo(new NullAccount(1));
         $taskElement2->addAccountCC(new NullAccount(1));
@@ -84,13 +84,13 @@ class TaskMapperTest extends \PHPUnit\Framework\TestCase
         $taskElement2->addGroupCC(new NullGroup(1));
         $task->addElement($taskElement2);
 
-        $media = new Media();
-        $media->createdBy = new NullAccount(1);
+        $media              = new Media();
+        $media->createdBy   = new NullAccount(1);
         $media->description = 'desc';
         $media->setPath('some/path');
-        $media->size = 11;
+        $media->size      = 11;
         $media->extension = 'png';
-        $media->name = 'Task Media';
+        $media->name      = 'Task Media';
         $task->addMedia($media);
 
         $id = TaskMapper::create($task);
@@ -160,22 +160,22 @@ class TaskMapperTest extends \PHPUnit\Framework\TestCase
 
             $task->setCreatedBy(new NullAccount(1));
             $task->getSchedule()->createdBy = new NullAccount(1);
-            $task->start = new \DateTime('2005-05-05');
-            $task->title = $text->generateText(\mt_rand(1, 5));
+            $task->start                    = new \DateTime('2005-05-05');
+            $task->title                    = $text->generateText(\mt_rand(1, 5));
             $task->setStatus($status);
             $task->description = $text->generateText(\mt_rand(10, 30));
-            $task->done = new \DateTime('2000-05-06');
-            $task->due = new \DateTime('2000-05-05');
+            $task->done        = new \DateTime('2000-05-06');
+            $task->due         = new \DateTime('2000-05-05');
 
-            $taskElement1 = new TaskElement();
+            $taskElement1              = new TaskElement();
             $taskElement1->description = $text->generateText(\mt_rand(3, 20));
-            $taskElement1->createdBy = new NullAccount(1);
+            $taskElement1->createdBy   = new NullAccount(1);
             $taskElement1->setStatus($status);
             $task->addElement($taskElement1);
 
-            $taskElement2 = new TaskElement();
+            $taskElement2              = new TaskElement();
             $taskElement2->description = 'Desc2';
-            $taskElement2->createdBy = new NullAccount(1);
+            $taskElement2->createdBy   = new NullAccount(1);
             $taskElement2->setStatus($status);
             $task->addElement($taskElement2);
 
@@ -201,22 +201,22 @@ class TaskMapperTest extends \PHPUnit\Framework\TestCase
 
             $task->setCreatedBy(new NullAccount(1));
             $task->getSchedule()->createdBy = new NullAccount(1);
-            $task->title = $text->generateText(\mt_rand(1, 5));
+            $task->title                    = $text->generateText(\mt_rand(1, 5));
             $task->setStatus($status);
-            $task->isClosable = true;
+            $task->isClosable  = true;
             $task->description = $text->generateText(\mt_rand(10, 30));
-            $task->done = new \DateTime('2000-05-06');
-            $task->due = new \DateTime('2000-05-05');
+            $task->done        = new \DateTime('2000-05-06');
+            $task->due         = new \DateTime('2000-05-05');
 
-            $taskElement1 = new TaskElement();
+            $taskElement1              = new TaskElement();
             $taskElement1->description = $text->generateText(\mt_rand(3, 20));
-            $taskElement1->createdBy = new NullAccount(1);
+            $taskElement1->createdBy   = new NullAccount(1);
             $taskElement1->setStatus($status);
             $task->addElement($taskElement1);
 
-            $taskElement2 = new TaskElement();
+            $taskElement2              = new TaskElement();
             $taskElement2->description = $text->generateText(\mt_rand(3, 20));
-            $taskElement2->createdBy = new NullAccount(1);
+            $taskElement2->createdBy   = new NullAccount(1);
             $taskElement2->setStatus($status);
             $task->addElement($taskElement2);
 
@@ -240,22 +240,22 @@ class TaskMapperTest extends \PHPUnit\Framework\TestCase
 
             $task->setCreatedBy(new NullAccount(1));
             $task->getSchedule()->createdBy = new NullAccount(1);
-            $task->title = $text->generateText(\mt_rand(1, 5));
+            $task->title                    = $text->generateText(\mt_rand(1, 5));
             $task->setStatus($status);
-            $task->isClosable = true;
+            $task->isClosable  = true;
             $task->description = $text->generateText(\mt_rand(10, 30));
-            $task->done = new \DateTime('2000-05-06');
-            $task->due = new \DateTime('2000-05-05');
+            $task->done        = new \DateTime('2000-05-06');
+            $task->due         = new \DateTime('2000-05-05');
 
-            $taskElement1 = new TaskElement();
+            $taskElement1              = new TaskElement();
             $taskElement1->description = $text->generateText(\mt_rand(3, 20));
-            $taskElement1->createdBy = new NullAccount(1);
+            $taskElement1->createdBy   = new NullAccount(1);
             $taskElement1->setStatus($status);
             $task->addElement($taskElement1);
 
-            $taskElement2 = new TaskElement();
+            $taskElement2              = new TaskElement();
             $taskElement2->description = $text->generateText(\mt_rand(3, 20));
-            $taskElement2->createdBy = new NullAccount(1);
+            $taskElement2->createdBy   = new NullAccount(1);
             $taskElement2->setStatus($status);
             $task->addElement($taskElement2);
 

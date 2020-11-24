@@ -15,20 +15,20 @@ declare(strict_types=1);
 namespace Modules\Tasks\Controller;
 
 use Modules\Admin\Models\NullAccount;
+use Modules\Tag\Models\NullTag;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Models\TaskType;
+use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
 use phpOMS\Model\Message\FormValidation;
 use phpOMS\Utils\Parser\Markdown\Markdown;
-use Modules\Tag\Models\NullTag;
-use phpOMS\Message\Http\HttpResponse;
 
 /**
  * Api controller for the tasks module.
@@ -116,9 +116,9 @@ final class ApiController extends Controller
      */
     private function createTaskFromRequest(RequestAbstract $request) : Task
     {
-        $task = new Task();
-        $task->title = (string) ($request->getData('title') ?? '');
-        $task->description = Markdown::parse((string) ($request->getData('plain') ?? ''));
+        $task                 = new Task();
+        $task->title          = (string) ($request->getData('title') ?? '');
+        $task->description    = Markdown::parse((string) ($request->getData('plain') ?? ''));
         $task->descriptionRaw = (string) ($request->getData('plain') ?? '');
         $task->setCreatedBy(new NullAccount($request->header->account));
         $task->setStatus(TaskStatus::OPEN);
@@ -149,7 +149,7 @@ final class ApiController extends Controller
         $element = new TaskElement();
         $element->addTo(new NullAccount((int) ($request->getData('forward') ?? $request->header->account)));
         $element->createdBy = $task->getCreatedBy();
-        $element->due = $task->due;
+        $element->due       = $task->due;
         $element->setPriority($task->getPriority());
         $element->setStatus(TaskStatus::OPEN);
 
@@ -209,11 +209,11 @@ final class ApiController extends Controller
      */
     private function updateTaskFromRequest(RequestAbstract $request) : Task
     {
-        $task = TaskMapper::get((int) ($request->getData('id')));
-        $task->title = (string) ($request->getData('title') ?? $task->title);
-        $task->description = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
+        $task                 = TaskMapper::get((int) ($request->getData('id')));
+        $task->title          = (string) ($request->getData('title') ?? $task->title);
+        $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
         $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
-        $task->due = new \DateTime((string) ($request->getData('due') ?? $task->due->format('Y-m-d H:i:s')));
+        $task->due            = new \DateTime((string) ($request->getData('due') ?? $task->due->format('Y-m-d H:i:s')));
         $task->setStatus((int) ($request->getData('status') ?? $task->getStatus()));
         $task->setType((int) ($request->getData('type') ?? $task->getType()));
         $task->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
@@ -294,13 +294,13 @@ final class ApiController extends Controller
      */
     private function createTaskElementFromRequest(RequestAbstract $request, Task $task) : TaskElement
     {
-        $element = new TaskElement();
+        $element            = new TaskElement();
         $element->createdBy = new NullAccount($request->header->account);
-        $element->due = !empty($request->getData('due')) ? new \DateTime((string) ($request->getData('due'))) : $task->due;
+        $element->due       = !empty($request->getData('due')) ? new \DateTime((string) ($request->getData('due'))) : $task->due;
         $element->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
         $element->setStatus((int) ($request->getData('status')));
-        $element->task = $task->getId();
-        $element->description = Markdown::parse((string) ($request->getData('plain') ?? ''));
+        $element->task           = $task->getId();
+        $element->description    = Markdown::parse((string) ($request->getData('plain') ?? ''));
         $element->descriptionRaw = (string) ($request->getData('plain') ?? '');
 
         $tos = $request->getData('to') ?? $request->header->account;
@@ -383,10 +383,10 @@ final class ApiController extends Controller
      */
     private function updateTaskElementFromRequest(RequestAbstract $request) : TaskElement
     {
-        $element = TaskElementMapper::get((int) ($request->getData('id')));
+        $element      = TaskElementMapper::get((int) ($request->getData('id')));
         $element->due = new \DateTime((string) ($request->getData('due') ?? $element->due->format('Y-m-d H:i:s')));
         $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
-        $element->description = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
+        $element->description    = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
         $element->descriptionRaw = (string) ($request->getData('plain') ?? $element->descriptionRaw);
 
         $tos = $request->getData('to') ?? $request->header->account;
