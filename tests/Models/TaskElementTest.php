@@ -34,15 +34,15 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
         $task = new TaskElement();
 
         self::assertEquals(0, $task->getId());
-        self::assertEquals(0, $task->getCreatedBy()->getId());
-        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->getCreatedAt()->format('Y-m-d'));
-        self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
+        self::assertEquals(0, $task->createdBy->getId());
+        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->createdAt->format('Y-m-d'));
+        self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $task->due->format('Y-m-d'));
         self::assertEquals(TaskStatus::OPEN, $task->getStatus());
-        self::assertEquals('', $task->getDescription());
-        self::assertEquals('', $task->getDescriptionRaw());
+        self::assertEquals('', $task->description);
+        self::assertEquals('', $task->descriptionRaw);
         self::assertEquals([], $task->getTo());
         self::assertEquals([], $task->getCC());
-        self::assertEquals(0, $task->getTask());
+        self::assertEquals(0, $task->task);
         self::assertEquals(TaskPriority::NONE, $task->getPriority());
     }
 
@@ -54,8 +54,8 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
     {
         $task = new TaskElement();
 
-        $task->setCreatedBy(new NullAccount(1));
-        self::assertEquals(1, $task->getCreatedBy()->getId());
+        $task->createdBy = new NullAccount(1);
+        self::assertEquals(1, $task->createdBy->getId());
     }
 
     /**
@@ -66,8 +66,8 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
     {
         $task = new TaskElement();
 
-        $task->setDue($date = new \DateTime('2000-05-07'));
-        self::assertEquals($date->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
+        $task->due = ($date = new \DateTime('2000-05-07'));
+        self::assertEquals($date->format('Y-m-d'), $task->due->format('Y-m-d'));
     }
 
     /**
@@ -102,8 +102,8 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
     {
         $task = new TaskElement();
 
-        $task->setDescription('Description');
-        self::assertEquals('Description', $task->getDescription());
+        $task->description = 'Description';
+        self::assertEquals('Description', $task->description);
     }
 
     /**
@@ -114,8 +114,8 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
     {
         $task = new TaskElement();
 
-        $task->setDescriptionRaw('DescriptionRaw');
-        self::assertEquals('DescriptionRaw', $task->getDescriptionRaw());
+        $task->descriptionRaw = 'DescriptionRaw';
+        self::assertEquals('DescriptionRaw', $task->descriptionRaw);
     }
 
     /**
@@ -126,8 +126,8 @@ class TaskElementTest extends \PHPUnit\Framework\TestCase
     {
         $task = new TaskElement();
 
-        $task->setTask(2);
-        self::assertEquals(2, $task->getTask());
+        $task->task = 2;
+        self::assertEquals(2, $task->task);
     }
 
     /**

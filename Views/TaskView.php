@@ -44,11 +44,11 @@ class TaskView extends View
     {
         $profile = ProfileMapper::getFor($account, 'account');
 
-        if ($profile === null || $profile->getImage()->getPath() === '') {
+        if ($profile === null || $profile->image->getPath() === '') {
             return UriFactory::build('Web/Backend/img/user_default_' . \mt_rand(1, 6) . '.png');
         }
 
-        return UriFactory::build($profile->getImage()->getPath());
+        return UriFactory::build($profile->image->getPath());
     }
 
     /**

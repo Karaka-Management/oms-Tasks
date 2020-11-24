@@ -75,17 +75,17 @@ final class BackendController extends Controller implements DashboardElementInte
         if ($request->getData('ptype') === 'p') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getLanguage())
-                    ::getAnyBeforePivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
+                    ::getAnyBeforePivot($request->header->account, (int) ($request->getData('id') ?? 0), null, 25)
             );
         } elseif ($request->getData('ptype') === 'n') {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getLanguage())
-                    ::getAnyAfterPivot($request->getHeader()->getAccount(), (int) ($request->getData('id') ?? 0), null, 25)
+                    ::getAnyAfterPivot($request->header->account, (int) ($request->getData('id') ?? 0), null, 25)
             );
         } else {
             $view->setData('tasks',
                 TaskMapper::withConditional('language', $response->getLanguage())
-                    ::getAnyAfterPivot($request->getHeader()->getAccount(), 0, null, 25)
+                    ::getAnyAfterPivot($request->header->account, 0, null, 25)
             );
         }
 
@@ -127,8 +127,8 @@ final class BackendController extends Controller implements DashboardElementInte
     {
         $view = new TaskView($this->app->l11nManager, $request, $response);
 
-        if (!TaskMapper::hasReadingPermission($request->getHeader()->getAccount(), (int) $request->getData('id'))) {
-            $response->getHeader()->setStatusCode(RequestStatusCode::R_403);
+        if (!TaskMapper::hasReadingPermission($request->header->account, (int) $request->getData('id'))) {
+            $response->header->status = RequestStatusCode::R_403;
             $view->setTemplate('/Web/Backend/Error/403');
 
             $this->app->loadLanguageFromPath(
@@ -144,7 +144,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
         $task      = TaskMapper::withConditional('language', $response->getLanguage())::get((int) $request->getData('id'), RelationType::ALL, 4);
-        $accountId = $request->getHeader()->getAccount();
+        $accountId = $request->header->account;
 
         if (!($task->getCreatedBy()->getId() === $accountId
             || $task->isCCAccount($accountId)
@@ -153,7 +153,7 @@ final class BackendController extends Controller implements DashboardElementInte
                 PermissionType::READ, $this->app->orgId, $this->app->appName, self::MODULE_NAME, PermissionState::TASK, $task->getId())
         ) {
             $view->setTemplate('/Web/Backend/Error/403_inline');
-            $response->getHeader()->setStatusCode(RequestStatusCode::R_403);
+            $response->header->status = RequestStatusCode::R_403;
             return $view;
         }
 

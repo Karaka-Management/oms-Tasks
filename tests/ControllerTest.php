@@ -89,14 +89,14 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('title', 'Controller Test Title');
         $request->setData('plain', 'Controller Test Description');
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
 
         $this->module->apiTaskCreate($request, $response);
 
-        self::assertEquals('Controller Test Title', $response->get('')['response']->getTitle());
+        self::assertEquals('Controller Test Title', $response->get('')['response']->title);
         self::assertGreaterThan(0, $response->get('')['response']->getId());
     }
 
@@ -109,7 +109,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('id', '1');
 
         $this->module->apiTaskGet($request, $response);
@@ -126,7 +126,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('id', 1);
         $request->setData('title', 'New Title');
         $request->setData('description', 'New Content here');
@@ -134,7 +134,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $this->module->apiTaskSet($request, $response);
         $this->module->apiTaskGet($request, $response);
 
-        self::assertEquals('New Title', $response->get('')['response']->getTitle());
+        self::assertEquals('New Title', $response->get('')['response']->title);
     }
 
     /**
@@ -146,7 +146,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
         $request->setData('priority', TaskPriority::HIGH);
         $request->setData('status', TaskStatus::DONE);
@@ -155,7 +155,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskElementCreate($request, $response);
 
-        self::assertEquals('Controller Test', $response->get('')['response']->getDescriptionRaw());
+        self::assertEquals('Controller Test', $response->get('')['response']->descriptionRaw);
         self::assertGreaterThan(0, $response->get('')['response']->getId());
     }
 
@@ -168,7 +168,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('id', '1');
 
         $this->module->apiTaskElementGet($request, $response);
@@ -185,14 +185,14 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('id', 1);
         $request->setData('plain', 'This is a changed description');
 
         $this->module->apiTaskElementSet($request, $response);
         $this->module->apiTaskElementGet($request, $response);
 
-        self::assertEquals('This is a changed description', $response->get('')['response']->getDescriptionRaw());
+        self::assertEquals('This is a changed description', $response->get('')['response']->descriptionRaw);
     }
 
     /**
@@ -204,7 +204,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('plain', 'Controller Test Description');
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
 
@@ -222,7 +222,7 @@ class ControllerTest extends \PHPUnit\Framework\TestCase
         $response = new HttpResponse();
         $request  = new HttpRequest(new HttpUri(''));
 
-        $request->getHeader()->setAccount(1);
+        $request->header->account = 1;
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
         $request->setData('priority', TaskPriority::HIGH);
         $request->setData('status', TaskStatus::DONE);

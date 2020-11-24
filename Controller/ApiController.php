@@ -94,14 +94,14 @@ final class ApiController extends Controller
     public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
-            $response->set($request->getUri()->__toString(), new FormValidation($val));
-            $response->getHeader()->setStatusCode(RequestStatusCode::R_400);
+            $response->set($request->uri->__toString(), new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
 
             return;
         }
 
         $task = $this->createTaskFromRequest($request);
-        $this->createModel($request->getHeader()->getAccount(), $task, TaskMapper::class, 'task', $request->getOrigin());
+        $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully created.', $task);
     }
 
@@ -117,15 +117,15 @@ final class ApiController extends Controller
     private function createTaskFromRequest(RequestAbstract $request) : Task
     {
         $task = new Task();
-        $task->setTitle((string) ($request->getData('title') ?? ''));
-        $task->setDescription(Markdown::parse((string) ($request->getData('plain') ?? '')));
-        $task->setDescriptionRaw((string) ($request->getData('plain') ?? ''));
-        $task->setCreatedBy(new NullAccount($request->getHeader()->getAccount()));
+        $task->title = (string) ($request->getData('title') ?? '');
+        $task->description = Markdown::parse((string) ($request->getData('plain') ?? ''));
+        $task->descriptionRaw = (string) ($request->getData('plain') ?? '');
+        $task->setCreatedBy(new NullAccount($request->header->account));
         $task->setStatus(TaskStatus::OPEN);
         $task->setType(TaskType::SINGLE);
 
         if (empty($request->getData('priority'))) {
-            $task->setDue(empty($request->getData('due')) ? null : new \DateTime($request->getData('due')));
+            $task->due = empty($request->getData('due')) ? null : new \DateTime($request->getData('due'));
         } else {
             $task->setPriority((int) $request->getData('priority'));
         }
@@ -139,7 +139,7 @@ final class ApiController extends Controller
 
                     $internalResponse = new HttpResponse();
                     $this->app->moduleManager->get('Tag')->apiTagCreate($request, $internalResponse, null);
-                    $task->addTag($internalResponse->get($request->getUri()->__toString())['response']);
+                    $task->addTag($internalResponse->get($request->uri->__toString())['response']);
                 } else {
                     $task->addTag(new NullTag((int) $tag['id']));
                 }
@@ -147,9 +147,9 @@ final class ApiController extends Controller
         }
 
         $element = new TaskElement();
-        $element->addTo(new NullAccount((int) ($request->getData('forward') ?? $request->getHeader()->getAccount())));
-        $element->setCreatedBy($task->getCreatedBy());
-        $element->setDue($task->getDue());
+        $element->addTo(new NullAccount((int) ($request->getData('forward') ?? $request->header->account)));
+        $element->createdBy = $task->getCreatedBy();
+        $element->due = $task->due;
         $element->setPriority($task->getPriority());
         $element->setStatus(TaskStatus::OPEN);
 
@@ -194,7 +194,7 @@ final class ApiController extends Controller
     {
         $old = clone TaskMapper::get((int) $request->getData('id'));
         $new = $this->updateTaskFromRequest($request);
-        $this->updateModel($request->getHeader()->getAccount(), $old, $new, TaskMapper::class, 'task', $request->getOrigin());
+        $this->updateModel($request->header->account, $old, $new, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully updated.', $new);
     }
 
@@ -210,10 +210,10 @@ final class ApiController extends Controller
     private function updateTaskFromRequest(RequestAbstract $request) : Task
     {
         $task = TaskMapper::get((int) ($request->getData('id')));
-        $task->setTitle((string) ($request->getData('title') ?? $task->getTitle()));
-        $task->setDescription(Markdown::parse((string) ($request->getData('plain') ?? $task->getDescriptionRaw())));
-        $task->setDescriptionRaw((string) ($request->getData('plain') ?? $task->getDescriptionRaw()));
-        $task->setDue(new \DateTime((string) ($request->getData('due') ?? $task->getDue()->format('Y-m-d H:i:s'))));
+        $task->title = (string) ($request->getData('title') ?? $task->title);
+        $task->description = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
+        $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
+        $task->due = new \DateTime((string) ($request->getData('due') ?? $task->due->format('Y-m-d H:i:s')));
         $task->setStatus((int) ($request->getData('status') ?? $task->getStatus()));
         $task->setType((int) ($request->getData('type') ?? $task->getType()));
         $task->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
@@ -236,7 +236,7 @@ final class ApiController extends Controller
         if (($val['status'] = !TaskStatus::isValidValue((int) $request->getData('status')))
             || ($val['due'] = !((bool) \strtotime((string) $request->getData('due'))))
             || ($val['task'] = !(\is_numeric($request->getData('task'))))
-            || ($val['forward'] = !(\is_numeric(empty($request->getData('forward')) ? $request->getHeader()->getAccount() : $request->getData('forward'))))
+            || ($val['forward'] = !(\is_numeric(empty($request->getData('forward')) ? $request->header->account : $request->getData('forward'))))
         ) {
             return $val;
         }
@@ -261,7 +261,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
             $response->set('task_element_create', new FormValidation($val));
-            $response->getHeader()->setStatusCode(RequestStatusCode::R_400);
+            $response->header->status = RequestStatusCode::R_400;
 
             return;
         }
@@ -275,10 +275,10 @@ final class ApiController extends Controller
         $element = $this->createTaskElementFromRequest($request, $task);
         $task->setStatus($element->getStatus());
         $task->setPriority($element->getPriority());
-        $task->setDue($element->getDue());
+        $task->due = $element->due;
 
-        $this->createModel($request->getHeader()->getAccount(), $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
-        $this->updateModel($request->getHeader()->getAccount(), $task, $task, TaskMapper::class, 'task', $request->getOrigin());
+        $this->createModel($request->header->account, $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
+        $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully created.', $element);
     }
 
@@ -295,15 +295,15 @@ final class ApiController extends Controller
     private function createTaskElementFromRequest(RequestAbstract $request, Task $task) : TaskElement
     {
         $element = new TaskElement();
-        $element->setCreatedBy(new NullAccount($request->getHeader()->getAccount()));
-        $element->setDue(!empty($request->getData('due')) ? new \DateTime((string) ($request->getData('due'))) : $task->getDue());
+        $element->createdBy = new NullAccount($request->header->account);
+        $element->due = !empty($request->getData('due')) ? new \DateTime((string) ($request->getData('due'))) : $task->due;
         $element->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
         $element->setStatus((int) ($request->getData('status')));
-        $element->setTask($task->getId());
-        $element->setDescription(Markdown::parse((string) ($request->getData('plain') ?? '')));
-        $element->setDescriptionRaw((string) ($request->getData('plain') ?? ''));
+        $element->task = $task->getId();
+        $element->description = Markdown::parse((string) ($request->getData('plain') ?? ''));
+        $element->descriptionRaw = (string) ($request->getData('plain') ?? '');
 
-        $tos = $request->getData('to') ?? $request->getHeader()->getAccount();
+        $tos = $request->getData('to') ?? $request->header->account;
         if (!\is_array($tos)) {
             $tos = [$tos];
         }
@@ -360,7 +360,7 @@ final class ApiController extends Controller
     {
         $old = clone TaskElementMapper::get((int) $request->getData('id'));
         $new = $this->updateTaskElementFromRequest($request);
-        $this->updateModel($request->getHeader()->getAccount(), $old, $new, TaskElementMapper::class, 'taskelement', $request->getOrigin());
+        $this->updateModel($request->header->account, $old, $new, TaskElementMapper::class, 'taskelement', $request->getOrigin());
 
         /**
          * @todo Orange-Management/oms-Tasks#2
@@ -368,7 +368,7 @@ final class ApiController extends Controller
          *  The task status is not normalized and relates to the last task element.
          *  Depending on the task status of the last task element also the task status should change.
          */
-        //$this->updateModel($request->getHeader()->getAccount(), $task, $task, TaskMapper::class, 'task', $request->getOrigin());
+        //$this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully updated.', $new);
     }
 
@@ -384,12 +384,12 @@ final class ApiController extends Controller
     private function updateTaskElementFromRequest(RequestAbstract $request) : TaskElement
     {
         $element = TaskElementMapper::get((int) ($request->getData('id')));
-        $element->setDue(new \DateTime((string) ($request->getData('due') ?? $element->getDue()->format('Y-m-d H:i:s'))));
+        $element->due = new \DateTime((string) ($request->getData('due') ?? $element->due->format('Y-m-d H:i:s')));
         $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
-        $element->setDescription(Markdown::parse((string) ($request->getData('plain') ?? $element->getDescriptionRaw())));
-        $element->setDescriptionRaw((string) ($request->getData('plain') ?? $element->getDescriptionRaw()));
+        $element->description = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
+        $element->descriptionRaw = (string) ($request->getData('plain') ?? $element->descriptionRaw);
 
-        $tos = $request->getData('to') ?? $request->getHeader()->getAccount();
+        $tos = $request->getData('to') ?? $request->header->account;
         if (!\is_array($tos)) {
             $tos = [$tos];
         }

@@ -46,7 +46,7 @@ class Task implements \JsonSerializable
      * @var string
      * @since 1.0.0
      */
-    protected string $title = '';
+    public string $title = '';
 
     /**
      * Creator.
@@ -62,7 +62,7 @@ class Task implements \JsonSerializable
      * @var \DateTimeImmutable
      * @since 1.0.0
      */
-    protected \DateTimeImmutable $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     /**
      * Description.
@@ -70,7 +70,7 @@ class Task implements \JsonSerializable
      * @var string
      * @since 1.0.0
      */
-    protected string $description = '';
+    public string $description = '';
 
     /**
      * Description raw.
@@ -78,7 +78,7 @@ class Task implements \JsonSerializable
      * @var string
      * @since 1.0.0
      */
-    protected string $descriptionRaw = '';
+    public string $descriptionRaw = '';
 
     /**
      * Type.
@@ -99,18 +99,22 @@ class Task implements \JsonSerializable
     /**
      * Task can be closed by user.
      *
-     * @var bool
-     * @since 1.0.0
-     */
-    protected bool $isClosable = true;
-
-    /**
-     * Task can be edited by user.
+     * Setting it to false will only allow other modules to close this task
      *
      * @var bool
      * @since 1.0.0
      */
-    protected bool $isEditable = true;
+    public bool $isClosable = true;
+
+    /**
+     * Task can be edited by user.
+     *
+     * Setting it to false will only allow other modules to close this task
+     *
+     * @var bool
+     * @since 1.0.0
+     */
+    public bool $isEditable = true;
 
     /**
      * Start.
@@ -118,7 +122,7 @@ class Task implements \JsonSerializable
      * @var null|\DateTime
      * @since 1.0.0
      */
-    protected ?\DateTime $start = null;
+    public ?\DateTime $start = null;
 
     /**
      * Due.
@@ -126,7 +130,7 @@ class Task implements \JsonSerializable
      * @var null|\DateTime
      * @since 1.0.0
      */
-    protected ?\DateTime $due = null;
+    public ?\DateTime $due = null;
 
     /**
      * Done.
@@ -134,7 +138,7 @@ class Task implements \JsonSerializable
      * @var null|\DateTime
      * @since 1.0.0
      */
-    protected ?\DateTime $done = null;
+    public ?\DateTime $done = null;
 
     /**
      * Task elements.
@@ -201,62 +205,6 @@ class Task implements \JsonSerializable
     public function getId() : int
     {
         return $this->id;
-    }
-
-    /**
-     * Set closable
-     *
-     * Setting it to false will only allow other modules to close this task
-     *
-     * @param bool $closable Is closable
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setClosable(bool $closable) : void
-    {
-        $this->isClosable = $closable;
-    }
-
-    /**
-     * Is closable
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function isClosable() : bool
-    {
-        return $this->isClosable;
-    }
-
-    /**
-     * Set editable
-     *
-     * Setting it to false will only allow other modules to close this task
-     *
-     * @param bool $editable Is editable
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setEditable(bool $editable) : void
-    {
-        $this->isEditable = $editable;
-    }
-
-    /**
-     * Is editable
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function isEditable() : bool
-    {
-        return $this->isEditable;
     }
 
     /**
@@ -406,40 +354,6 @@ class Task implements \JsonSerializable
     }
 
     /**
-     * @return \DateTimeImmutable
-     *
-     * @since 1.0.0
-     */
-    public function getCreatedAt() : \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     *
-     * @since 1.0.0
-     */
-    public function getStart() : \DateTime
-    {
-        return $this->start ?? new \DateTime();
-    }
-
-    /**
-     * Set start time of task
-     *
-     * @param \DateTime $start Start date of task
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setStart(\DateTime $start) : void
-    {
-        $this->start = $start;
-    }
-
-    /**
      * Get created by
      *
      * @return Account
@@ -463,111 +377,7 @@ class Task implements \JsonSerializable
     public function setCreatedBy(Account $account) : void
     {
         $this->createdBy = $account;
-        $this->schedule->setCreatedBy($account);
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description Description
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDescription(string $description) : void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getDescriptionRaw() : string
-    {
-        return $this->descriptionRaw;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description Description
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDescriptionRaw(string $description) : void
-    {
-        $this->descriptionRaw = $description;
-    }
-
-    /**
-     * Get done date
-     *
-     * @return null|\DateTime
-     *
-     * @since 1.0.0
-     */
-    public function getDone() : ?\DateTime
-    {
-        return $this->done;
-    }
-
-    /**
-     * Set done date
-     *
-     * @param \DateTime $done Done date
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDone(\DateTime $done) : void
-    {
-        $this->done = $done;
-    }
-
-    /**
-     * Get due date
-     *
-     * @return null|\DateTime
-     *
-     * @since 1.0.0
-     */
-    public function getDue() : ?\DateTime
-    {
-        return $this->due;
-    }
-
-    /**
-     * Set due date
-     *
-     * @param null|\DateTime $due Due date
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDue(?\DateTime $due) : void
-    {
-        $this->due = $due;
+        $this->schedule->createdBy = $account;
     }
 
     /**
@@ -632,32 +442,6 @@ class Task implements \JsonSerializable
         }
 
         $this->priority = $priority;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getTitle() : string
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title Title
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setTitle(string $title) : void
-    {
-        $this->title = $title;
     }
 
     /**

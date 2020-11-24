@@ -59,17 +59,17 @@ echo $this->getData('nav')->render(); ?>
                         <td data-label="<?= $this->getHtml('Due/Priority'); ?>">
                             <a href="<?= $url; ?>">
                             <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
-                                <?= $this->printHtml($task->getDue()->format('Y-m-d H:i')); ?>
+                                <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                             <?php else : ?>
                                 <?= $this->getHtml('P' . $task->getPriority()); ?>
                             <?php endif; ?>
                             </a>
                         <td data-label="<?= $this->getHtml('Title'); ?>">
-                            <a href="<?= $url; ?>"><?= $this->printHtml($task->getTitle()); ?></a>
+                            <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a href="<?= $url; ?>"><?= $this->printHtml($task->getCreatedBy()->getName1()); ?></a>
+                            <a href="<?= $url; ?>"><?= $this->printHtml($task->getCreatedBy()->name1); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
-                            <a href="<?= $url; ?>"><?= $this->printHtml($task->getCreatedAt()->format('Y-m-d H:i')); ?></a>
+                            <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                 <?php endforeach; if ($c == 0) : ?>
                     <tr><td colspan="6" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
                 <?php endif; ?>

@@ -44,7 +44,7 @@ class TaskElement implements \JsonSerializable
      * @var string
      * @since 1.0.0
      */
-    private string $description = '';
+    public string $description = '';
 
     /**
      * Description raw.
@@ -52,7 +52,7 @@ class TaskElement implements \JsonSerializable
      * @var string
      * @since 1.0.0
      */
-    private string $descriptionRaw = '';
+    public string $descriptionRaw = '';
 
     /**
      * Task.
@@ -60,7 +60,7 @@ class TaskElement implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    private int $task = 0;
+    public int $task = 0;
 
     /**
      * Creator.
@@ -68,7 +68,7 @@ class TaskElement implements \JsonSerializable
      * @var Account
      * @since 1.0.0
      */
-    private Account $createdBy;
+    public Account $createdBy;
 
     /**
      * Created.
@@ -76,7 +76,7 @@ class TaskElement implements \JsonSerializable
      * @var \DateTimeImmutable
      * @since 1.0.0
      */
-    private \DateTimeImmutable $createdAt;
+    public \DateTimeImmutable $createdAt;
 
     /**
      * Status.
@@ -92,7 +92,7 @@ class TaskElement implements \JsonSerializable
      * @var null|\DateTime
      * @since 1.0.0
      */
-    private ?\DateTime $due = null;
+    public ?\DateTime $due = null;
 
     /**
      * Priority
@@ -152,40 +152,6 @@ class TaskElement implements \JsonSerializable
     }
 
     /**
-     * @return \DateTimeImmutable
-     *
-     * @since 1.0.0
-     */
-    public function getCreatedAt() : \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return Account
-     *
-     * @since 1.0.0
-     */
-    public function getCreatedBy() : Account
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set created by
-     *
-     * @param Account $creator Creator
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setCreatedBy(Account $creator) : void
-    {
-        $this->createdBy = $creator;
-    }
-
-    /**
      * Get all media
      *
      * @return Media[]
@@ -209,83 +175,6 @@ class TaskElement implements \JsonSerializable
     public function addMedia(Media $media) : void
     {
         $this->media[] = $media;
-    }
-
-    /**
-     * Get description
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description Description
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDescription(string $description) : void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     *
-     * @since 1.0.0
-     */
-    public function getDescriptionRaw() : string
-    {
-        return $this->descriptionRaw;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description Description
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDescriptionRaw(string $description) : void
-    {
-        $this->descriptionRaw = $description;
-    }
-
-    /**
-     * Get due date
-     *
-     * @return null|\DateTime
-     *
-     * @since 1.0.0
-     */
-    public function getDue() : ?\DateTime
-    {
-        return $this->due;
-    }
-
-    /**
-     * Set due date
-     *
-     * @param null|\DateTime $due Due date
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setDue(?\DateTime $due) : void
-    {
-        $this->due = $due;
     }
 
     /**
@@ -622,32 +511,6 @@ class TaskElement implements \JsonSerializable
         }
 
         $this->status = $status;
-    }
-
-    /**
-     * Get task id
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getTask() : int
-    {
-        return $this->task;
-    }
-
-    /**
-     * Set task i
-     *
-     * @param int $task Task id
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setTask(int $task) : void
-    {
-        $this->task = $task;
     }
 
     /**

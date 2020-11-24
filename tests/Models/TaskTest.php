@@ -37,23 +37,23 @@ class TaskTest extends \PHPUnit\Framework\TestCase
 
         self::assertEquals(0, $task->getId());
         self::assertEquals(0, $task->getCreatedBy()->getId());
-        self::assertEquals('', $task->getTitle());
+        self::assertEquals('', $task->title);
         self::assertFalse($task->isToAccount(0));
         self::assertFalse($task->isCCAccount(0));
         self::assertFalse($task->isToGroup(0));
         self::assertFalse($task->isCCGroup(0));
-        self::assertTrue($task->isEditable());
-        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->getCreatedAt()->format('Y-m-d'));
-        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->getStart()->format('Y-m-d'));
-        self::assertNull($task->getDone());
-        self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
+        self::assertTrue($task->isEditable);
+        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->createdAt->format('Y-m-d'));
+        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->start->format('Y-m-d'));
+        self::assertNull($task->done);
+        self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $task->due->format('Y-m-d'));
         self::assertEquals(TaskStatus::OPEN, $task->getStatus());
-        self::assertTrue($task->isClosable());
+        self::assertTrue($task->isClosable);
         self::assertEquals(TaskPriority::NONE, $task->getPriority());
         self::assertEquals(TaskType::SINGLE, $task->getType());
         self::assertEquals([], $task->getTaskElements());
-        self::assertEquals('', $task->getDescription());
-        self::assertEquals('', $task->getDescriptionRaw());
+        self::assertEquals('', $task->description);
+        self::assertEquals('', $task->descriptionRaw);
         self::assertInstanceOf('\Modules\Tasks\Models\NullTaskElement', $task->getTaskElement(1));
     }
 
@@ -77,8 +77,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setStart($date = new \DateTime('2005-05-05'));
-        self::assertEquals($date->format('Y-m-d'), $task->getStart()->format('Y-m-d'));
+        $task->start = ($date = new \DateTime('2005-05-05'));
+        self::assertEquals($date->format('Y-m-d'), $task->start->format('Y-m-d'));
     }
 
     /**
@@ -89,8 +89,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setTitle('Title');
-        self::assertEquals('Title', $task->getTitle());
+        $task->title = 'Title';
+        self::assertEquals('Title', $task->title);
     }
 
     /**
@@ -101,8 +101,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setDone($date = new \DateTime('2000-05-06'));
-        self::assertEquals($date->format('Y-m-d'), $task->getDone()->format('Y-m-d'));
+        $task->done = ($date = new \DateTime('2000-05-06'));
+        self::assertEquals($date->format('Y-m-d'), $task->done->format('Y-m-d'));
     }
 
     /**
@@ -113,8 +113,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setDue($date = new \DateTime('2000-05-07'));
-        self::assertEquals($date->format('Y-m-d'), $task->getDue()->format('Y-m-d'));
+        $task->due = ($date = new \DateTime('2000-05-07'));
+        self::assertEquals($date->format('Y-m-d'), $task->due->format('Y-m-d'));
     }
 
     /**
@@ -137,8 +137,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setClosable(false);
-        self::assertFalse($task->isClosable());
+        $task->isClosable = false;
+        self::assertFalse($task->isClosable);
     }
 
     /**
@@ -241,8 +241,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setDescription('Description');
-        self::assertEquals('Description', $task->getDescription());
+        $task->description = 'Description';
+        self::assertEquals('Description', $task->description);
     }
 
     /**
@@ -253,8 +253,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setDescriptionRaw('DescriptionRaw');
-        self::assertEquals('DescriptionRaw', $task->getDescriptionRaw());
+        $task->descriptionRaw = 'DescriptionRaw';
+        self::assertEquals('DescriptionRaw', $task->descriptionRaw);
     }
 
     /**
@@ -265,8 +265,8 @@ class TaskTest extends \PHPUnit\Framework\TestCase
     {
         $task = new Task();
 
-        $task->setEditable(false);
-        self::assertFalse($task->isEditable());
+        $task->isEditable = false;
+        self::assertFalse($task->isEditable);
     }
 
     /**
@@ -280,14 +280,14 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         $arr = [
             'id'          => 0,
             'createdBy'   => $task->getCreatedBy(),
-            'createdAt'   => $task->getCreatedAt(),
-            'title'       => $task->getTitle(),
-            'description' => $task->getDescription(),
+            'createdAt'   => $task->createdAt,
+            'title'       => $task->title,
+            'description' => $task->description,
             'status'      => $task->getStatus(),
             'type'        => $task->getType(),
             'priority'    => $task->getPriority(),
-            'due'         => $task->getDue(),
-            'done'        => $task->getDone(),
+            'due'         => $task->due,
+            'done'        => $task->done,
         ];
 
         $isSubset = true;
@@ -312,14 +312,14 @@ class TaskTest extends \PHPUnit\Framework\TestCase
         $arr = [
             'id'          => 0,
             'createdBy'   => $task->getCreatedBy(),
-            'createdAt'   => $task->getCreatedAt(),
-            'title'       => $task->getTitle(),
-            'description' => $task->getDescription(),
+            'createdAt'   => $task->createdAt,
+            'title'       => $task->title,
+            'description' => $task->description,
             'status'      => $task->getStatus(),
             'type'        => $task->getType(),
             'priority'    => $task->getPriority(),
-            'due'         => $task->getDue(),
-            'done'        => $task->getDone(),
+            'due'         => $task->due,
+            'done'        => $task->done,
         ];
 
         $isSubset = true;

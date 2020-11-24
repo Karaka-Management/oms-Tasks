@@ -37,7 +37,7 @@ echo $this->getData('nav')->render(); ?>
             data-tag="form"
             data-method="POST"
             data-uri="<?= UriFactory::build('{/api}task?id={?id}&csrf={$CSRF}'); ?>">
-            <?php if ($task->isEditable()) : ?>
+            <?php if ($task->isEditable) : ?>
                 <template id="headTpl">
                     <h1 class="task-title"><input type="text" data-tpl-text="/title" data-tpl-value="/title" data-value="" name="title" autocomplete="off"></h1>
                 </template>
@@ -61,7 +61,7 @@ echo $this->getData('nav')->render(); ?>
                         <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($task->getCreatedBy()->getId()); ?>">
                     </span>
                     <span>
-                        <?= $this->printHtml($task->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($task->getCreatedAt()->format('Y/m/d H:i')); ?>
+                        <?= $this->printHtml($task->getCreatedBy()->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
                     </span>
                     <span class="col-xs end-xs plain-grid">
                         <span id="task-status-badge" class="nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
@@ -71,13 +71,13 @@ echo $this->getData('nav')->render(); ?>
                 </div>
             </div>
             <div class="portlet-body">
-                <span class="task-title" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->getTitle()); ?></span>
+                <span class="task-title" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->title); ?></span>
                 <article class="task-content"
                     data-tpl-text="{/base}/api/task?id={?id}"
                     data-tpl-value="{/base}/api/task?id={?id}"
                     data-tpl-value-path="/0/response/descriptionRaw"
                     data-tpl-text-path="/0/response/description"
-                    data-value=""><?= $task->getDescription(); ?></article>
+                    data-value=""><?= $task->description; ?></article>
             </div>
             <div class="portlet-foot row">
                 <div class="row col-xs plain-grid">
@@ -85,14 +85,14 @@ echo $this->getData('nav')->render(); ?>
                         <?php if (!empty($taskMedia)) : ?>
                             <div>
                                 <?php foreach ($taskMedia as $media) : ?>
-                                    <span><?= $media->getName(); ?></span>
+                                    <span><?= $media->name; ?></span>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
 
                         <div>
                             <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
-                                <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($task->getDue()->format('Y/m/d H:i')); ?>
+                                <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($task->due->format('Y/m/d H:i')); ?>
                             <?php else : ?>
                                 <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $task->getPriority()); ?>
                             <?php endif; ?>
@@ -103,7 +103,7 @@ echo $this->getData('nav')->render(); ?>
                         </div>
                     </div>
                     <div class="col-xs-0 end-xs plain-grid">
-                        <?php if ($task->isEditable() && $this->request->getHeader()->getAccount() === $task->getCreatedBy()->getId()) : ?>
+                        <?php if ($task->isEditable && $this->request->header->account === $task->getCreatedBy()->getId()) : ?>
                             <div class="col-xs end-xs plain-grid">
                                 <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
                                 <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
@@ -127,7 +127,7 @@ echo $this->getData('nav')->render(); ?>
                     <div class="portlet-head">
                         <div class="row middle-xs">
                             <span class="col-xs-0">
-                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($this->request->getHeader()->getAccount()); ?>">
+                                <img class="profile-image" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($this->request->header->account); ?>">
                             </span>
                             <span class="col-xs">
                                 <span data-tpl-text="{/base}/api/task/element?id={$id}" data-tpl-text-path="/0/response/createdBy/name/0"></span>
@@ -154,7 +154,7 @@ echo $this->getData('nav')->render(); ?>
                     </div>
                 </section>
             </template>
-            <?php if ($task->isEditable()) : ?>
+            <?php if ($task->isEditable) : ?>
                 <template id="taskElementContentTpl">
                     <div class="taskElement-content">
                         <!-- todo: bind js after adding template -->
@@ -177,8 +177,8 @@ echo $this->getData('nav')->render(); ?>
                     <section class="box wf-100">
                         <div class="inner">
                             <?= $this->printHtml(\sprintf($this->getHtml('status_change'),
-                                $element->getCreatedBy()->getName1(),
-                                $element->getCreatedAt()->format('Y-m-d H:i')
+                                $element->createdBy->name1,
+                                $element->createdAt->format('Y-m-d H:i')
                             )); ?>
                             <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
                                 <?= $this->getHtml('S' . $element->getStatus()); ?>
@@ -193,8 +193,8 @@ echo $this->getData('nav')->render(); ?>
                     <section class="box wf-100">
                         <div class="inner">
                             <?= $this->printHtml(\sprintf($this->getHtml('priority_change'),
-                                $element->getCreatedBy()->getName1(),
-                                $element->getCreatedAt()->format('Y-m-d H:i')
+                                $element->createdBy->name1,
+                                $element->createdAt->format('Y-m-d H:i')
                             )); ?>
                             <span class="tag task-priority-<?= $this->printHtml($element->getPriority()); ?>">
                                 <?= $this->getHtml('P' . $element->getPriority()); ?>
@@ -203,7 +203,7 @@ echo $this->getData('nav')->render(); ?>
                     </section>
                 <?php endif; ?>
 
-                <?php if ($element->getDescription() !== '') : ?>
+                <?php if ($element->description !== '') : ?>
                 <section id="taskelmenet-<?= $element->getId(); ?>" class="portlet taskElement"
                     data-update-content="#elements"
                     data-update-element=".taskElement .taskElement-content"
@@ -215,35 +215,35 @@ echo $this->getData('nav')->render(); ?>
                     <div class="portlet-head">
                         <div class="row middle-xs">
                             <span class="col-xs-0">
-                                <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($element->getCreatedBy()->getId()); ?>">
+                                <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($element->createdBy->getId()); ?>">
                             </span>
                             <span class="col-xs">
-                                <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> - <?= $this->printHtml($element->getCreatedAt()->format('Y-m-d H:i')); ?>
+                                <?= $this->printHtml($element->createdBy->name1); ?> - <?= $this->printHtml($element->createdAt->format('Y-m-d H:i')); ?>
                             </span>
                         </div>
                     </div>
 
-                    <?php if ($element->getDescription() !== '') : ?>
+                    <?php if ($element->description !== '') : ?>
                         <div class="portlet-body">
                             <article class="taskElement-content" data-tpl-text="{/base}/api/task/element?id={$id}"
                                 data-tpl-value="{/base}/api/task/element?id={$id}"
                                 data-tpl-value-path="/0/response/descriptionRaw"
                                 data-tpl-text-path="/0/response/description"
-                                data-value=""><?= $element->getDescription(); ?></article>
+                                data-value=""><?= $element->description; ?></article>
                         </div>
                     <?php endif; ?>
 
 
                     <?php $elementMedia = $element->getMedia();
                         if (!empty($elementMedia)
-                            || ($task->isEditable()
-                                && $this->request->getHeader()->getAccount() === $element->getCreatedBy()->getId())
+                            || ($task->isEditable
+                                && $this->request->header->account === $element->createdBy->getId())
                         ) : ?>
                     <div class="portlet-foot row middle-xs">
                         <?php if (!empty($elementMedia)) : ?>
                             <div>
                                 <?php foreach ($elementMedia as $media) : ?>
-                                    <span><?= $media->getName(); ?></span>
+                                    <span><?= $media->name; ?></span>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -257,18 +257,18 @@ echo $this->getData('nav')->render(); ?>
                                 <?php
                                     if ($element->getPriority() === TaskPriority::NONE
                                         && ($previous !== null
-                                            && $previous->getDue()->format('Y/m/d H:i') !== $element->getDue()->format('Y/m/d H:i')
+                                            && $previous->due->format('Y/m/d H:i') !== $element->due->format('Y/m/d H:i')
                                         )
                                     ) : ?>
-                                    <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($element->getDue()->format('Y/m/d H:i')); ?>
+                                    <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($element->due->format('Y/m/d H:i')); ?>
                                 <?php elseif ($previous !== null && $previous->getPriority() !== $element->getPriority()) : ?>
                                     <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $element->getPriority()); ?>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
 
-                        <?php if ($task->isEditable()
-                            && $this->request->getHeader()->getAccount() === $element->getCreatedBy()->getId()
+                        <?php if ($task->isEditable
+                            && $this->request->header->account === $element->createdBy->getId()
                         ) : ?>
                             <div class="col-xs end-xs plain-grid">
                                 <input type="hidden" value="<?= $element->getId(); ?>" name="id">
@@ -285,16 +285,16 @@ echo $this->getData('nav')->render(); ?>
                 <?php
                     $tos = $element->getTo();
                     if (\count($tos) > 1
-                        || (!empty($tos) && $tos[0]->getRelation()->getId() !== $element->getCreatedBy()->getId())
+                        || (!empty($tos) && $tos[0]->getRelation()->getId() !== $element->createdBy->getId())
                     ) : ?>
                     <section class="box wf-100">
                         <div class="inner">
-                        <?= $this->printHtml($element->getCreatedBy()->getName1()); ?> <?= $this->getHtml('forwarded_to'); ?>
+                        <?= $this->printHtml($element->createdBy->name1); ?> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
-                                    <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->getName1()); ?></a>
+                                    <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->name1); ?></a>
                                 <?php elseif ($to instanceof GroupRelation) : ?>
-                                    <?= $this->printHtml($to->getRelation()->getName()); ?>
+                                    <?= $this->printHtml($to->getRelation()->name); ?>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>
@@ -336,7 +336,7 @@ echo $this->getData('nav')->render(); ?>
                             </select>
                         <tr><td><label for="iDue"><?= $this->getHtml('Due'); ?></label>
                         <tr><td><input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
-                                !empty($elements) ? \end($elements)->getDue()->format('Y-m-d\TH:i:s') : $task->getDue()->format('Y-m-d\TH:i:s')
+                                !empty($elements) ? \end($elements)->due->format('Y-m-d\TH:i:s') : $task->due->format('Y-m-d\TH:i:s')
                             ); ?>">
                         <tr><td><label for="iStatus"><?= $this->getHtml('Status'); ?></label>
                         <tr><td><select id="iStatus" name="status">
