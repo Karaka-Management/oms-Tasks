@@ -36,11 +36,6 @@ use phpOMS\Views\View;
  * @license OMS License 1.0
  * @link    https://orange-management.org
  * @since   1.0.0
- *
- * @todo Orange-Management/oms-Tasks#5
- *  Add a calender like task view
- *  If you define tasks far into the future it can become very difficult to read and organize them.
- *  For this purpose there should be a calendar view for them.
  */
 final class BackendController extends Controller implements DashboardElementInterface
 {
@@ -52,11 +47,6 @@ final class BackendController extends Controller implements DashboardElementInte
      * @param mixed            $data     Generic data
      *
      * @return RenderableInterface Returns a renderable object
-     *
-     * @todo Orange-Management/oms-Tasks#6
-     *  Implement dashboard statistics
-     *  Currently on the dashboard there is only a placeholder for some stats.
-     *  These stats need to be implemented.
      *
      * @since 1.0.0
      * @codeCoverageIgnore
@@ -225,10 +215,6 @@ final class BackendController extends Controller implements DashboardElementInte
      * @param int $account Account id
      *
      * @return int Returns the amount of unread tasks
-     *
-     * @todo Orange-Management/oms-Tasks#1
-     *  Implement has seen feature
-     *  In order to allow a "user has seen task x" feature every task should have a user/account status for the different users (creator, cc, receiver).
      *
      * @since 1.0.0
      */
