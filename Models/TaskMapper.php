@@ -329,7 +329,7 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getAnyBeforePivot(
         int $user,
-        $pivot,
+        mixed $pivot,
         string $column = null,
         int $limit = 50,
         string $order = 'ASC',
@@ -371,7 +371,7 @@ final class TaskMapper extends DataMapperAbstract
      */
     public static function getAnyAfterPivot(
         int $user,
-        $pivot,
+        mixed $pivot,
         string $column = null,
         int $limit = 50,
         string $order = 'ASC',

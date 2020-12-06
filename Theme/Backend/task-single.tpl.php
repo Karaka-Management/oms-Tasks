@@ -180,7 +180,7 @@ echo $this->getData('nav')->render(); ?>
                                 $element->createdBy->name1,
                                 $element->createdAt->format('Y-m-d H:i')
                             )); ?>
-                            <span class="tag task-status-<?= $this->printHtml($element->getStatus()); ?>">
+                            <span class="tag task-status-<?= $element->getStatus(); ?>">
                                 <?= $this->getHtml('S' . $element->getStatus()); ?>
                             </span>
                         </div>
@@ -196,7 +196,7 @@ echo $this->getData('nav')->render(); ?>
                                 $element->createdBy->name1,
                                 $element->createdAt->format('Y-m-d H:i')
                             )); ?>
-                            <span class="tag task-priority-<?= $this->printHtml($element->getPriority()); ?>">
+                            <span class="tag task-priority-<?= $element->getPriority(); ?>">
                                 <?= $this->getHtml('P' . $element->getPriority()); ?>
                             </span>
                         </div>
