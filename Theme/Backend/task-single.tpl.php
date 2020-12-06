@@ -64,7 +64,7 @@ echo $this->getData('nav')->render(); ?>
                         <?= $this->printHtml($task->getCreatedBy()->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
                     </span>
                     <span class="col-xs end-xs plain-grid">
-                        <span id="task-status-badge" class="nobreak tag task-status-<?= $this->printHtml($task->getStatus()); ?>">
+                        <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
                             <?= $this->getHtml('S' . $task->getStatus()); ?>
                         </span>
                     </span>

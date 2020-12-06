@@ -51,7 +51,7 @@ echo $this->getData('nav')->render(); ?>
                 </div>
                 <div class="portlet-foot">
                     <input id="iCreateSubmit" type="submit" value="<?= $this->getHtml('Create', '0', '0'); ?>">
-                    <input type="hidden" name="type" value="<?= $this->printHtml(TaskType::SINGLE); ?>">
+                    <input type="hidden" name="type" value="<?= TaskType::SINGLE; ?>">
                 </div>
             </form>
         </div>
