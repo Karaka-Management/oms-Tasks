@@ -118,6 +118,7 @@ final class ApiController extends Controller
                 if (!isset($tag['id'])) {
                     $request->setData('title', $tag['title'], true);
                     $request->setData('color', $tag['color'], true);
+                    $request->setData('icon', $tag['icon'] ?? null, true);
                     $request->setData('language', $tag['language'], true);
 
                     $internalResponse = new HttpResponse();
