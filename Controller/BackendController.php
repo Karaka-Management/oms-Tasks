@@ -21,7 +21,6 @@ use Modules\Tasks\Views\TaskView;
 use phpOMS\Account\PermissionType;
 use phpOMS\Asset\AssetType;
 use phpOMS\Contract\RenderableInterface;
-use phpOMS\DataStorage\Database\RelationType;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
@@ -95,7 +94,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $taskListView->setTemplate('/Modules/Tasks/Theme/Backend/Components/Tasks/list');
         $view->addData('tasklist', $taskListView);
 
-        $tasks = TaskMapper::getNewest(5, null, RelationType::ALL, 1);
+        $tasks = TaskMapper::getNewest(5, null, depth: 1);
         $view->addData('tasks', $tasks);
 
         return $view;
@@ -133,7 +132,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $head = $response->get('Content')->getData('head');
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
-        $task      = TaskMapper::withConditional('language', $response->getLanguage())::get((int) $request->getData('id'), RelationType::ALL, 4);
+        $task      = TaskMapper::withConditional('language', $response->getLanguage())::get((int) $request->getData('id'), depth: 4);
         $accountId = $request->header->account;
 
         if (!($task->getCreatedBy()->getId() === $accountId
