@@ -174,12 +174,12 @@ echo $this->getData('nav')->render(); ?>
                 <?php if (($c === 1 && $element->getStatus() !== TaskStatus::OPEN)
                     || ($previous !== null && $element->getStatus() !== $previous->getStatus())
                 ) : ?>
-                    <section class="box wf-100">
-                        <div class="inner">
-                            <?= $this->printHtml(\sprintf($this->getHtml('status_change'),
-                                $element->createdBy->name1,
+                    <section class="portlet">
+                        <div class="portlet-body">
+                            <?= \sprintf($this->getHtml('status_change'),
+                                '<a href="' . UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()) . '">' . $this->printHtml($element->createdBy->name1) . '</a>',
                                 $element->createdAt->format('Y-m-d H:i')
-                            )); ?>
+                            ); ?>
                             <span class="tag task-status-<?= $element->getStatus(); ?>">
                                 <?= $this->getHtml('S' . $element->getStatus()); ?>
                             </span>
@@ -190,12 +190,12 @@ echo $this->getData('nav')->render(); ?>
                 <?php if (($c === 1 && $element->getPriority() !== $task->getPriority())
                     || ($previous !== null && $element->getPriority() !== $previous->getPriority())
                 ) : ?>
-                    <section class="box wf-100">
-                        <div class="inner">
-                            <?= $this->printHtml(\sprintf($this->getHtml('priority_change'),
-                                $element->createdBy->name1,
+                    <section class="portlet">
+                        <div class="portlet-body">
+                            <?= \sprintf($this->getHtml('priority_change'),
+                                '<a href="' . UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()) . '">' . $this->printHtml($element->createdBy->name1) . '</a>',
                                 $element->createdAt->format('Y-m-d H:i')
-                            )); ?>
+                            ); ?>
                             <span class="tag task-priority-<?= $element->getPriority(); ?>">
                                 <?= $this->getHtml('P' . $element->getPriority()); ?>
                             </span>
@@ -287,9 +287,9 @@ echo $this->getData('nav')->render(); ?>
                     if (\count($tos) > 1
                         || (!empty($tos) && $tos[0]->getRelation()->getId() !== $element->createdBy->getId())
                     ) : ?>
-                    <section class="box wf-100">
-                        <div class="inner">
-                        <?= $this->printHtml($element->createdBy->name1); ?> <?= $this->getHtml('forwarded_to'); ?>
+                    <section class="portlet wf-100">
+                        <div class="portlet-body">
+                            <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()); ?>"><?= $this->printHtml($element->createdBy->name1); ?></a> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
                                     <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->name1); ?></a>
