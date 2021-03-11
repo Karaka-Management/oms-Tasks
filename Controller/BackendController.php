@@ -63,17 +63,20 @@ final class BackendController extends Controller implements DashboardElementInte
 
         if ($request->getData('ptype') === 'p') {
             $view->setData('tasks',
-                TaskMapper::withConditional('language', $response->getLanguage())
+                TaskMapper::with('language', $response->getLanguage())
+                    ::with('taskElements', models: null)
                     ::getAnyBeforePivot($request->header->account, (int) ($request->getData('id') ?? 0), limit: 25)
             );
         } elseif ($request->getData('ptype') === 'n') {
             $view->setData('tasks',
-                TaskMapper::withConditional('language', $response->getLanguage())
+                TaskMapper::with('language', $response->getLanguage())
+                    ::with('taskElements', models: null)
                     ::getAnyAfterPivot($request->header->account, (int) ($request->getData('id') ?? 0), limit: 25)
             );
         } else {
             $view->setData('tasks',
-                TaskMapper::withConditional('language', $response->getLanguage())
+                TaskMapper::with('language', $response->getLanguage())
+                    ::with('taskElements', models: null)
                     ::getAnyAfterPivot($request->header->account, 0, limit: 25)
             );
         }
@@ -132,7 +135,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $head = $response->get('Content')->getData('head');
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
-        $task      = TaskMapper::withConditional('language', $response->getLanguage())::get((int) $request->getData('id'), depth: 4);
+        $task      = TaskMapper::with('language', $response->getLanguage())::get((int) $request->getData('id'), depth: 4);
         $accountId = $request->header->account;
 
         if (!($task->getCreatedBy()->getId() === $accountId
