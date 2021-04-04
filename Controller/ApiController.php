@@ -255,7 +255,7 @@ final class ApiController extends Controller
         $element = $this->createTaskElementFromRequest($request, $task);
         $task->setStatus($element->getStatus());
         $task->setPriority($element->getPriority());
-        $task->due = $element->due;
+        $task->due        = $element->due;
         $task->completion = (int) ($request->getData('completion') ?? $task->completion);
 
         if ($task->getStatus() === TaskStatus::DONE) {

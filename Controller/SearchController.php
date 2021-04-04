@@ -14,14 +14,9 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Controller;
 
-use Modules\Tasks\Models\NavElementMapper;
-use phpOMS\Message\Http\RequestStatusCode;
-use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
-use phpOMS\Model\Message\Redirect;
 use phpOMS\System\MimeType;
-use phpOMS\Uri\UriFactory;
 
 /**
  * Search class.
