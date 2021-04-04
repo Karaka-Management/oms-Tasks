@@ -201,6 +201,7 @@ final class ApiController extends Controller
         $task->setStatus((int) ($request->getData('status') ?? $task->getStatus()));
         $task->setType((int) ($request->getData('type') ?? $task->getType()));
         $task->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
+        $task->completion = (int) ($request->getData('completion') ?? $task->completion);
 
         return $task;
     }
@@ -255,6 +256,11 @@ final class ApiController extends Controller
         $task->setStatus($element->getStatus());
         $task->setPriority($element->getPriority());
         $task->due = $element->due;
+        $task->completion = (int) ($request->getData('completion') ?? $task->completion);
+
+        if ($task->getStatus() === TaskStatus::DONE) {
+            $task->completion = 100;
+        }
 
         $this->createModel($request->header->account, $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
         $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());

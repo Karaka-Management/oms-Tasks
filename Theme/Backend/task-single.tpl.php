@@ -22,7 +22,7 @@ use phpOMS\Uri\UriFactory;
 /** @var Modules\Tasks\Models\Task $task */
 $task      = $this->getData('task');
 $taskMedia = $task->getMedia();
-$elements  = $task->getTaskElements();
+$elements  = $task->invertTaskElements();
 $cElements = \count($elements);
 $color     = $this->getStatus($task->getStatus());
 
@@ -346,6 +346,8 @@ echo $this->getData('nav')->render(); ?>
                                     <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->getStatus() === TaskStatus::CANCELED ? ' selected' : '';?>><?= $this->getHtml('S4'); ?>
                                     <option value="<?= TaskStatus::DONE; ?>"<?= $task->getStatus() === TaskStatus::DONE ? ' selected' : '';?>><?= $this->getHtml('S5'); ?>
                                 </select>
+                        <tr><td><label for="iCompletion"><?= $this->getHtml('Completion'); ?></label>
+                        <tr><td><input id="iCompletion" name="completion" type="number" min="0" max="100">
                         <tr><td><label for="iReceiver"><?= $this->getHtml('To'); ?></label>
                         <tr><td><?= $this->getData('accGrpSelector')->render('iReceiver', 'to', true); ?>
                         <tr><td><label for="iMedia"><?= $this->getHtml('Media'); ?></label>

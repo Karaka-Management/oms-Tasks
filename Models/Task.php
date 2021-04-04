@@ -97,6 +97,13 @@ class Task implements \JsonSerializable
     protected int $status = TaskStatus::OPEN;
 
     /**
+     * Completion status
+     * @var int
+     * @since 1.0.0
+     */
+    public int $completion = -1;
+
+    /**
      * Task can be closed by user.
      *
      * Setting it to false will only allow other modules to close this task
@@ -149,7 +156,7 @@ class Task implements \JsonSerializable
     protected array $taskElements = [];
 
     /**
-     * Task elements.
+     * Tags.
      *
      * @var Tag[]
      * @since 1.0.0
@@ -520,6 +527,11 @@ class Task implements \JsonSerializable
     public function getTaskElements() : array
     {
         return $this->taskElements;
+    }
+
+    public function invertTaskElements() : array
+    {
+        return \array_reverse($this->taskElements);
     }
 
     /**

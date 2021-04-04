@@ -34,6 +34,11 @@
                 "type": "TINYINT",
                 "null": false
             },
+            "task_completion": {
+                "name": "task_completion",
+                "type": "TINYINT",
+                "null": false
+            },
             "task_closable": {
                 "name": "task_closable",
                 "type": "TINYINT",

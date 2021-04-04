@@ -24,7 +24,8 @@
         "Tag": "1.0.0"
     },
     "providing": {
-        "Navigation": "*"
+        "Navigation": "*",
+        "Search": "*"
     },
     "load": [
         {
