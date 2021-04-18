@@ -315,50 +315,81 @@ echo $this->getData('nav')->render(); ?>
             >
                 <div class="portlet-head"><?= $this->getHtml('Message'); ?></div>
                 <div class="portlet-body">
-                    <table class="layout wf-100" style="table-layout: fixed">
-                        <tr><td><?= $this->getData('editor')->render('task-editor'); ?>
-                        <tr><td><?= $this->getData('editor')->getData('text')->render(
+                    <div class="form-group">
+                        <?= $this->getData('editor')->render('task-editor'); ?>
+                    </div>
+
+                    <div class="form-group">
+                        <?= $this->getData('editor')->getData('text')->render(
                             'task-editor',
                             'plain',
                             'taskElementCreate',
                             '', '',
                             '/content', '{/api}task?id={?id}'
                             ); ?>
-                        <tr><td><label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
-                        <tr><td>
-                            <select id="iPriority" name="priority">
-                                <option value="<?= TaskPriority::NONE; ?>"<?= $task->getPriority() === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
-                                <option value="<?= TaskPriority::VLOW; ?>"<?= $task->getPriority() === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
-                                <option value="<?= TaskPriority::LOW; ?>"<?= $task->getPriority() === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
-                                <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->getPriority() === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
-                                <option value="<?= TaskPriority::HIGH; ?>"<?= $task->getPriority() === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
-                                <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->getPriority() === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
-                            </select>
-                        <tr><td><label for="iDue"><?= $this->getHtml('Due'); ?></label>
-                        <tr><td><input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
-                                !empty($elements) ? \end($elements)->due->format('Y-m-d\TH:i:s') : $task->due->format('Y-m-d\TH:i:s')
-                            ); ?>">
-                        <tr><td><label for="iStatus"><?= $this->getHtml('Status'); ?></label>
-                        <tr><td><select id="iStatus" name="status">
-                                    <option value="<?= TaskStatus::OPEN; ?>"<?= $task->getStatus() === TaskStatus::OPEN ? ' selected' : '';?>><?= $this->getHtml('S1'); ?>
-                                    <option value="<?= TaskStatus::WORKING; ?>"<?= $task->getStatus() === TaskStatus::WORKING ? ' selected' : '';?>><?= $this->getHtml('S2'); ?>
-                                    <option value="<?= TaskStatus::SUSPENDED; ?>"<?= $task->getStatus() === TaskStatus::SUSPENDED ? ' selected' : '';?>><?= $this->getHtml('S3'); ?>
-                                    <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->getStatus() === TaskStatus::CANCELED ? ' selected' : '';?>><?= $this->getHtml('S4'); ?>
-                                    <option value="<?= TaskStatus::DONE; ?>"<?= $task->getStatus() === TaskStatus::DONE ? ' selected' : '';?>><?= $this->getHtml('S5'); ?>
-                                </select>
-                        <tr><td><label for="iCompletion"><?= $this->getHtml('Completion'); ?></label>
-                        <tr><td><input id="iCompletion" name="completion" type="number" min="0" max="100">
-                        <tr><td><label for="iReceiver"><?= $this->getHtml('To'); ?></label>
-                        <tr><td><?= $this->getData('accGrpSelector')->render('iReceiver', 'to', true); ?>
-                        <tr><td><label for="iMedia"><?= $this->getHtml('Media'); ?></label>
-                        <tr><td><div class="ipt-wrap">
-                                <div class="ipt-first"><input type="text" id="iMedia" placeholder="&#xf15b; File"></div>
-                                <div class="ipt-second"><button><?= $this->getHtml('Select'); ?></button></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iStatus"><?= $this->getHtml('Status'); ?></label>
+                        <select id="iStatus" name="status">
+                            <option value="<?= TaskStatus::OPEN; ?>"<?= $task->getStatus() === TaskStatus::OPEN ? ' selected' : '';?>><?= $this->getHtml('S1'); ?>
+                            <option value="<?= TaskStatus::WORKING; ?>"<?= $task->getStatus() === TaskStatus::WORKING ? ' selected' : '';?>><?= $this->getHtml('S2'); ?>
+                            <option value="<?= TaskStatus::SUSPENDED; ?>"<?= $task->getStatus() === TaskStatus::SUSPENDED ? ' selected' : '';?>><?= $this->getHtml('S3'); ?>
+                            <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->getStatus() === TaskStatus::CANCELED ? ' selected' : '';?>><?= $this->getHtml('S4'); ?>
+                            <option value="<?= TaskStatus::DONE; ?>"<?= $task->getStatus() === TaskStatus::DONE ? ' selected' : '';?>><?= $this->getHtml('S5'); ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iReceiver"><?= $this->getHtml('To'); ?></label>
+                        <?= $this->getData('accGrpSelector')->render('iReceiver', 'to', true); ?>
+                    </div>
+
+                    <div class="more-container">
+                        <input id="more-customer-sales" type="checkbox">
+                        <label for="more-customer-sales">
+                            <span>Advanced</span>
+                            <i class="fa fa-chevron-right expand"></i>
+                        </label>
+                        <div>
+                            <div class="form-group">
+                                <label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
+                                <select id="iPriority" name="priority">
+                                        <option value="<?= TaskPriority::NONE; ?>"<?= $task->getPriority() === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
+                                        <option value="<?= TaskPriority::VLOW; ?>"<?= $task->getPriority() === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
+                                        <option value="<?= TaskPriority::LOW; ?>"<?= $task->getPriority() === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
+                                        <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->getPriority() === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
+                                        <option value="<?= TaskPriority::HIGH; ?>"<?= $task->getPriority() === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
+                                        <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->getPriority() === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
+                                    </select>
                             </div>
-                        <tr><td><label for="iUpload"><?= $this->getHtml('Upload'); ?></label>
-                        <tr><td>
-                            <input type="file" id="iUpload" name="fileUpload" form="fTask">
-                    </table>
+
+                            <div class="form-group">
+                                <label for="iDue"><?= $this->getHtml('Due'); ?></label>
+                                <input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
+                                        !empty($elements) ? \end($elements)->due->format('Y-m-d\TH:i:s') : $task->due->format('Y-m-d\TH:i:s')
+                                    ); ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="iCompletion"><?= $this->getHtml('Completion'); ?></label>
+                            <input id="iCompletion" name="completion" type="number" min="0" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iMedia"><?= $this->getHtml('Media'); ?></label>
+                        <div class="ipt-wrap wf-100">
+                            <div class="ipt-first"><input type="text" id="iMedia" placeholder="&#xf15b; File"></div>
+                            <div class="ipt-second"><button><?= $this->getHtml('Select'); ?></button></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iUpload"><?= $this->getHtml('Upload'); ?></label>
+                        <input type="file" id="iUpload" name="fileUpload" form="fTask">
+                    </div>
                 </div>
                 <div class="portlet-foot">
                     <input class="add" data-form="" type="submit" id="iTaskElementCreateButton" name="taskElementCreateButton" value="<?= $this->getHtml('Create', '0', '0'); ?>">
