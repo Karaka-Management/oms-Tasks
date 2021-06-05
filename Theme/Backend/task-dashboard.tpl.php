@@ -41,6 +41,7 @@ echo $this->getData('nav')->render(); ?>
                     <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                    <td><?= $this->getHtml('Tag'); ?>
                     <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Created'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                 <tfoot>
@@ -66,6 +67,12 @@ echo $this->getData('nav')->render(); ?>
                             </a>
                         <td data-label="<?= $this->getHtml('Title'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
+                        <td data-label="<?= $this->getHtml('Tag'); ?>">
+                            <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                            <a href="<?= $url; ?>">
+                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= $tag->icon !== null ? '<i class="' . $this->printHtml($tag->icon ?? '') . '"></i>' : ''; ?><?= $this->printHtml($tag->getTitle()); ?></span>
+                            </a>
+                            <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->getCreatedBy()->name1); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
