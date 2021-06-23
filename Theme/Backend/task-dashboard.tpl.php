@@ -70,7 +70,7 @@ echo $this->getData('nav')->render(); ?>
                         <td data-label="<?= $this->getHtml('Tag'); ?>">
                             <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                             <a href="<?= $url; ?>">
-                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= $tag->icon !== null ? '<i class="' . $this->printHtml($tag->icon ?? '') . '"></i>' : ''; ?><?= $this->printHtml($tag->getTitle()); ?></span>
+                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= $tag->icon !== null ? '<i class="' . $this->printHtml($tag->icon ?? '') . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">

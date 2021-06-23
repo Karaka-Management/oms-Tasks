@@ -529,6 +529,13 @@ class Task implements \JsonSerializable
         return $this->taskElements;
     }
 
+    /**
+     * Get task elements in inverted order.
+     *
+     * @return TaskElement[]
+     *
+     * @since 1.0.0
+     */
     public function invertTaskElements() : array
     {
         return \array_reverse($this->taskElements);
