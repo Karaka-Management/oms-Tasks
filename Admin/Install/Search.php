@@ -29,8 +29,8 @@ final class Search
     /**
      * Install navigation providing
      *
-     * @param string       $path   Module path
-     * @param ApplicationAbstract $app Application
+     * @param string              $path Module path
+     * @param ApplicationAbstract $app  Application
      *
      * @return void
      *
