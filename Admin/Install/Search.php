@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Admin\Install;
 
-use phpOMS\DataStorage\Database\DatabasePool;
+use phpOMS\Application\ApplicationAbstract;
 
 /**
  * Search class.
@@ -30,14 +30,14 @@ final class Search
      * Install navigation providing
      *
      * @param string       $path   Module path
-     * @param DatabasePool $dbPool Database pool for database interaction
+     * @param ApplicationAbstract $app Application
      *
      * @return void
      *
      * @since 1.0.0
      */
-    public static function install(string $path, DatabasePool $dbPool) : void
+    public static function install(string $path, ApplicationAbstract $app) : void
     {
-        \Modules\Search\Admin\Installer::installExternal($dbPool, ['path' => __DIR__ . '/SearchCommands.php']);
+        \Modules\Search\Admin\Installer::installExternal($app, ['path' => __DIR__ . '/SearchCommands.php']);
     }
 }
