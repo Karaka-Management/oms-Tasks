@@ -148,8 +148,8 @@ final class TaskMapper extends DataMapperAbstract
     {
         $depth = 3;
         $query = self::getQuery();
-        $query->where(self::$table . '_' . $depth . '.task_created_by', '=', $user)
-            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN);
+        $query->where(self::$table . '_d' . $depth . '.task_created_by', '=', $user)
+            ->where(self::$table . '_d' . $depth . '.task_status', '=', TaskStatus::OPEN);
 
         return self::getAllByQuery($query);
     }
@@ -168,10 +168,10 @@ final class TaskMapper extends DataMapperAbstract
         $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
-            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN)
+            ->where(self::$table . '_d' . $depth . '.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_duty', '=', DutyType::TO);
 
@@ -192,10 +192,10 @@ final class TaskMapper extends DataMapperAbstract
         $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
-            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN)
+            ->where(self::$table . '_d' . $depth . '.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user);
 
         return self::getAllByQuery($query);
@@ -215,10 +215,10 @@ final class TaskMapper extends DataMapperAbstract
         $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
-            ->where(self::$table . '_' . $depth . '.task_status', '=', TaskStatus::OPEN)
+            ->where(self::$table . '_d' . $depth . '.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::getTable() . '.task_account_duty', '=', DutyType::CC);
 
@@ -238,7 +238,7 @@ final class TaskMapper extends DataMapperAbstract
     {
         $depth = 3;
         $query = self::getQuery();
-        $query->where(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+        $query->where(self::$table . '_d' . $depth . '.task_created_by', '=', $user);
 
         return self::getAllByQuery($query);
     }
@@ -257,7 +257,7 @@ final class TaskMapper extends DataMapperAbstract
         $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
@@ -280,7 +280,7 @@ final class TaskMapper extends DataMapperAbstract
         $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
@@ -303,11 +303,11 @@ final class TaskMapper extends DataMapperAbstract
         $depth = 3;
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
-            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user)
+            ->orWhere(self::$table . '_d' . $depth . '.task_created_by', '=', $user)
             ->orderBy(TaskElementMapper::getTable() . '.' . TaskElementMapper::getCreatedAt(), 'DESC');
 
         return self::getAllByQuery($query);
@@ -340,16 +340,16 @@ final class TaskMapper extends DataMapperAbstract
         $depth     = 3;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
-            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+            ->orWhere(self::$table . '_d' . $depth . '.task_created_by', '=', $user);
 
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where($userWhere)
-            ->andWhere(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), '<', $pivot)
-            ->orderBy(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), $order)
+            ->andWhere(static::$table . '_d' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), '<', $pivot)
+            ->orderBy(static::$table . '_d' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), $order)
             ->limit($limit);
 
         return self::getAllByQuery($query);
@@ -382,16 +382,16 @@ final class TaskMapper extends DataMapperAbstract
         $depth     = 3;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
-            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+            ->orWhere(self::$table . '_d' . $depth . '.task_created_by', '=', $user);
 
         $query = self::getQuery();
         $query->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.task_id', '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.task_element_id', '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where($userWhere)
-            ->andWhere(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), '>', $pivot)
-            ->orderBy(static::$table . '_' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), $order)
+            ->andWhere(static::$table . '_d' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), '>', $pivot)
+            ->orderBy(static::$table . '_d' . $depth . '.' . ($column !== null ? self::getColumnByMember($column) : static::$primaryField), $order)
             ->limit($limit);
 
         return self::getAllByQuery($query);
@@ -412,17 +412,17 @@ final class TaskMapper extends DataMapperAbstract
         $depth     = 1;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
-            ->orWhere(self::$table . '_' . $depth . '.task_created_by', '=', $user);
+            ->orWhere(self::$table . '_d' . $depth . '.task_created_by', '=', $user);
 
         $query = new Builder(self::$db);
-        $query->selectAs(self::$table . '_' . $depth . '.' . self::$primaryField, self::$primaryField . '_' . $depth)
-            ->fromAs(self::$table, self::$table . '_' . $depth)
+        $query->selectAs(self::$table . '_d' . $depth . '.' . self::$primaryField, self::$primaryField . '_d' . $depth)
+            ->fromAs(self::$table, self::$table . '_d' . $depth)
             ->innerJoin(TaskElementMapper::getTable())
-                ->on(self::$table . '_' . $depth . '.' . self::$primaryField, '=', TaskElementMapper::getTable() . '.task_element_task')
+                ->on(self::$table . '_d' . $depth . '.' . self::$primaryField, '=', TaskElementMapper::getTable() . '.task_element_task')
             ->innerJoin(AccountRelationMapper::getTable())
                 ->on(TaskElementMapper::getTable() . '.' . TaskElementMapper::getPrimaryField(), '=', AccountRelationMapper::getTable() . '.task_account_task_element')
             ->where($userWhere)
-            ->andWhere(self::$table . '_' . $depth . '.' . self::$primaryField, '=', $task);
+            ->andWhere(self::$table . '_d' . $depth . '.' . self::$primaryField, '=', $task);
 
         return !empty(self::getAllByQuery($query, RelationType::ALL, 1));
     }
