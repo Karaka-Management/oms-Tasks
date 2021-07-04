@@ -336,7 +336,8 @@ final class TaskMapper extends DataMapperAbstract
         string $order = 'ASC',
         int $relations = RelationType::ALL,
         int $depth = 3
-    ) : array {
+    ) : array
+    {
         $depth     = 3;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)
@@ -378,7 +379,8 @@ final class TaskMapper extends DataMapperAbstract
         string $order = 'ASC',
         int $relations = RelationType::ALL,
         int $depth = 3
-    ) : array {
+    ) : array
+    {
         $depth     = 3;
         $userWhere = new Where(self::$db);
         $userWhere->where(AccountRelationMapper::getTable() . '.task_account_account', '=', $user)

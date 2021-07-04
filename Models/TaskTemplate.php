@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Models;
 
 /**
- * Task class.
+ * Task template class.
  *
  * @package Modules\Tasks\Models
  * @license OMS License 1.0

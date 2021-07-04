@@ -58,10 +58,10 @@ echo $this->getData('nav')->render(); ?>
             <div class="portlet-head">
                 <div class="row middle-xs">
                     <span class="col-xs-0">
-                        <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($task->getCreatedBy()->getId()); ?>">
+                        <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($task->createdBy->getId()); ?>">
                     </span>
                     <span>
-                        <?= $this->printHtml($task->getCreatedBy()->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
+                        <?= $this->printHtml($task->createdBy->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
                     </span>
                     <span class="col-xs end-xs plain-grid">
                         <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
@@ -103,7 +103,7 @@ echo $this->getData('nav')->render(); ?>
                         </div>
                     </div>
                     <div class="col-xs-0 end-xs plain-grid">
-                        <?php if ($task->isEditable && $this->request->header->account === $task->getCreatedBy()->getId()) : ?>
+                        <?php if ($task->isEditable && $this->request->header->account === $task->createdBy->getId()) : ?>
                             <div class="col-xs end-xs plain-grid">
                                 <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
                                 <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>

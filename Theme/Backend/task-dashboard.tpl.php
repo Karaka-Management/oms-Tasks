@@ -74,7 +74,7 @@ echo $this->getData('nav')->render(); ?>
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a href="<?= $url; ?>"><?= $this->printHtml($task->getCreatedBy()->name1); ?></a>
+                            <a href="<?= $url; ?>"><?= $this->printHtml($task->createdBy->name1); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                 <?php endforeach; if ($c == 0) : ?>

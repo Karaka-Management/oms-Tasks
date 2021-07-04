@@ -97,7 +97,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    private function createTaskFromRequest(RequestAbstract $request) : Task
+    public function createTaskFromRequest(RequestAbstract $request) : Task
     {
         $task                 = new Task();
         $task->title          = (string) ($request->getData('title') ?? '');
@@ -277,7 +277,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    private function createTaskElementFromRequest(RequestAbstract $request, Task $task) : TaskElement
+    public function createTaskElementFromRequest(RequestAbstract $request, Task $task) : TaskElement
     {
         $element            = new TaskElement();
         $element->createdBy = new NullAccount($request->header->account);

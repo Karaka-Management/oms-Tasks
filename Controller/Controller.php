@@ -17,7 +17,7 @@ namespace Modules\Tasks\Controller;
 use phpOMS\Module\ModuleAbstract;
 
 /**
- * Task class.
+ * Task controller class.
  *
  * @package Modules\Tasks
  * @license OMS License 1.0
