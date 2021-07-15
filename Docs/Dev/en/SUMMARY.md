@@ -1,3 +1,3 @@
 # Developer Content
 
-* [Task]({%}&page=Dev/task)
+* [Structure]({%}&page=Dev/structure)
