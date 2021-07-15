@@ -237,8 +237,8 @@
                 "name": "task_group_group",
                 "type": "INT",
                 "null": false,
-                "foreignTable": "account",
-                "foreignKey": "account_id"
+                "foreignTable": "group",
+                "foreignKey": "group_id"
             },
             "task_group_duty": {
                 "name": "task_group_duty",

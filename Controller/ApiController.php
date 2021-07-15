@@ -130,6 +130,20 @@ final class ApiController extends Controller
             }
         }
 
+        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
+            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+                [''],
+                $uploadedFiles,
+                $request->header->account,
+                __DIR__ . '/../../../Modules/Media/Files/Modules/Tasks',
+                '/Modules/Tasks',
+            );
+
+            foreach ($uploaded as $media) {
+                $task->addMedia($media);
+            }
+        }
+
         $element = new TaskElement();
         $element->addTo(new NullAccount((int) ($request->getData('forward') ?? $request->header->account)));
         $element->createdBy = $task->getCreatedBy();
@@ -304,6 +318,20 @@ final class ApiController extends Controller
 
         foreach ($ccs as $cc) {
             $element->addCC(new NullAccount((int) $cc));
+        }
+
+        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
+            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+                [''],
+                $uploadedFiles,
+                $request->header->account,
+                __DIR__ . '/../../../Modules/Media/Files/Modules/Tasks',
+                '/Modules/Tasks',
+            );
+
+            foreach ($uploaded as $media) {
+                $element->addMedia($media);
+            }
         }
 
         return $element;
