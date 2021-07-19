@@ -85,7 +85,7 @@ echo $this->getData('nav')->render(); ?>
                         <?php if (!empty($taskMedia)) : ?>
                             <div>
                                 <?php foreach ($taskMedia as $media) : ?>
-                                    <span><?= $media->name; ?></span>
+                                    <span><a class="content" href="<?= UriFactory::build('{/prefix}media/single?id=' . $media->getId());?>"><?= $media->name; ?></a></span>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -247,7 +247,7 @@ echo $this->getData('nav')->render(); ?>
                         <?php if (!empty($elementMedia)) : ?>
                             <div>
                                 <?php foreach ($elementMedia as $media) : ?>
-                                    <span><?= $media->name; ?></span>
+                                    <span><a class="content" href="<?= UriFactory::build('{/prefix}media/single?id=' . $media->getId());?>"><?= $media->name; ?></a></span>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
