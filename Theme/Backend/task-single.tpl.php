@@ -100,10 +100,6 @@ echo $this->getData('nav')->render(); ?>
                             <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                 <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= $tag->icon !== null ? '<i class="' . $this->printHtml($tag->icon ?? '') . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                             <?php endforeach; ?>
-
-                            <?php $files = $task->getMedia(); foreach ($files as $file) : ?>
-                                <span class="file"><?= $this->printHtml($file->name); ?></span>
-                            <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="col-xs-0 end-xs plain-grid">
