@@ -16,6 +16,7 @@ namespace Modules\Tasks\Controller;
 
 use Modules\Admin\Models\NullAccount;
 use Modules\Tag\Models\NullTag;
+use Modules\Media\Models\NullMedia;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
@@ -141,6 +142,12 @@ final class ApiController extends Controller
 
             foreach ($uploaded as $media) {
                 $task->addMedia($media);
+            }
+        }
+
+        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
+            foreach ($mediaFiles as $media) {
+                $task->addMedia(new NullMedia($media));
             }
         }
 
@@ -331,6 +338,12 @@ final class ApiController extends Controller
 
             foreach ($uploaded as $media) {
                 $element->addMedia($media);
+            }
+        }
+
+        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
+            foreach ($mediaFiles as $media) {
+                $element->addMedia(new NullMedia($media));
             }
         }
 
