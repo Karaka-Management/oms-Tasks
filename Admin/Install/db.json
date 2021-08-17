@@ -72,6 +72,11 @@
                 "default": null,
                 "null": true
             },
+            "task_redirect": {
+                "name": "task_redirect",
+                "type": "VARCHAR(255)",
+                "null": false
+            },
             "task_schedule": {
                 "name": "task_schedule",
                 "type": "INT",

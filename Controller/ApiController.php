@@ -107,6 +107,7 @@ final class ApiController extends Controller
         $task->setCreatedBy(new NullAccount($request->header->account));
         $task->setStatus(TaskStatus::OPEN);
         $task->setType(TaskType::SINGLE);
+        $task->redirect = (string) ($request->getData('redirect') ?? '');
 
         if (empty($request->getData('priority'))) {
             $task->due = empty($request->getData('due')) ? null : new \DateTime($request->getData('due'));

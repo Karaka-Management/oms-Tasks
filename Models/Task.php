@@ -49,6 +49,17 @@ class Task implements \JsonSerializable
     public string $title = '';
 
     /**
+     * Redirect.
+     *
+     * Used as reference or for redirection when opened.
+     * This allows to open the task on a different page with a different layout if needed (e.g. ticket system, workflow, checklist, ...)
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    public string $redirect = '';
+
+    /**
      * Creator.
      *
      * @var Account
