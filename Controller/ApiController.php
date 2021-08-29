@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Modules\Tasks\Controller;
 
 use Modules\Admin\Models\NullAccount;
-use Modules\Tag\Models\NullTag;
 use Modules\Media\Models\NullMedia;
+use Modules\Tag\Models\NullTag;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
