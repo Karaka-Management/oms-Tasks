@@ -1,6 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+/**
+ * Orange Management
+ *
+ * PHP Version 8.0
+ *
+ * @package   Modules\Tasks
+ * @copyright Dennis Eichhorn
+ * @license   OMS License 1.0
+ * @version   1.0.0
+ * @link      https://orange-management.org
+ */
+declare(strict_types=1);
+
 use Modules\Tasks\Models\TaskPriority;
 use Modules\Tasks\Models\TaskStatus;
+use phpOMS\Uri\UriFactory;
 
 ?>
 <table class="default">
@@ -10,8 +24,11 @@ use Modules\Tasks\Models\TaskStatus;
         <td class="wf-100"><?= $this->getHtml('Title', 'Tasks'); ?>
     <tfoot>
     <tbody>
-    <?php $c                                                       = 0; foreach ($this->tasks as $key => $task) : ++$c;
-    $url                                                           = \phpOMS\Uri\UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
+    <?php
+    $c = 0;
+    foreach ($this->tasks as $key => $task) : ++$c;
+    $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('{/prefix}task/single?{?}&id=' . $task->getId()));
+
     $color                                                         = 'darkred';
     if ($task->getStatus() === TaskStatus::DONE) { $color          = 'green'; }
     elseif ($task->getStatus() === TaskStatus::OPEN) { $color      = 'darkblue'; }

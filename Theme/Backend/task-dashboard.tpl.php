@@ -48,7 +48,7 @@ echo $this->getData('nav')->render(); ?>
                 <tbody>
                 <?php
                     $c   = 0; foreach ($tasks as $key => $task) : ++$c;
-                    $url = UriFactory::build('{/prefix}task/single?{?}&id=' . $task->getId());
+                    $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('{/prefix}task/single?{?}&id=' . $task->getId()));
                 ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Status'); ?>">
