@@ -36,7 +36,8 @@ echo $this->getData('nav')->render(); ?>
     <div class="col-xs-12">
         <div class="portlet">
             <div class="portlet-head"><?= $this->getHtml('Tasks'); ?><i class="fa fa-download floatRight download btn"></i></div>
-            <table id="taskList" class="default">
+            <div class="slider">
+            <table id="taskList" class="default sticky">
                 <thead>
                     <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
@@ -44,7 +45,6 @@ echo $this->getData('nav')->render(); ?>
                     <td><?= $this->getHtml('Tag'); ?>
                     <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                     <td><?= $this->getHtml('Created'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                <tfoot>
                 <tbody>
                 <?php
                     $c   = 0; foreach ($tasks as $key => $task) : ++$c;
@@ -81,6 +81,7 @@ echo $this->getData('nav')->render(); ?>
                     <tr><td colspan="6" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
                 <?php endif; ?>
             </table>
+            </div>
             <div class="portlet-foot">
                 <a class="button" href="<?= UriFactory::build($previous); ?>"><?= $this->getHtml('Previous', '0', '0'); ?></a>
                 <a class="button" href="<?= UriFactory::build($next); ?>"><?= $this->getHtml('Next', '0', '0'); ?></a>
