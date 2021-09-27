@@ -371,7 +371,7 @@ final class ApiController extends Controller
     }
 
     /**
-     * Api method to update a task
+     * Api method to update a task element
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
@@ -389,13 +389,19 @@ final class ApiController extends Controller
         $new = $this->updateTaskElementFromRequest($request);
         $this->updateModel($request->header->account, $old, $new, TaskElementMapper::class, 'taskelement', $request->getOrigin());
 
-        /**
-         * @todo Orange-Management/oms-Tasks#2
-         *  Update task status depending on the new task element or updated task element
-         *  The task status is not normalized and relates to the last task element.
-         *  Depending on the task status of the last task element also the task status should change.
-         */
-        //$this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
+        if ($old->getSatus() !== $new->getStatus()
+            || $old->getPriority() !== $new->getPriority()
+            || $old->getDue() !== $new->getDue()
+        ) {
+            $task = TaskMapper::get($new->task);
+
+            $task->setStatus($new->getStatus());
+            $task->setPriority($new->getPriority());
+            $task->due = $new->due;
+
+            $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
+        }
+
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully updated.', $new);
     }
 
