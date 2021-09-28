@@ -385,13 +385,16 @@ final class ApiController extends Controller
      */
     public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
+        /** @var TaskElement $new */
         $old = clone TaskElementMapper::get((int) $request->getData('id'));
+
+        /** @var TaskElement $new */
         $new = $this->updateTaskElementFromRequest($request);
         $this->updateModel($request->header->account, $old, $new, TaskElementMapper::class, 'taskelement', $request->getOrigin());
 
-        if ($old->getSatus() !== $new->getStatus()
+        if ($old->getStatus() !== $new->getStatus()
             || $old->getPriority() !== $new->getPriority()
-            || $old->getDue() !== $new->getDue()
+            || $old->due !== $new->due
         ) {
             $task = TaskMapper::get($new->task);
 
