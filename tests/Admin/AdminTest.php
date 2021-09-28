@@ -19,7 +19,7 @@ namespace Modules\Tasks\tests\Admin;
  */
 class AdminTest extends \PHPUnit\Framework\TestCase
 {
-    protected const MODULE_NAME = 'Tasks';
+    protected const NAME = 'Tasks';
 
     protected const URI_LOAD = 'http://127.0.0.1/en/backend/task';
 

@@ -23,7 +23,7 @@ return [
             'dest'       => '\Modules\Tasks\Controller\BackendController:viewTaskDashboard',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::TASK,
             ],
@@ -34,7 +34,7 @@ return [
             'dest'       => '\Modules\Tasks\Controller\BackendController:viewTaskView',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::TASK,
             ],
@@ -45,7 +45,7 @@ return [
             'dest'       => '\Modules\Tasks\Controller\BackendController:viewTaskCreate',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::CREATE,
                 'state'  => PermissionState::TASK,
             ],
@@ -56,7 +56,7 @@ return [
             'dest'       => '\Modules\Tasks\Controller\BackendController:viewTaskAnalysis',
             'verb'       => RouteVerb::GET,
             'permission' => [
-                'module' => BackendController::MODULE_NAME,
+                'module' => BackendController::NAME,
                 'type'   => PermissionType::READ,
                 'state'  => PermissionState::ANALYSIS,
             ],
