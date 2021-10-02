@@ -84,6 +84,7 @@ final class ApiController extends Controller
             return;
         }
 
+        /** @var Task $task */
         $task = $this->createTaskFromRequest($request);
         $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully created.', $task);
@@ -179,6 +180,7 @@ final class ApiController extends Controller
      */
     public function apiTaskGet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
+        /** @var Task $task */
         $task = TaskMapper::get((int) $request->getData('id'));
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully returned.', $task);
     }
@@ -198,7 +200,10 @@ final class ApiController extends Controller
      */
     public function apiTaskSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
+        /** @var Task $old */
         $old = clone TaskMapper::get((int) $request->getData('id'));
+
+        /** @var Task $new */
         $new = $this->updateTaskFromRequest($request);
         $this->updateModel($request->header->account, $old, $new, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully updated.', $new);
@@ -215,6 +220,7 @@ final class ApiController extends Controller
      */
     private function updateTaskFromRequest(RequestAbstract $request) : Task
     {
+        /** @var Task $task */
         $task                 = TaskMapper::get((int) ($request->getData('id')));
         $task->title          = (string) ($request->getData('title') ?? $task->title);
         $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
@@ -366,6 +372,7 @@ final class ApiController extends Controller
      */
     public function apiTaskElementGet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
+        /** @var TaskElement $task */
         $task = TaskElementMapper::get((int) $request->getData('id'));
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully returned.', $task);
     }
@@ -385,7 +392,7 @@ final class ApiController extends Controller
      */
     public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
-        /** @var TaskElement $new */
+        /** @var TaskElement $old */
         $old = clone TaskElementMapper::get((int) $request->getData('id'));
 
         /** @var TaskElement $new */
@@ -419,6 +426,7 @@ final class ApiController extends Controller
      */
     private function updateTaskElementFromRequest(RequestAbstract $request) : TaskElement
     {
+        /** @var TaskElement $element */
         $element      = TaskElementMapper::get((int) ($request->getData('id')));
         $element->due = new \DateTime((string) ($request->getData('due') ?? $element->due->format('Y-m-d H:i:s')));
         $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
