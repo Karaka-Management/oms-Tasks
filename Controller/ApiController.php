@@ -225,7 +225,7 @@ final class ApiController extends Controller
         $task->title          = (string) ($request->getData('title') ?? $task->title);
         $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
         $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
-        $task->due            = new \DateTime((string) ($request->getData('due') ?? $task->due->format('Y-m-d H:i:s')));
+        $task->due            = $request->getData('due') !== null ? new \DateTime((string) ($request->getData('due'))) : $task->due;
         $task->setStatus((int) ($request->getData('status') ?? $task->getStatus()));
         $task->setType((int) ($request->getData('type') ?? $task->getType()));
         $task->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
@@ -428,7 +428,7 @@ final class ApiController extends Controller
     {
         /** @var TaskElement $element */
         $element      = TaskElementMapper::get((int) ($request->getData('id')));
-        $element->due = new \DateTime((string) ($request->getData('due') ?? $element->due->format('Y-m-d H:i:s')));
+        $element->due = $request->getData('due') !== null ? new \DateTime((string) ($request->getData('due'))) : $element->due;
         $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
         $element->description    = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
         $element->descriptionRaw = (string) ($request->getData('plain') ?? $element->descriptionRaw);
