@@ -21,7 +21,7 @@ use Modules\Tasks\Models\GroupRelation;
 /**
  * @internal
  */
-class GroupRelationTest extends \PHPUnit\Framework\TestCase
+final class GroupRelationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Modules\Tasks\Models\GroupRelation

@@ -27,7 +27,7 @@ use phpOMS\Utils\RnG\Text;
 /**
  * @internal
  */
-class TaskMapperTest extends \PHPUnit\Framework\TestCase
+final class TaskMapperTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Modules\Tasks\Models\TaskMapper

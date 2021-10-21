@@ -21,7 +21,7 @@ use Modules\Tasks\Models\DutyType;
 /**
  * @internal
  */
-class AccountRelationTest extends \PHPUnit\Framework\TestCase
+final class AccountRelationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Modules\Tasks\Models\AccountRelation

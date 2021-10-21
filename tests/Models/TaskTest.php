@@ -25,7 +25,7 @@ use Modules\Tasks\Models\TaskType;
 /**
  * @internal
  */
-class TaskTest extends \PHPUnit\Framework\TestCase
+final class TaskTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Modules\Tasks\Models\Task

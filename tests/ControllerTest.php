@@ -34,7 +34,7 @@ use phpOMS\Utils\TestUtils;
 /**
  * @internal
  */
-class ControllerTest extends \PHPUnit\Framework\TestCase
+final class ControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected $app    = null;
 

@@ -23,7 +23,7 @@ use Modules\Tasks\Models\TaskStatus;
 /**
  * @internal
  */
-class TaskElementTest extends \PHPUnit\Framework\TestCase
+final class TaskElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Modules\Tasks\Models\TaskElement

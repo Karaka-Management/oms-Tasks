@@ -29,7 +29,7 @@ use phpOMS\Utils\TestUtils;
 /**
  * @internal
  */
-class BackendControllerTest extends \PHPUnit\Framework\TestCase
+final class BackendControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected $app    = null;
 
