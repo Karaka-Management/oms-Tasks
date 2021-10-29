@@ -24,7 +24,7 @@ namespace Modules\Tasks\Models;
  */
 final class NullTaskElement extends TaskElement
 {
-	/**
+    /**
      * Constructor
      *
      * @param int $id Model id
