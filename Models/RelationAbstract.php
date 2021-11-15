@@ -49,7 +49,7 @@ abstract class RelationAbstract implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $element = 0;
+    public int $element = 0;
 
     /**
      * Get id.

@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-namespace Modules\Task\tests;
+namespace Modules\Task\tests\Controller;
 
 use Model\CoreSettings;
 use Modules\Admin\Models\AccountPermission;
@@ -28,6 +28,7 @@ use phpOMS\Message\Http\HttpRequest;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Module\ModuleManager;
 use phpOMS\Router\WebRouter;
+use phpOMS\System\MimeType;
 use phpOMS\Uri\HttpUri;
 use phpOMS\Utils\TestUtils;
 
@@ -96,6 +97,23 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $request->setData('title', 'Controller Test Title');
         $request->setData('plain', 'Controller Test Description');
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
+        $request->setData('tags', '[{"title": "TestTitle", "color": "#f0f", "language": "en"}, {"id": 1}]');
+
+        if (!\is_file(__DIR__ . '/test_tmp.md')) {
+            \copy(__DIR__ . '/test.md', __DIR__ . '/test_tmp.md');
+        }
+
+        TestUtils::setMember($request, 'files', [
+            'file1' => [
+                'name'     => 'test.md',
+                'type'     => MimeType::M_TXT,
+                'tmp_name' => __DIR__ . '/test_tmp.md',
+                'error'    => \UPLOAD_ERR_OK,
+                'size'     => \filesize(__DIR__ . '/test_tmp.md'),
+            ],
+        ]);
+
+        $request->setData('media', \json_encode([1]));
 
         $this->module->apiTaskCreate($request, $response);
 
@@ -155,6 +173,22 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $request->setData('status', TaskStatus::DONE);
         $request->setData('task', 1);
         $request->setData('plain', 'Controller Test');
+
+        if (!\is_file(__DIR__ . '/test_tmp.md')) {
+            \copy(__DIR__ . '/test.md', __DIR__ . '/test_tmp.md');
+        }
+
+        TestUtils::setMember($request, 'files', [
+            'file1' => [
+                'name'     => 'test.md',
+                'type'     => MimeType::M_TXT,
+                'tmp_name' => __DIR__ . '/test_tmp.md',
+                'error'    => \UPLOAD_ERR_OK,
+                'size'     => \filesize(__DIR__ . '/test_tmp.md'),
+            ],
+        ]);
+
+        $request->setData('media', \json_encode([1]));
 
         $this->module->apiTaskElementCreate($request, $response);
 

@@ -16,6 +16,8 @@ namespace Modules\Tasks\tests\Models;
 
 use Modules\Admin\Models\NullAccount;
 use Modules\Admin\Models\NullGroup;
+use Modules\Media\Models\Media;
+use Modules\Tag\Models\Tag;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskPriority;
@@ -27,34 +29,45 @@ use Modules\Tasks\Models\TaskType;
  */
 final class TaskTest extends \PHPUnit\Framework\TestCase
 {
+    private Task $task;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp() : void
+    {
+        $this->task = new Task();
+    }
+
     /**
      * @covers Modules\Tasks\Models\Task
      * @group module
      */
     public function testDefault() : void
     {
-        $task = new Task();
-
-        self::assertEquals(0, $task->getId());
-        self::assertEquals(0, $task->getCreatedBy()->getId());
-        self::assertEquals('', $task->title);
-        self::assertFalse($task->isToAccount(0));
-        self::assertFalse($task->isCCAccount(0));
-        self::assertFalse($task->isToGroup(0));
-        self::assertFalse($task->isCCGroup(0));
-        self::assertTrue($task->isEditable);
-        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->createdAt->format('Y-m-d'));
-        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $task->start->format('Y-m-d'));
-        self::assertNull($task->done);
-        self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $task->due->format('Y-m-d'));
-        self::assertEquals(TaskStatus::OPEN, $task->getStatus());
-        self::assertTrue($task->isClosable);
-        self::assertEquals(TaskPriority::NONE, $task->getPriority());
-        self::assertEquals(TaskType::SINGLE, $task->getType());
-        self::assertEquals([], $task->getTaskElements());
-        self::assertEquals('', $task->description);
-        self::assertEquals('', $task->descriptionRaw);
-        self::assertInstanceOf('\Modules\Tasks\Models\NullTaskElement', $task->getTaskElement(1));
+        self::assertEquals(0, $this->task->getId());
+        self::assertEquals(0, $this->task->getCreatedBy()->getId());
+        self::assertEquals('', $this->task->title);
+        self::assertFalse($this->task->isToAccount(0));
+        self::assertFalse($this->task->isCCAccount(0));
+        self::assertFalse($this->task->isToGroup(0));
+        self::assertFalse($this->task->isCCGroup(0));
+        self::assertTrue($this->task->isEditable);
+        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $this->task->createdAt->format('Y-m-d'));
+        self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $this->task->start->format('Y-m-d'));
+        self::assertNull($this->task->done);
+        self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $this->task->due->format('Y-m-d'));
+        self::assertEquals(TaskStatus::OPEN, $this->task->getStatus());
+        self::assertTrue($this->task->isClosable);
+        self::assertEquals(TaskPriority::NONE, $this->task->getPriority());
+        self::assertEquals(TaskType::SINGLE, $this->task->getType());
+        self::assertEquals([], $this->task->getTaskElements());
+        self::assertEquals([], $this->task->getMedia());
+        self::assertEquals([], $this->task->getTags());
+        self::assertEquals('', $this->task->description);
+        self::assertEquals('', $this->task->descriptionRaw);
+        self::assertInstanceOf('\Modules\Tag\Models\NullTag', $this->task->getTag(0));
+        self::assertInstanceOf('\Modules\Tasks\Models\NullTaskElement', $this->task->getTaskElement(1));
     }
 
     /**
@@ -63,10 +76,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatedByInputOutput() : void
     {
-        $task = new Task();
-
-        $task->setCreatedBy(new NullAccount(1));
-        self::assertEquals(1, $task->getCreatedBy()->getId());
+        $this->task->setCreatedBy(new NullAccount(1));
+        self::assertEquals(1, $this->task->getCreatedBy()->getId());
     }
 
     /**
@@ -75,10 +86,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testStartInputOutput() : void
     {
-        $task = new Task();
-
-        $task->start = ($date = new \DateTime('2005-05-05'));
-        self::assertEquals($date->format('Y-m-d'), $task->start->format('Y-m-d'));
+        $this->task->start = ($date = new \DateTime('2005-05-05'));
+        self::assertEquals($date->format('Y-m-d'), $this->task->start->format('Y-m-d'));
     }
 
     /**
@@ -87,10 +96,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testTitleInputOutput() : void
     {
-        $task = new Task();
-
-        $task->title = 'Title';
-        self::assertEquals('Title', $task->title);
+        $this->task->title = 'Title';
+        self::assertEquals('Title', $this->task->title);
     }
 
     /**
@@ -99,10 +106,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testDoneInputOutput() : void
     {
-        $task = new Task();
-
-        $task->done = ($date = new \DateTime('2000-05-06'));
-        self::assertEquals($date->format('Y-m-d'), $task->done->format('Y-m-d'));
+        $this->task->done = ($date = new \DateTime('2000-05-06'));
+        self::assertEquals($date->format('Y-m-d'), $this->task->done->format('Y-m-d'));
     }
 
     /**
@@ -111,10 +116,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testDueInputOutput() : void
     {
-        $task = new Task();
-
-        $task->due = ($date = new \DateTime('2000-05-07'));
-        self::assertEquals($date->format('Y-m-d'), $task->due->format('Y-m-d'));
+        $this->task->due = ($date = new \DateTime('2000-05-07'));
+        self::assertEquals($date->format('Y-m-d'), $this->task->due->format('Y-m-d'));
     }
 
     /**
@@ -123,10 +126,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testStatusInputOutput() : void
     {
-        $task = new Task();
-
-        $task->setStatus(TaskStatus::DONE);
-        self::assertEquals(TaskStatus::DONE, $task->getStatus());
+        $this->task->setStatus(TaskStatus::DONE);
+        self::assertEquals(TaskStatus::DONE, $this->task->getStatus());
     }
 
     /**
@@ -135,10 +136,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testClosableInputOutput() : void
     {
-        $task = new Task();
-
-        $task->isClosable = false;
-        self::assertFalse($task->isClosable);
+        $this->task->isClosable = false;
+        self::assertFalse($this->task->isClosable);
     }
 
     /**
@@ -147,10 +146,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testPriority() : void
     {
-        $task = new Task();
-
-        $task->setPriority(TaskPriority::LOW);
-        self::assertEquals(TaskPriority::LOW, $task->getPriority());
+        $this->task->setPriority(TaskPriority::LOW);
+        self::assertEquals(TaskPriority::LOW, $this->task->getPriority());
     }
 
     /**
@@ -159,8 +156,6 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementInputOutput() : void
     {
-        $task = new Task();
-
         $taskElement1 = new TaskElement();
         $taskElement1->addTo(new NullAccount(2));
         $taskElement1->addGroupTo(new NullGroup(4));
@@ -174,21 +169,21 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         $taskElement2->addGroupCC(new NullGroup(9));
 
         $id   = [];
-        $id[] = $task->addElement($taskElement1);
-        $id[] = $task->addElement($taskElement2);
+        $id[] = $this->task->addElement($taskElement1);
+        $id[] = $this->task->addElement($taskElement2);
 
-        self::assertTrue($task->isToAccount(2));
-        self::assertTrue($task->isToAccount(3));
-        self::assertTrue($task->isToGroup(4));
-        self::assertTrue($task->isToGroup(5));
+        self::assertTrue($this->task->isToAccount(2));
+        self::assertTrue($this->task->isToAccount(3));
+        self::assertTrue($this->task->isToGroup(4));
+        self::assertTrue($this->task->isToGroup(5));
 
-        self::assertTrue($task->isCCAccount(6));
-        self::assertTrue($task->isCCAccount(7));
-        self::assertTrue($task->isCCGroup(8));
-        self::assertTrue($task->isCCGroup(9));
+        self::assertTrue($this->task->isCCAccount(6));
+        self::assertTrue($this->task->isCCAccount(7));
+        self::assertTrue($this->task->isCCGroup(8));
+        self::assertTrue($this->task->isCCGroup(9));
 
-        self::assertEquals(0, $task->getTaskElements()[0]->getId());
-        self::assertEquals(0, $task->getTaskElement(0)->getId());
+        self::assertEquals(0, $this->task->getTaskElements()[0]->getId());
+        self::assertEquals(0, $this->task->getTaskElement(0)->getId());
     }
 
     /**
@@ -197,10 +192,6 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testElementRemoval() : void
     {
-        $task = new Task();
-
-        $task = new Task();
-
         $taskElement1 = new TaskElement();
         $taskElement1->addTo(new NullAccount(2));
         $taskElement1->addGroupTo(new NullGroup(4));
@@ -214,11 +205,35 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         $taskElement2->addGroupCC(new NullGroup(9));
 
         $id   = [];
-        $id[] = $task->addElement($taskElement1);
-        $id[] = $task->addElement($taskElement2);
+        $id[] = $this->task->addElement($taskElement1);
+        $id[] = $this->task->addElement($taskElement2);
 
-        $success = $task->removeElement($id[1]);
+        $success = $this->task->removeElement($id[1]);
         self::assertTrue($success);
+    }
+
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
+    public function testInvertElements() : void
+    {
+        $taskElement1 = new TaskElement();
+        $taskElement1->addTo(new NullAccount(2));
+        $taskElement1->addGroupTo(new NullGroup(4));
+        $taskElement1->addCC(new NullAccount(6));
+        $taskElement1->addGroupCC(new NullGroup(8));
+
+        $taskElement2 = new TaskElement();
+        $taskElement2->addTo(new NullAccount(3));
+        $taskElement2->addGroupTo(new NullGroup(5));
+        $taskElement2->addCC(new NullAccount(7));
+        $taskElement2->addGroupCC(new NullGroup(9));
+
+        $this->task->addElement($taskElement1);
+        $this->task->addElement($taskElement2);
+
+        self::assertEquals([$taskElement2, $taskElement1], $this->task->invertTaskElements());
     }
 
     /**
@@ -227,9 +242,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidElementRemoval() : void
     {
-        $task = new Task();
-
-        $success = $task->removeElement(99);
+        $success = $this->task->removeElement(99);
         self::assertFalse($success);
     }
 
@@ -239,10 +252,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testDescriptionInputOutput() : void
     {
-        $task = new Task();
-
-        $task->description = 'Description';
-        self::assertEquals('Description', $task->description);
+        $this->task->description = 'Description';
+        self::assertEquals('Description', $this->task->description);
     }
 
     /**
@@ -251,10 +262,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testDescriptionRawInputOutput() : void
     {
-        $task = new Task();
-
-        $task->descriptionRaw = 'DescriptionRaw';
-        self::assertEquals('DescriptionRaw', $task->descriptionRaw);
+        $this->task->descriptionRaw = 'DescriptionRaw';
+        self::assertEquals('DescriptionRaw', $this->task->descriptionRaw);
     }
 
     /**
@@ -263,10 +272,57 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testEditableInputOutput() : void
     {
-        $task = new Task();
+        $this->task->isEditable = false;
+        self::assertFalse($this->task->isEditable);
+    }
 
-        $task->isEditable = false;
-        self::assertFalse($task->isEditable);
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
+    public function testTypeInputOutput() : void
+    {
+        $this->task->setType(TaskType::TEMPLATE);
+        self::assertEquals(TaskType::TEMPLATE, $this->task->getType());
+    }
+
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
+    public function testTagInputOutput() : void
+    {
+        $tag = new Tag();
+        $tag->setL11n('Tag');
+
+        $this->task->addTag($tag);
+        self::assertEquals($tag, $this->task->getTag(0));
+        self::assertCount(1, $this->task->getTags());
+    }
+
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
+    public function testTagRemove() : void
+    {
+        $tag = new Tag();
+        $tag->setL11n('Tag');
+
+        $this->task->addTag($tag);
+        self::assertTrue($this->task->removeTag(0));
+        self::assertCount(0, $this->task->getTags());
+        self::assertFalse($this->task->removeTag(0));
+    }
+
+    /**
+     * @covers Modules\Tasks\Models\Task
+     * @group module
+     */
+    public function testMediaInputOutput() : void
+    {
+        $this->task->addMedia(new Media());
+        self::assertCount(1, $this->task->getMedia());
     }
 
     /**
@@ -275,23 +331,21 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testToArray() : void
     {
-        $task = new Task();
-
         $arr = [
             'id'          => 0,
-            'createdBy'   => $task->getCreatedBy(),
-            'createdAt'   => $task->createdAt,
-            'title'       => $task->title,
-            'description' => $task->description,
-            'status'      => $task->getStatus(),
-            'type'        => $task->getType(),
-            'priority'    => $task->getPriority(),
-            'due'         => $task->due,
-            'done'        => $task->done,
+            'createdBy'   => $this->task->getCreatedBy(),
+            'createdAt'   => $this->task->createdAt,
+            'title'       => $this->task->title,
+            'description' => $this->task->description,
+            'status'      => $this->task->getStatus(),
+            'type'        => $this->task->getType(),
+            'priority'    => $this->task->getPriority(),
+            'due'         => $this->task->due,
+            'done'        => $this->task->done,
         ];
 
         $isSubset = true;
-        $parent   = $task->toArray();
+        $parent   = $this->task->toArray();
         foreach ($arr as $key => $value) {
             if (!\array_key_exists($key, $parent) || $parent[$key] !== $value) {
                 $isSubset = false;
@@ -307,23 +361,21 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testToJson() : void
     {
-        $task = new Task();
-
         $arr = [
             'id'          => 0,
-            'createdBy'   => $task->getCreatedBy(),
-            'createdAt'   => $task->createdAt,
-            'title'       => $task->title,
-            'description' => $task->description,
-            'status'      => $task->getStatus(),
-            'type'        => $task->getType(),
-            'priority'    => $task->getPriority(),
-            'due'         => $task->due,
-            'done'        => $task->done,
+            'createdBy'   => $this->task->getCreatedBy(),
+            'createdAt'   => $this->task->createdAt,
+            'title'       => $this->task->title,
+            'description' => $this->task->description,
+            'status'      => $this->task->getStatus(),
+            'type'        => $this->task->getType(),
+            'priority'    => $this->task->getPriority(),
+            'due'         => $this->task->due,
+            'done'        => $this->task->done,
         ];
 
         $isSubset = true;
-        $parent   = $task->jsonSerialize();
+        $parent   = $this->task->jsonSerialize();
         foreach ($arr as $key => $value) {
             if (!\array_key_exists($key, $parent) || $parent[$key] !== $value) {
                 $isSubset = false;
@@ -340,9 +392,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     public function testInvalidStatus() : void
     {
         $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
-
-        $task = new Task();
-        $task->setStatus(9999);
+        $this->task->setStatus(9999);
     }
 
     /**
@@ -352,8 +402,6 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     public function testInvalidPriority() : void
     {
         $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
-
-        $task = new Task();
-        $task->setPriority(9999);
+        $this->task->setPriority(9999);
     }
 }

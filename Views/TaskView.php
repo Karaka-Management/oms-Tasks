@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Views;
 
+use Modules\Media\Models\Media;
+use Modules\Media\Models\NullMedia;
 use Modules\Profile\Models\ProfileMapper;
 use Modules\Tasks\Models\TaskStatus;
 use phpOMS\Uri\UriFactory;
@@ -30,6 +32,24 @@ use phpOMS\Views\View;
 class TaskView extends View
 {
     /**
+     * User profile image.
+     *
+     * @var Media
+     * @since 1.0.0
+     */
+    public Media $defaultProfileImage;
+
+    /**
+     * Constructor
+     *
+     * @since 1.0.0
+     */
+    public function __construct()
+    {
+        $this->defaultProfileImage = new NullMedia();
+    }
+
+    /**
      * Get the profile image
      *
      * If the profile doesn't have an image a random default image is used
@@ -44,11 +64,11 @@ class TaskView extends View
     {
         $profile = ProfileMapper::getFor($account, 'account');
 
-        if ($profile === null || $profile->image->getPath() === '') {
-            return UriFactory::build('Web/Backend/img/user_default_' . \mt_rand(1, 6) . '.png');
+        if (($profile instanceof NullProfile) || $profile->image->getPath() === '') {
+            return UriFactory::build('{/prefix}' . $this->defaultProfileImage->getPath());
         }
 
-        return UriFactory::build($profile->image->getPath());
+        return UriFactory::build('{/prefix}' . $profile->image->getPath());
     }
 
     /**

@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-namespace Modules\Task\tests;
+namespace Modules\Task\tests\Controller;
 
 use Model\CoreSettings;
 use Modules\Admin\Models\AccountPermission;

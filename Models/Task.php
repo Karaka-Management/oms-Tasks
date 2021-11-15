@@ -180,7 +180,7 @@ class Task implements \JsonSerializable
      * @var Schedule
      * @since 1.0.0
      */
-    protected Schedule $schedule;
+    public Schedule $schedule;
 
     /**
      * Priority
@@ -590,18 +590,6 @@ class Task implements \JsonSerializable
     public function setType(int $type = TaskType::SINGLE) : void
     {
         $this->type = $type;
-    }
-
-    /**
-     * Get schedule.
-     *
-     * @return Schedule
-     *
-     * @since 1.0.0
-     */
-    public function getSchedule() : Schedule
-    {
-        return $this->schedule;
     }
 
     /**

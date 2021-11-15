@@ -48,7 +48,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         $task = new Task();
 
         $task->setCreatedBy(new NullAccount(1));
-        $task->getSchedule()->createdBy = new NullAccount(1);
+        $task->schedule->createdBy      = new NullAccount(1);
         $task->start                    = new \DateTime('2005-05-05');
         $task->title                    = 'Task Test';
         $task->setStatus(TaskStatus::OPEN);
@@ -159,7 +159,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             $task = new Task();
 
             $task->setCreatedBy(new NullAccount(1));
-            $task->getSchedule()->createdBy = new NullAccount(1);
+            $task->schedule->createdBy      = new NullAccount(1);
             $task->start                    = new \DateTime('2005-05-05');
             $task->title                    = $text->generateText(\mt_rand(1, 5));
             $task->setStatus($status);
@@ -200,7 +200,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             $task = new Task();
 
             $task->setCreatedBy(new NullAccount(1));
-            $task->getSchedule()->createdBy = new NullAccount(1);
+            $task->schedule->createdBy      = new NullAccount(1);
             $task->title                    = $text->generateText(\mt_rand(1, 5));
             $task->setStatus($status);
             $task->isClosable  = true;
@@ -239,7 +239,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             $task = new Task();
 
             $task->setCreatedBy(new NullAccount(1));
-            $task->getSchedule()->createdBy = new NullAccount(1);
+            $task->schedule->createdBy      = new NullAccount(1);
             $task->title                    = $text->generateText(\mt_rand(1, 5));
             $task->setStatus($status);
             $task->isClosable  = true;

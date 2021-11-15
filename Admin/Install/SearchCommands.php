@@ -19,7 +19,7 @@ use phpOMS\Router\RouteVerb;
 return [
     '^:tag .*$' => [
         [
-            'dest'       => '\Modules\Tasks\Controller\SearchController:searchTags',
+            'dest'       => '\Modules\Tasks\Controller\SearchController:searchTag',
             'verb'       => RouteVerb::ANY,
             'permission' => [
                 'module' => SearchController::NAME,

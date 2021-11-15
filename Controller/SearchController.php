@@ -41,7 +41,7 @@ final class SearchController extends Controller
      *
      * @since 1.0.0
      */
-    public function searchTags(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function searchTag(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         // join tags with tag l11n
         // join tags with tasks

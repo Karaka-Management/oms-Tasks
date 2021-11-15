@@ -86,6 +86,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function viewDashboard(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
     {
