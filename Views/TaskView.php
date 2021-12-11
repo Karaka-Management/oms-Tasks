@@ -67,7 +67,10 @@ class TaskView extends View
      */
     public function getAccountImage(int $account) : string
     {
-        $profile = ProfileMapper::getFor($account, 'account');
+        $profile = ProfileMapper::get()
+            ->with('image')
+            ->where('account', $account)
+            ->execute();
 
         if (($profile instanceof NullProfile) || $profile->image->getPath() === '') {
             return UriFactory::build('{/prefix}' . $this->defaultProfileImage->getPath());

@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Models;
 
 use Modules\Admin\Models\AccountMapper;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Mapper class.
@@ -25,7 +25,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class AccountRelationMapper extends DataMapperAbstract
+final class AccountRelationMapper extends DataMapperFactory
 {
     /**
      * Columns.
@@ -33,7 +33,7 @@ final class AccountRelationMapper extends DataMapperAbstract
      * @var array<string, array{name:string, type:string, internal:string, autocomplete?:bool, readonly?:bool, writeonly?:bool, annotations?:array}>
      * @since 1.0.0
      */
-    protected static array $columns = [
+    public const COLUMNS = [
         'task_account_id'           => ['name' => 'task_account_id',           'type' => 'int', 'internal' => 'id'],
         'task_account_duty'         => ['name' => 'task_account_duty',         'type' => 'int', 'internal' => 'duty'],
         'task_account_account'      => ['name' => 'task_account_account',      'type' => 'int', 'internal' => 'relation'],
@@ -46,7 +46,7 @@ final class AccountRelationMapper extends DataMapperAbstract
      * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
      * @since 1.0.0
      */
-    protected static array $ownsOne = [
+    public const OWNS_ONE = [
         'relation' => [
             'mapper'     => AccountMapper::class,
             'external'   => 'task_account_account',
@@ -59,7 +59,7 @@ final class AccountRelationMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'task_account';
+    public const TABLE = 'task_account';
 
     /**
      * Primary field name.
@@ -67,5 +67,5 @@ final class AccountRelationMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'task_account_id';
+    public const PRIMARYFIELD ='task_account_id';
 }

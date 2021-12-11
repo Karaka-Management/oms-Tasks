@@ -22,6 +22,7 @@ use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskPriority;
 use Modules\Tasks\Models\TaskStatus;
+use phpOMS\DataStorage\Database\Query\OrderType;
 use phpOMS\Utils\RnG\Text;
 
 /**
@@ -93,11 +94,20 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         $media->name      = 'Task Media';
         $task->addMedia($media);
 
-        $id = TaskMapper::create($task);
+        $id = TaskMapper::create()->execute($task);
         self::assertGreaterThan(0, $task->getId());
         self::assertEquals($id, $task->getId());
 
-        $taskR = TaskMapper::get($task->getId());
+        $taskR = TaskMapper::get()
+            ->with('media')
+            ->with('taskElements')
+            ->with('taskElements/media')
+            ->with('taskElements/accRelation')
+            ->with('taskElements/accRelation/relation')
+            ->with('taskElements/grpRelation')
+            ->with('taskElements/grpRelation/relation')
+            ->where('id', $task->getId())
+            ->execute();
         self::assertEquals($task->createdAt->format('Y-m-d'), $taskR->createdAt->format('Y-m-d'));
         self::assertEquals($task->start->format('Y-m-d'), $taskR->start->format('Y-m-d'));
         self::assertEquals($task->getCreatedBy()->getId(), $taskR->getCreatedBy()->getId());
@@ -139,7 +149,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testNewest() : void
     {
-        $newest = TaskMapper::getNewest(1);
+        $newest = TaskMapper::getAll()->sort('id', OrderType::DESC)->limit(1)->execute();
 
         self::assertCount(1, $newest);
     }
@@ -179,7 +189,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             $taskElement2->setStatus($status);
             $task->addElement($taskElement2);
 
-            $id = TaskMapper::create($task);
+            $id = TaskMapper::create()->execute($task);
         }
 
         self::assertGreaterThan(0, TaskMapper::countUnread(1));
@@ -220,7 +230,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             $taskElement2->setStatus($status);
             $task->addElement($taskElement2);
 
-            $id = TaskMapper::create($task);
+            $id = TaskMapper::create()->execute($task);
         }
     }
 
@@ -259,7 +269,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             $taskElement2->setStatus($status);
             $task->addElement($taskElement2);
 
-            $id = TaskMapper::create($task);
+            $id = TaskMapper::create()->execute($task);
         }
     }
 }

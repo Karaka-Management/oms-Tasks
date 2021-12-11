@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Models;
 
 use Modules\Admin\Models\GroupMapper;
-use phpOMS\DataStorage\Database\DataMapperAbstract;
+use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Mapper class.
@@ -25,7 +25,7 @@ use phpOMS\DataStorage\Database\DataMapperAbstract;
  * @link    https://orange-management.org
  * @since   1.0.0
  */
-final class GroupRelationMapper extends DataMapperAbstract
+final class GroupRelationMapper extends DataMapperFactory
 {
     /**
      * Columns.
@@ -33,7 +33,7 @@ final class GroupRelationMapper extends DataMapperAbstract
      * @var array<string, array{name:string, type:string, internal:string, autocomplete?:bool, readonly?:bool, writeonly?:bool, annotations?:array}>
      * @since 1.0.0
      */
-    protected static array $columns = [
+    public const COLUMNS = [
         'task_group_id'           => ['name' => 'task_group_id',           'type' => 'int', 'internal' => 'id'],
         'task_group_duty'         => ['name' => 'task_group_duty',         'type' => 'int', 'internal' => 'duty'],
         'task_group_group'        => ['name' => 'task_group_group',        'type' => 'int', 'internal' => 'relation'],
@@ -46,7 +46,7 @@ final class GroupRelationMapper extends DataMapperAbstract
      * @var array<string, array{mapper:string, external:string, by?:string, column?:string, conditional?:bool}>
      * @since 1.0.0
      */
-    protected static array $ownsOne = [
+    public const OWNS_ONE = [
         'relation' => [
             'mapper'     => GroupMapper::class,
             'external'   => 'task_group_group',
@@ -59,7 +59,7 @@ final class GroupRelationMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $table = 'task_group';
+    public const TABLE = 'task_group';
 
     /**
      * Primary field name.
@@ -67,5 +67,5 @@ final class GroupRelationMapper extends DataMapperAbstract
      * @var string
      * @since 1.0.0
      */
-    protected static string $primaryField = 'task_group_id';
+    public const PRIMARYFIELD ='task_group_id';
 }

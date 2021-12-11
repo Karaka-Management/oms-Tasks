@@ -182,7 +182,7 @@ final class ApiController extends Controller
     public function apiTaskGet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         /** @var Task $task */
-        $task = TaskMapper::get((int) $request->getData('id'));
+        $task = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully returned.', $task);
     }
 
@@ -202,7 +202,7 @@ final class ApiController extends Controller
     public function apiTaskSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         /** @var Task $old */
-        $old = clone TaskMapper::get((int) $request->getData('id'));
+        $old = clone TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         /** @var Task $new */
         $new = $this->updateTaskFromRequest($request);
@@ -222,7 +222,7 @@ final class ApiController extends Controller
     private function updateTaskFromRequest(RequestAbstract $request) : Task
     {
         /** @var Task $task */
-        $task                 = TaskMapper::get((int) ($request->getData('id')));
+        $task                 = TaskMapper::get()->where('id', (int) ($request->getData('id')))->execute();
         $task->title          = (string) ($request->getData('title') ?? $task->title);
         $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
         $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
@@ -280,7 +280,7 @@ final class ApiController extends Controller
             return;
         }
 
-        $task    = TaskMapper::get((int) ($request->getData('task')));
+        $task    = TaskMapper::get()->where('id', (int) ($request->getData('task')))->execute();
         $element = $this->createTaskElementFromRequest($request, $task);
         $task->setStatus($element->getStatus());
         $task->setPriority($element->getPriority());
@@ -375,7 +375,7 @@ final class ApiController extends Controller
     public function apiTaskElementGet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         /** @var TaskElement $task */
-        $task = TaskElementMapper::get((int) $request->getData('id'));
+        $task = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully returned.', $task);
     }
 
@@ -395,7 +395,7 @@ final class ApiController extends Controller
     public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
     {
         /** @var TaskElement $old */
-        $old = clone TaskElementMapper::get((int) $request->getData('id'));
+        $old = clone TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         /** @var TaskElement $new */
         $new = $this->updateTaskElementFromRequest($request);
@@ -405,7 +405,7 @@ final class ApiController extends Controller
             || $old->getPriority() !== $new->getPriority()
             || $old->due !== $new->due
         ) {
-            $task = TaskMapper::get($new->task);
+            $task = TaskMapper::get()->where('id', $new->task)->execute();
 
             $task->setStatus($new->getStatus());
             $task->setPriority($new->getPriority());
@@ -429,7 +429,7 @@ final class ApiController extends Controller
     private function updateTaskElementFromRequest(RequestAbstract $request) : TaskElement
     {
         /** @var TaskElement $element */
-        $element      = TaskElementMapper::get((int) ($request->getData('id')));
+        $element      = TaskElementMapper::get()->where('id', (int) ($request->getData('id')))->execute();
         $element->due = $request->getData('due') !== null ? new \DateTime((string) ($request->getData('due'))) : $element->due;
         $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
         $element->description    = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
