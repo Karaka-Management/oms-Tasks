@@ -150,7 +150,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $head = $response->get('Content')->getData('head');
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
 
-        /** @var Task $task */
+        /** @var \Modules\Tasks\Models\Task $task */
         $task = TaskMapper::get()
             ->with('createdBy')
             ->with('taskElements')
