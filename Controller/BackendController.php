@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Controller;
 
 use Modules\Dashboard\Models\DashboardElementInterface;
+use Modules\Media\Models\MediaMapper;
 use Modules\Tasks\Models\PermissionState;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Views\TaskView;
@@ -133,6 +134,10 @@ final class BackendController extends Controller implements DashboardElementInte
     public function viewTaskView(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
     {
         $view = new TaskView($this->app->l11nManager, $request, $response);
+
+        $profileImage              = $this->app->appSettings->get(names: 'default_profile_image', module: 'Profile');
+        $image                     = MediaMapper::get()->where('id', (int) $profileImage->content)->execute();
+        $view->defaultProfileImage = $image;
 
         if (!TaskMapper::hasReadingPermission($request->header->account, (int) $request->getData('id'))) {
             $response->header->status = RequestStatusCode::R_403;

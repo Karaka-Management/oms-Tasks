@@ -303,5 +303,41 @@
                 "foreignKey": "tag_id"
             }
         }
+    },
+    "task_seen": {
+        "name": "task_seen",
+        "fields": {
+            "task_seen_id": {
+                "name": "task_seen_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_seen_at": {
+                "name": "task_seen_at",
+                "type": "DATETIME",
+                "null": false
+            },
+            "task_seen_flag": {
+                "name": "task_seen_flag",
+                "type": "TINYINT",
+                "null": false
+            },
+            "task_seen_by": {
+                "name": "task_seen_by",
+                "type": "INT",
+                "null": false,
+                "foreignTable": "account",
+                "foreignKey": "account_id"
+            },
+            "task_seen_task": {
+                "name": "task_seen_task",
+                "type": "INT",
+                "null": false,
+                "foreignTable": "task",
+                "foreignKey": "task_id"
+            }
+        }
     }
 }

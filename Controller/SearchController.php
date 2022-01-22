@@ -49,7 +49,6 @@ final class SearchController extends Controller
 
         $tags = [];
 
-        // @todo: probably cleanup return for link generation + sort by best match
         $response->header->set('Content-Type', MimeType::M_JSON . '; charset=utf-8', true);
 
         $response->set($request->uri->__toString(), $tags);
