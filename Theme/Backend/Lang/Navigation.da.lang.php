@@ -14,6 +14,6 @@ declare(strict_types=1);
 
 return ['Navigation' => [
     'Analysis' => 'Analyse',
-    'Create'   => 'Erstellen',
-    'Tasks'    => 'Aufgaben',
+    'Create'   => 'skab',
+    'Tasks'    => 'Opgaver.',
 ]];

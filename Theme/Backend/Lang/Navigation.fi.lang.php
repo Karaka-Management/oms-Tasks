@@ -13,7 +13,7 @@
 declare(strict_types=1);
 
 return ['Navigation' => [
-    'Analysis' => 'Analyse',
-    'Create'   => 'Erstellen',
-    'Tasks'    => 'Aufgaben',
+    'Analysis' => 'Analyysi',
+    'Create'   => 'Luoda',
+    'Tasks'    => 'Tehtävät',
 ]];
