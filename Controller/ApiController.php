@@ -14,8 +14,13 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Controller;
 
+use Modules\Admin\Models\AccountMapper;
 use Modules\Admin\Models\NullAccount;
+use Modules\Media\Models\CollectionMapper;
+use Modules\Media\Models\MediaMapper;
 use Modules\Media\Models\NullMedia;
+use Modules\Media\Models\Reference;
+use Modules\Media\Models\ReferenceMapper;
 use Modules\Tag\Models\NullTag;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
@@ -23,6 +28,7 @@ use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Models\TaskType;
+use phpOMS\Account\NullAccount as NullBaseAccount;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
@@ -87,7 +93,91 @@ final class ApiController extends Controller
         /** @var Task $task */
         $task = $this->createTaskFromRequest($request);
         $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
+
+        if (!empty($request->getFiles() ?? [])
+            || !empty($request->getDataJson('media') ?? [])
+        ) {
+            $this->createTaskMedia($task, $request);
+        }
+
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully created.', $task);
+    }
+
+    private function createTaskMedia(Task $task, RequestAbstract $request) : void
+    {
+        $path = $this->createTaskDir($task);
+        $account = AccountMapper::get()->where('id', $request->header->account)->execute();
+
+        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
+            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+                [],
+                [],
+                $uploadedFiles,
+                $request->header->account,
+                __DIR__ . '/../../../Modules/Media/Files' . $path,
+                $path,
+            );
+
+            $collection = null;
+
+            foreach ($uploaded as $media) {
+                MediaMapper::create()->execute($media);
+                TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
+
+                $ref = new Reference();
+                $ref->source = new NullMedia($media->getId());
+                $ref->createdBy = new NullAccount($request->header->account);
+                $ref->setVirtualPath($accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId());
+
+                ReferenceMapper::create()->execute($ref);
+
+                if ($collection === null) {
+                    $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                        '/Modules/Media/Files',
+                        $accountPath,
+                        $request->header->account,
+                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
+                    );
+                }
+
+                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+            }
+        }
+
+        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
+            $collection = null;
+
+            foreach ($mediaFiles as $media) {
+                TaskMapper::writer()->createRelationTable('media', [(int) $media], $task->getId());
+
+                $ref = new Reference();
+                $ref->source = new NullMedia((int) $media);
+                $ref->createdBy = new NullAccount($request->header->account);
+                $ref->setVirtualPath($path);
+
+                ReferenceMapper::create()->execute($ref);
+
+                if ($collection === null) {
+                    $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                        '/Modules/Media/Files',
+                        $path,
+                        $request->header->account,
+                        __DIR__ . '/../../../Modules/Media/Files' . $path
+                    );
+                }
+
+                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+            }
+        }
+    }
+
+    private function createTaskDir(Task $task) : string
+    {
+        return '/Modules/Tasks/'
+            . $task->createdAt->format('Y') . '/'
+            . $task->createdAt->format('m') . '/'
+            . $task->createdAt->format('d') . '/'
+            . $task->getId();
     }
 
     /**
@@ -130,27 +220,6 @@ final class ApiController extends Controller
                 } else {
                     $task->addTag(new NullTag((int) $tag['id']));
                 }
-            }
-        }
-
-        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
-            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
-                [],
-                [],
-                $uploadedFiles,
-                $request->header->account,
-                __DIR__ . '/../../../Modules/Media/Files/Modules/Tasks',
-                '/Modules/Tasks',
-            );
-
-            foreach ($uploaded as $media) {
-                $task->addMedia($media);
-            }
-        }
-
-        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
-            foreach ($mediaFiles as $media) {
-                $task->addMedia(new NullMedia($media));
             }
         }
 
@@ -292,8 +361,83 @@ final class ApiController extends Controller
         }
 
         $this->createModel($request->header->account, $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
+
+        if (!empty($request->getFiles() ?? [])
+            || !empty($request->getDataJson('media') ?? [])
+        ) {
+            $this->createTaskElementMedia($task, $element, $request);
+        }
+
         $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully created.', $element);
+    }
+
+    private function createTaskElementMedia(Task $task, TaskElement $element, RequestAbstract $request) : void
+    {
+        $path = $this->createTaskDir($task);
+        $account = AccountMapper::get()->where('id', $request->header->account)->execute();
+
+        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
+            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
+                [],
+                [],
+                $uploadedFiles,
+                $request->header->account,
+                __DIR__ . '/../../../Modules/Media/Files' . $path,
+                $path,
+            );
+
+            $collection = null;
+
+            foreach ($uploaded as $media) {
+                MediaMapper::create()->execute($media);
+                TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
+
+                $ref = new Reference();
+                $ref->source = new NullMedia($media->getId());
+                $ref->createdBy = new NullAccount($request->header->account);
+                $ref->setVirtualPath($accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId());
+
+                ReferenceMapper::create()->execute($ref);
+
+                if ($collection === null) {
+                    $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                        '/Modules/Media/Files',
+                        $accountPath,
+                        $request->header->account,
+                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
+                    );
+                }
+
+                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+            }
+        }
+
+        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
+            $collection = null;
+
+            foreach ($mediaFiles as $media) {
+                TaskElementMapper::writer()->createRelationTable('media', [(int) $media], $element->getId());
+
+                $ref = new Reference();
+                $ref->source = new NullMedia((int) $media);
+                $ref->createdBy = new NullAccount($request->header->account);
+                $ref->setVirtualPath($path);
+
+                ReferenceMapper::create()->execute($ref);
+
+                if ($collection === null) {
+                    $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                        '/Modules/Media/Files',
+                        $path,
+                        $request->header->account,
+                        __DIR__ . '/../../../Modules/Media/Files' . $path
+                    );
+                }
+
+                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+            }
+        }
     }
 
     /**
@@ -333,27 +477,6 @@ final class ApiController extends Controller
 
         foreach ($ccs as $cc) {
             $element->addCC(new NullAccount((int) $cc));
-        }
-
-        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
-            $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
-                [],
-                [],
-                $uploadedFiles,
-                $request->header->account,
-                __DIR__ . '/../../../Modules/Media/Files/Modules/Tasks',
-                '/Modules/Tasks',
-            );
-
-            foreach ($uploaded as $media) {
-                $element->addMedia($media);
-            }
-        }
-
-        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
-            foreach ($mediaFiles as $media) {
-                $element->addMedia(new NullMedia($media));
-            }
         }
 
         return $element;
