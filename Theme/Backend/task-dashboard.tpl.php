@@ -16,7 +16,7 @@ use Modules\Tasks\Models\TaskPriority;
 use phpOMS\Uri\UriFactory;
 
 /**
- * @todo Orange-Management/oms-Tasks#4
+ * @todo Karaka/oms-Tasks#4
  *  Batch handle tasks in the dashboard list
  *  In the dashboard/list it should be possible to change the status of a task without going into it (changing it to done is the most important).
  *  This could be done with a button but also touch sliding/swiping should be possible for mobile.
