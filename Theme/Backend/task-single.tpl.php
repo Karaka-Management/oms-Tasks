@@ -177,7 +177,11 @@ echo $this->getData('nav')->render(); ?>
                     <section class="portlet">
                         <div class="portlet-body">
                             <?= \sprintf($this->getHtml('status_change'),
-                                '<a href="' . UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()) . '">' . $this->printHtml($element->createdBy->name1) . '</a>',
+                                '<a href="' . UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()) . '">' . $this->printHtml(
+                                    $this->renderUserName(
+                                        '%3$s %2$s %1$s',
+                                        [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
+                                    ) . '</a>',
                                 $element->createdAt->format('Y-m-d H:i')
                             ); ?>
                             <span class="tag task-status-<?= $element->getStatus(); ?>">
@@ -193,7 +197,11 @@ echo $this->getData('nav')->render(); ?>
                     <section class="portlet">
                         <div class="portlet-body">
                             <?= \sprintf($this->getHtml('priority_change'),
-                                '<a href="' . UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()) . '">' . $this->printHtml($element->createdBy->name1) . '</a>',
+                                '<a href="' . UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()) . '">' . $this->printHtml(
+                                    $this->renderUserName(
+                                        '%3$s %2$s %1$s',
+                                        [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
+                                    ) . '</a>',
                                 $element->createdAt->format('Y-m-d H:i')
                             ); ?>
                             <span class="tag task-priority-<?= $element->getPriority(); ?>">
@@ -218,7 +226,11 @@ echo $this->getData('nav')->render(); ?>
                                 <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($element->createdBy->getId()); ?>">
                             </span>
                             <span class="col-xs">
-                                <?= $this->printHtml($element->createdBy->name1); ?> - <?= $this->printHtml($element->createdAt->format('Y-m-d H:i')); ?>
+                                <?= $this->printHtml(
+                                    $this->renderUserName(
+                                        '%3$s %2$s %1$s',
+                                        [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
+                                    ); ?> - <?= $this->printHtml($element->createdAt->format('Y-m-d H:i')); ?>
                             </span>
                         </div>
                     </div>
@@ -289,7 +301,11 @@ echo $this->getData('nav')->render(); ?>
                     ) : ?>
                     <section class="portlet wf-100">
                         <div class="portlet-body">
-                            <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()); ?>"><?= $this->printHtml($element->createdBy->name1); ?></a> <?= $this->getHtml('forwarded_to'); ?>
+                            <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $element->createdBy->getId()); ?>"><?= $this->printHtml(
+                                $this->renderUserName(
+                                    '%3$s %2$s %1$s',
+                                    [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
+                                ); ?></a> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
                                     <a href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $to->getRelation()->getId()); ?>"><?= $this->printHtml($to->getRelation()->name1); ?></a>

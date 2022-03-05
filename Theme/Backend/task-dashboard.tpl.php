@@ -74,7 +74,7 @@ echo $this->getData('nav')->render(); ?>
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a class="content" href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($task->createdBy->name1); ?></a>
+                            <a class="content" href="<?= UriFactory::build('{/prefix}profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                 <?php endforeach; if ($c == 0) : ?>
