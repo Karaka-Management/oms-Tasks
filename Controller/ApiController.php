@@ -118,7 +118,6 @@ final class ApiController extends Controller
             );
 
             $collection = null;
-
             foreach ($uploaded as $media) {
                 MediaMapper::create()->execute($media);
                 TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
@@ -131,12 +130,16 @@ final class ApiController extends Controller
                 ReferenceMapper::create()->execute($ref);
 
                 if ($collection === null) {
-                    $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                        '/Modules/Media/Files',
-                        $accountPath,
-                        $request->header->account,
-                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
-                    );
+                    $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
+
+                    if ($collection instanceof NullMedia) {
+                        $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                            '/Modules/Media/Files',
+                            $accountPath,
+                            $request->header->account,
+                            __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
+                        );
+                    }
                 }
 
                 CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
@@ -157,12 +160,16 @@ final class ApiController extends Controller
                 ReferenceMapper::create()->execute($ref);
 
                 if ($collection === null) {
-                    $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                        '/Modules/Media/Files',
-                        $path,
-                        $request->header->account,
-                        __DIR__ . '/../../../Modules/Media/Files' . $path
-                    );
+                    $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
+
+                    if ($collection instanceof NullMedia) {
+                        $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
+                            '/Modules/Media/Files',
+                            $path,
+                            $request->header->account,
+                            __DIR__ . '/../../../Modules/Media/Files' . $path
+                        );
+                    }
                 }
 
                 CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
