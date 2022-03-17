@@ -18,6 +18,7 @@ use Modules\Admin\Models\AccountMapper;
 use Modules\Admin\Models\NullAccount;
 use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\MediaMapper;
+use Modules\Media\Models\NullCollection;
 use Modules\Media\Models\NullMedia;
 use Modules\Media\Models\Reference;
 use Modules\Media\Models\ReferenceMapper;
@@ -132,7 +133,7 @@ final class ApiController extends Controller
                 if ($collection === null) {
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
-                    if ($collection instanceof NullMedia) {
+                    if ($collection instanceof NullCollection) {
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                             '/Modules/Media/Files',
                             $accountPath,
@@ -162,7 +163,7 @@ final class ApiController extends Controller
                 if ($collection === null) {
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
-                    if ($collection instanceof NullMedia) {
+                    if ($collection instanceof NullCollection) {
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                             '/Modules/Media/Files',
                             $path,
