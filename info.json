@@ -26,6 +26,7 @@
     "providing": {
         "Navigation": "*",
         "Search": "*",
+        "Dashboard": "*",
         "Media": "*"
     },
     "load": [

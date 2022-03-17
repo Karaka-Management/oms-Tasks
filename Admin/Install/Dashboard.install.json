@@ -1,0 +1,8 @@
+[
+    {
+        "type": "component",
+        "board": 1,
+        "order": 1,
+        "module": "Tasks"
+    }
+]

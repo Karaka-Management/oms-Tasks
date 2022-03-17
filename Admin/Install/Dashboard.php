@@ -17,27 +17,27 @@ namespace Modules\Tasks\Admin\Install;
 use phpOMS\Application\ApplicationAbstract;
 
 /**
- * Navigation class.
+ * Dashboard class.
  *
  * @package Modules\Tasks\Admin\Install
  * @license OMS License 1.0
  * @link    https://karaka.app
  * @since   1.0.0
  */
-class Navigation
+class Dashboard
 {
     /**
-     * Install navigation providing
+     * Install dashboard providing
      *
-     * @param ApplicationAbstract $app  Application
      * @param string              $path Module path
+     * @param ApplicationAbstract $app  Application
      *
      * @return void
      *
      * @since 1.0.0
      */
-    public static function install(ApplicationAbstract $app, string $path) : void
+    public static function install(string $path, ApplicationAbstract $app) : void
     {
-        \Modules\Navigation\Admin\Installer::installExternal($app, ['path' => __DIR__ . '/Navigation.install.json']);
+        \Modules\Dashboard\Admin\Installer::installExternal($app, ['path' => __DIR__ . '/Dashboard.install.json']);
     }
 }
