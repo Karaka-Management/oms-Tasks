@@ -14,10 +14,14 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Models;
 
+use Modules\Admin\Models\AccountMapper;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
- * Tasks mapper class.
+ * Task seen mapper class.
+ *
+ * This class is used to mark a task as seen. Additionally, you may set a reminder flag which can be used to highlight
+ * a task.
  *
  * @package Modules\Tasks\Models
  * @license OMS License 1.0
@@ -37,7 +41,22 @@ final class TaskSeenMapper extends DataMapperFactory
         'task_seen_at'   => ['name' => 'task_seen_at',   'type' => 'DateTime', 'internal' => 'seenAt'],
         'task_seen_task' => ['name' => 'task_seen_task', 'type' => 'int',      'internal' => 'task'],
         'task_seen_by'   => ['name' => 'task_seen_by',   'type' => 'int',      'internal' => 'seenBy'],
-        'task_seen_flag' => ['name' => 'task_seen_flag', 'type' => 'bool',     'internal' => 'flag'],
+        'task_seen_reminder' => ['name' => 'task_seen_reminder', 'type' => 'bool',      'internal' => 'isRemindered'],
+        'task_seen_reminder_at'   => ['name' => 'task_seen_reminder_at',   'type' => 'DateTime', 'internal' => 'reminderAt'],
+        'task_seen_reminder_by'   => ['name' => 'task_seen_reminder_by',   'type' => 'int',      'internal' => 'reminderBy'],
+    ];
+
+    /**
+     * Belongs to.
+     *
+     * @var array<string, array{mapper:string, external:string}>
+     * @since 1.0.0
+     */
+    public const BELONGS_TO = [
+        'reminderBy' => [
+            'mapper'     => AccountMapper::class,
+            'external'   => 'task_seen_reminder_by',
+        ],
     ];
 
     /**

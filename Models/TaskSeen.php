@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Models;
 
+use Modules\Admin\Models\Account;
+
 /**
  * Null model
  *
@@ -38,16 +40,11 @@ class TaskSeen
 
     public int $task = 0;
 
-    /**
-     * The flag allows to set a task as not seen even it was already seen.
-     *
-     * This is helpful for changes to a task or forwarding which should be signaled to the user.
-     * Another situation could be if a user wants to mark a task as unseen in order to check it out later on again.
-     *
-     * @var bool
-     * @since 1.0.0
-     */
-    public bool $flag = false;
+    public ?\DateTime $reminderAt = null;
+
+    public bool $isRemindered = false;
+
+    public ?Account $reminderBy = null;
 
     /**
      * Constructor.
