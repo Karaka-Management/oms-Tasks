@@ -76,7 +76,7 @@ class AccountRelation extends RelationAbstract
     /**
      * {@inheritdoc}
      */
-    public function jsonSerialize()
+    public function jsonSerialize() : mixed
     {
         return $this->toArray();
     }
