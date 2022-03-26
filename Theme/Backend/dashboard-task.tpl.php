@@ -22,6 +22,7 @@ $tasksList = $this->getData('tasks') ?? [];
 <div id="tasks-dashboard" class="col-xs-12 col-md-6" draggable="true">
     <div class="portlet">
         <div class="portlet-head"><?= $this->getHtml('Tasks', 'Tasks'); ?></div>
+        <div class="slider">
         <table class="default">
             <thead>
                 <td><?= $this->getHtml('Status', 'Tasks'); ?>
@@ -55,6 +56,7 @@ $tasksList = $this->getData('tasks') ?? [];
             <tr><td colspan="6" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
             <?php endif; ?>
         </table>
+        </div>
         <div class="portlet-foot">
             <a class="button" href="<?= UriFactory::build('{/prefix}task/dashboard?{?}') ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
         </div>
