@@ -103,9 +103,19 @@ final class ApiController extends Controller
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully created.', $task);
     }
 
+    /**
+     * Create media files for task
+     *
+     * @param Task            $task    Task
+     * @param RequestAbstract $request Request incl. media do upload
+     *
+     * @return void
+     *
+     * @since 1.0.0
+     */
     private function createTaskMedia(Task $task, RequestAbstract $request) : void
     {
-        $path = $this->createTaskDir($task);
+        $path    = $this->createTaskDir($task);
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
         if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
@@ -123,11 +133,13 @@ final class ApiController extends Controller
                 MediaMapper::create()->execute($media);
                 TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
 
-                $ref = new Reference();
-                $ref->name = $media->name;
-                $ref->source = new NullMedia($media->getId());
+                $accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId();
+
+                $ref            = new Reference();
+                $ref->name      = $media->name;
+                $ref->source    = new NullMedia($media->getId());
                 $ref->createdBy = new NullAccount($request->header->account);
-                $ref->setVirtualPath($accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId());
+                $ref->setVirtualPath($accountPath);
 
                 ReferenceMapper::create()->execute($ref);
 
@@ -136,7 +148,6 @@ final class ApiController extends Controller
 
                     if ($collection instanceof NullCollection) {
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                            '/Modules/Media/Files',
                             $accountPath,
                             $request->header->account,
                             __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
@@ -156,9 +167,9 @@ final class ApiController extends Controller
 
                 TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
 
-                $ref = new Reference();
-                $ref->name = $media->name;
-                $ref->source = new NullMedia($media->getId());
+                $ref            = new Reference();
+                $ref->name      = $media->name;
+                $ref->source    = new NullMedia($media->getId());
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($path);
 
@@ -169,7 +180,6 @@ final class ApiController extends Controller
 
                     if ($collection instanceof NullCollection) {
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                            '/Modules/Media/Files',
                             $path,
                             $request->header->account,
                             __DIR__ . '/../../../Modules/Media/Files' . $path
@@ -182,6 +192,15 @@ final class ApiController extends Controller
         }
     }
 
+    /**
+     * Create media directory path
+     *
+     * @param Task $task Task
+     *
+     * @return string
+     *
+     * @since 1.0.0
+     */
     private function createTaskDir(Task $task) : string
     {
         return '/Modules/Tasks/'
@@ -362,10 +381,11 @@ final class ApiController extends Controller
 
         $task    = TaskMapper::get()->where('id', (int) ($request->getData('task')))->execute();
         $element = $this->createTaskElementFromRequest($request, $task);
-        $task->setStatus($element->getStatus());
-        $task->setPriority($element->getPriority());
+
         $task->due        = $element->due;
         $task->completion = (int) ($request->getData('completion') ?? $task->completion);
+        $task->setPriority($element->getPriority());
+        $task->setStatus($element->getStatus());
 
         if ($task->getStatus() === TaskStatus::DONE) {
             $task->completion = 100;
@@ -383,9 +403,20 @@ final class ApiController extends Controller
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully created.', $element);
     }
 
+    /**
+     * Create media files for task element
+     *
+     * @param Task            $task    Task
+     * @param TaskElement     $element Task element
+     * @param RequestAbstract $request Request incl. media do upload
+     *
+     * @return void
+     *
+     * @since 1.0.0
+     */
     private function createTaskElementMedia(Task $task, TaskElement $element, RequestAbstract $request) : void
     {
-        $path = $this->createTaskDir($task);
+        $path    = $this->createTaskDir($task);
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
         if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
@@ -404,17 +435,18 @@ final class ApiController extends Controller
                 MediaMapper::create()->execute($media);
                 TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
 
-                $ref = new Reference();
-                $ref->name = $media->name;
-                $ref->source = new NullMedia($media->getId());
+                $accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId();
+
+                $ref            = new Reference();
+                $ref->name      = $media->name;
+                $ref->source    = new NullMedia($media->getId());
                 $ref->createdBy = new NullAccount($request->header->account);
-                $ref->setVirtualPath($accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId());
+                $ref->setVirtualPath($accountPath);
 
                 ReferenceMapper::create()->execute($ref);
 
                 if ($collection === null) {
                     $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                        '/Modules/Media/Files',
                         $accountPath,
                         $request->header->account,
                         __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
@@ -433,9 +465,9 @@ final class ApiController extends Controller
 
                 TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
 
-                $ref = new Reference();
-                $ref->name = $media->name;
-                $ref->source = new NullMedia($media->getId());
+                $ref            = new Reference();
+                $ref->name      = $media->name;
+                $ref->source    = new NullMedia($media->getId());
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($path);
 
@@ -443,7 +475,6 @@ final class ApiController extends Controller
 
                 if ($collection === null) {
                     $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
-                        '/Modules/Media/Files',
                         $path,
                         $request->header->account,
                         __DIR__ . '/../../../Modules/Media/Files' . $path
