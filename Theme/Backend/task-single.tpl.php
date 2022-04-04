@@ -43,7 +43,6 @@ echo $this->getData('nav')->render(); ?>
                 </template>
                 <template id="contentTpl">
                     <div class="task-content">
-                        <!-- todo: bind js after adding template -->
                         <?= $this->getData('editor')->render('task-edit'); ?>
                         <?= $this->getData('editor')->getData('text')->render(
                             'task-edit',
