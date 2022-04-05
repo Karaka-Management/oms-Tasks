@@ -94,8 +94,8 @@ final class ApiController extends Controller
         $task = $this->createTaskFromRequest($request);
         $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
 
-        if (!empty($request->getFiles() ?? [])
-            || !empty($request->getDataJson('media') ?? [])
+        if (!empty($request->getFiles())
+            || !empty($request->getDataJson('media'))
         ) {
             $this->createTaskMedia($task, $request);
         }
@@ -118,7 +118,7 @@ final class ApiController extends Controller
         $path    = $this->createTaskDir($task);
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
-        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
+        if (!empty($uploadedFiles = $request->getFiles())) {
             $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
                 [],
                 [],
@@ -159,7 +159,7 @@ final class ApiController extends Controller
             }
         }
 
-        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
+        if (!empty($mediaFiles = $request->getDataJson('media'))) {
             $collection = null;
 
             foreach ($mediaFiles as $file) {
@@ -393,8 +393,8 @@ final class ApiController extends Controller
 
         $this->createModel($request->header->account, $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
 
-        if (!empty($request->getFiles() ?? [])
-            || !empty($request->getDataJson('media') ?? [])
+        if (!empty($request->getFiles())
+            || !empty($request->getDataJson('media'))
         ) {
             $this->createTaskElementMedia($task, $element, $request);
         }
@@ -419,7 +419,7 @@ final class ApiController extends Controller
         $path    = $this->createTaskDir($task);
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
-        if (!empty($uploadedFiles = $request->getFiles() ?? [])) {
+        if (!empty($uploadedFiles = $request->getFiles())) {
             $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
                 [],
                 [],
@@ -457,7 +457,7 @@ final class ApiController extends Controller
             }
         }
 
-        if (!empty($mediaFiles = $request->getDataJson('media') ?? [])) {
+        if (!empty($mediaFiles = $request->getDataJson('media'))) {
             $collection = null;
 
             foreach ($mediaFiles as $file) {
