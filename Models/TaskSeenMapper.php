@@ -37,11 +37,11 @@ final class TaskSeenMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const COLUMNS = [
-        'task_seen_id'   => ['name' => 'task_seen_id',   'type' => 'int',      'internal' => 'id'],
-        'task_seen_at'   => ['name' => 'task_seen_at',   'type' => 'DateTime', 'internal' => 'seenAt'],
-        'task_seen_task' => ['name' => 'task_seen_task', 'type' => 'int',      'internal' => 'task'],
-        'task_seen_by'   => ['name' => 'task_seen_by',   'type' => 'int',      'internal' => 'seenBy'],
-        'task_seen_reminder' => ['name' => 'task_seen_reminder', 'type' => 'bool',      'internal' => 'isRemindered'],
+        'task_seen_id'            => ['name' => 'task_seen_id',   'type' => 'int',      'internal' => 'id'],
+        'task_seen_at'            => ['name' => 'task_seen_at',   'type' => 'DateTime', 'internal' => 'seenAt'],
+        'task_seen_task'          => ['name' => 'task_seen_task', 'type' => 'int',      'internal' => 'task'],
+        'task_seen_by'            => ['name' => 'task_seen_by',   'type' => 'int',      'internal' => 'seenBy'],
+        'task_seen_reminder'      => ['name' => 'task_seen_reminder', 'type' => 'bool',      'internal' => 'isRemindered'],
         'task_seen_reminder_at'   => ['name' => 'task_seen_reminder_at',   'type' => 'DateTime', 'internal' => 'reminderAt'],
         'task_seen_reminder_by'   => ['name' => 'task_seen_reminder_by',   'type' => 'int',      'internal' => 'reminderBy'],
     ];

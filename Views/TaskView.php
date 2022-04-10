@@ -16,8 +16,8 @@ namespace Modules\Tasks\Views;
 
 use Modules\Media\Models\Media;
 use Modules\Media\Models\NullMedia;
-use Modules\Profile\Models\ProfileMapper;
 use Modules\Profile\Models\NullProfile;
+use Modules\Profile\Models\ProfileMapper;
 use Modules\Tasks\Models\TaskStatus;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\RequestAbstract;

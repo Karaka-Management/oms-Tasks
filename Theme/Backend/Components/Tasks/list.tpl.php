@@ -15,6 +15,7 @@ declare(strict_types=1);
 use Modules\Tasks\Models\TaskPriority;
 use Modules\Tasks\Models\TaskStatus;
 use phpOMS\Uri\UriFactory;
+
 ?>
 
 <div id="news-dashboard" class="col-xs-12 col-md-6" draggable="true">
