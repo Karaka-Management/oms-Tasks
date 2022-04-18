@@ -16,12 +16,16 @@ namespace Modules\Tasks\Controller;
 
 use Modules\Dashboard\Models\DashboardElementInterface;
 use Modules\Media\Models\MediaMapper;
+use Modules\Tasks\Models\AccountRelationMapper;
 use Modules\Tasks\Models\PermissionCategory;
+use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
+use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Views\TaskView;
 use phpOMS\Account\PermissionType;
 use phpOMS\Asset\AssetType;
 use phpOMS\Contract\RenderableInterface;
+use phpOMS\DataStorage\Database\Query\Builder;
 use phpOMS\DataStorage\Database\Query\OrderType;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\RequestAbstract;
@@ -66,31 +70,50 @@ final class BackendController extends Controller implements DashboardElementInte
         $mapperQuery = TaskMapper::getAnyRelatedToUser($request->header->account)
             ->with('tags')
             ->with('tags/title')
-            ->sort('taskElements/createdAt', OrderType::DESC)
+            ->where('status', TaskStatus::OPEN, '!=')
+            ->where('tags/title/language', $response->getLanguage())
+            ->sort('createdAt', OrderType::DESC)
             ->limit(25);
 
         if ($request->getData('ptype') === 'p') {
             $view->setData('tasks',
                 $mapperQuery->with('createdBy')
                     ->where('id', (int) ($request->getData('id') ?? 0), '<')
-                    ->where('tags/title/language', $response->getLanguage())
                     ->execute()
             );
         } elseif ($request->getData('ptype') === 'n') {
             $view->setData('tasks',
                 $mapperQuery->with('createdBy')
                     ->where('id', (int) ($request->getData('id') ?? 0), '>')
-                    ->where('tags/title/language', $response->getLanguage())
                     ->execute()
             );
         } else {
             $view->setData('tasks',
                 $mapperQuery->with('createdBy')
                     ->where('id', 0, '>')
-                    ->where('tags/title/language', $response->getLanguage())
                     ->execute()
             );
         }
+
+        $openQuery = new Builder($this->app->dbPool->get(), true);
+        $openQuery->innerJoin(TaskElementMapper::TABLE)
+                    ->on(TaskMapper::TABLE . '_d1.' . TaskMapper::PRIMARYFIELD, '=', TaskElementMapper::TABLE . '.task_element_task')
+                ->innerJoin(AccountRelationMapper::TABLE)
+                    ->on(TaskElementMapper::TABLE . '.' . TaskElementMapper::PRIMARYFIELD, '=', AccountRelationMapper::TABLE . '.task_account_task_element')
+                ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $request->header->account);
+
+        $open = TaskMapper::getAll()
+            ->with('createdBy')
+            ->with('taskElements')
+            ->with('tags')
+            ->with('tags/title')
+            ->where('tags/title/language', $response->getLanguage())
+            ->where('status', TaskStatus::OPEN)
+            ->sort('createdAt', OrderType::DESC)
+            ->query($openQuery)
+            ->execute();
+
+        $view->setData('open', $open);
 
         return $view;
     }
