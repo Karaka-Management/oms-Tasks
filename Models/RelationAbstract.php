@@ -2,7 +2,7 @@
 /**
  * Karaka
  *
- * PHP Version 8.0
+ * PHP Version 8.1
  *
  * @package   Modules\Tasks\Models
  * @copyright Dennis Eichhorn
@@ -101,5 +101,5 @@ abstract class RelationAbstract implements \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    abstract public function jsonSerialize();
+    abstract public function jsonSerialize() : mixed;
 }

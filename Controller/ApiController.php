@@ -2,7 +2,7 @@
 /**
  * Karaka
  *
- * PHP Version 8.0
+ * PHP Version 8.1
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
@@ -115,7 +115,9 @@ final class ApiController extends Controller
      */
     private function createTaskMedia(Task $task, RequestAbstract $request) : void
     {
-        $path    = $this->createTaskDir($task);
+        $path = $this->createTaskDir($task);
+
+        /** @var \Modules\Admin\Models\Account $account */
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
         if (!empty($uploadedFiles = $request->getFiles())) {
@@ -144,6 +146,7 @@ final class ApiController extends Controller
                 ReferenceMapper::create()->execute($ref);
 
                 if ($collection === null) {
+                    /** @var \Modules\Media\Models\Media $media */
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
                     if ($collection instanceof NullCollection) {
@@ -163,6 +166,7 @@ final class ApiController extends Controller
             $collection = null;
 
             foreach ($mediaFiles as $file) {
+                /** @var \Modules\Media\Models\Media $media */
                 $media = MediaMapper::get()->where('id', (int) $file)->limit(1)->execute();
 
                 TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
@@ -176,6 +180,7 @@ final class ApiController extends Controller
                 ReferenceMapper::create()->execute($ref);
 
                 if ($collection === null) {
+                    /** @var \Modules\Media\Models\Media $media */
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
                     if ($collection instanceof NullCollection) {
@@ -379,6 +384,7 @@ final class ApiController extends Controller
             return;
         }
 
+        /** @var \Modules\Tasks\Models\Task $task */
         $task    = TaskMapper::get()->where('id', (int) ($request->getData('task')))->execute();
         $element = $this->createTaskElementFromRequest($request, $task);
 
@@ -416,7 +422,9 @@ final class ApiController extends Controller
      */
     private function createTaskElementMedia(Task $task, TaskElement $element, RequestAbstract $request) : void
     {
-        $path    = $this->createTaskDir($task);
+        $path = $this->createTaskDir($task);
+
+         /** @var \Modules\Admin\Models\Account $account */
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
         if (!empty($uploadedFiles = $request->getFiles())) {
@@ -461,6 +469,7 @@ final class ApiController extends Controller
             $collection = null;
 
             foreach ($mediaFiles as $file) {
+                /** @var \Modules\Media\Models\Media $media */
                 $media = MediaMapper::get()->where('id', (int) $file)->limit(1)->execute();
 
                 TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
@@ -574,6 +583,7 @@ final class ApiController extends Controller
             || $old->getPriority() !== $new->getPriority()
             || $old->due !== $new->due
         ) {
+            /** @var Task $task */
             $task = TaskMapper::get()->where('id', $new->task)->execute();
 
             $task->setStatus($new->getStatus());

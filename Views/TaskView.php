@@ -2,7 +2,7 @@
 /**
  * Karaka
  *
- * PHP Version 8.0
+ * PHP Version 8.1
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
@@ -67,6 +67,7 @@ class TaskView extends View
      */
     public function getAccountImage(int $account) : string
     {
+        /** @var \Modules\Profile\Models\Profile $profile */
         $profile = ProfileMapper::get()
             ->with('image')
             ->where('account', $account)
