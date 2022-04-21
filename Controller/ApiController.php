@@ -81,7 +81,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
             $response->set($request->uri->__toString(), new FormValidation($val));
@@ -283,7 +283,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskGet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiTaskGet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         /** @var Task $task */
         $task = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
@@ -303,10 +303,10 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiTaskSet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         /** @var Task $old */
-        $old = clone TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
+        $old = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         /** @var Task $new */
         $new = $this->updateTaskFromRequest($request);
@@ -375,7 +375,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskElementCreate(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiTaskElementCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
             $response->set('task_element_create', new FormValidation($val));
@@ -550,7 +550,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskElementGet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiTaskElementGet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         /** @var TaskElement $task */
         $task = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
@@ -570,10 +570,10 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, $data = null) : void
+    public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         /** @var TaskElement $old */
-        $old = clone TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
+        $old = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         /** @var TaskElement $new */
         $new = $this->updateTaskElementFromRequest($request);

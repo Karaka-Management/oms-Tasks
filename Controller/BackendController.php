@@ -16,6 +16,7 @@ namespace Modules\Tasks\Controller;
 
 use Modules\Dashboard\Models\DashboardElementInterface;
 use Modules\Media\Models\MediaMapper;
+use Modules\Profile\Models\SettingsEnum;
 use Modules\Tasks\Models\AccountRelationMapper;
 use Modules\Tasks\Models\PermissionCategory;
 use Modules\Tasks\Models\TaskElementMapper;
@@ -56,7 +57,7 @@ final class BackendController extends Controller implements DashboardElementInte
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewTaskDashboard(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewTaskDashboard(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
 
@@ -102,6 +103,7 @@ final class BackendController extends Controller implements DashboardElementInte
                     ->on(TaskElementMapper::TABLE . '.' . TaskElementMapper::PRIMARYFIELD, '=', AccountRelationMapper::TABLE . '.task_account_task_element')
                 ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $request->header->account);
 
+        /** @var \Modules\Tasks\Models\Task[] $open */
         $open = TaskMapper::getAll()
             ->with('createdBy')
             ->with('taskElements')
@@ -122,12 +124,13 @@ final class BackendController extends Controller implements DashboardElementInte
      * {@inheritdoc}
      * @codeCoverageIgnore
      */
-    public function viewDashboard(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewDashboard(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Tasks/Theme/Backend/dashboard-task');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
 
+        /** @var \Modules\Tasks\Models\Task[] $tasks */
         $tasks = TaskMapper::getAnyRelatedToUser($request->header->account)
             ->with('tags')
             ->with('tags/title')
@@ -154,11 +157,11 @@ final class BackendController extends Controller implements DashboardElementInte
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewTaskView(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewTaskView(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new TaskView($this->app->l11nManager, $request, $response);
 
-        $profileImage              = $this->app->appSettings->get(names: 'default_profile_image', module: 'Profile');
+        $profileImage              = $this->app->appSettings->get(names: SettingsEnum::DEFAULT_PROFILE_IMAGE, module: 'Profile');
         $image                     = MediaMapper::get()->where('id', (int) $profileImage->content)->execute();
         $view->defaultProfileImage = $image;
 
@@ -227,7 +230,7 @@ final class BackendController extends Controller implements DashboardElementInte
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewTaskCreate(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewTaskCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
 
@@ -255,7 +258,7 @@ final class BackendController extends Controller implements DashboardElementInte
      * @since 1.0.0
      * @codeCoverageIgnore
      */
-    public function viewTaskAnalysis(RequestAbstract $request, ResponseAbstract $response, $data = null) : RenderableInterface
+    public function viewTaskAnalysis(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-analysis');
