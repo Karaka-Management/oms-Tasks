@@ -135,7 +135,12 @@ final class ApiController extends Controller
                 MediaMapper::create()->execute($media);
                 TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
 
-                $accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId();
+                $accountPath = '/Accounts/'
+                    . $account->getId() . ' '
+                    . $account->login . '/Tasks/'
+                    . $task->createdAt->format('Y') . '/'
+                    . $task->createdAt->format('m') . '/'
+                    . $task->getId();
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
@@ -153,7 +158,11 @@ final class ApiController extends Controller
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                             $accountPath,
                             $request->header->account,
-                            __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
+                            __DIR__ . '/../../../Modules/Media/Files/Accounts/'
+                                . $account->getId() . '/Tasks/'
+                                . $task->createdAt->format('Y') . '/'
+                                . $task->createdAt->format('m') . '/'
+                                . $task->getId()
                         );
                     }
                 }
@@ -443,7 +452,11 @@ final class ApiController extends Controller
                 MediaMapper::create()->execute($media);
                 TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
 
-                $accountPath = '/Accounts/' . $account->getId() . ' ' . $account->login . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId();
+                $accountPath = '/Accounts/' . $account->getId() . ' '
+                    . $account->login . '/Tasks/'
+                    . $task->createdAt->format('Y') . '/'
+                    . $task->createdAt->format('m') . '/'
+                    . $task->getId();
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
@@ -457,7 +470,10 @@ final class ApiController extends Controller
                     $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                         $accountPath,
                         $request->header->account,
-                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId() . '/Tasks/' . $task->createdAt->format('Y') . '/' . $task->createdAt->format('m') . '/' . $task->getId()
+                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId()
+                            . '/Tasks/' . $task->createdAt->format('Y') . '/'
+                            . $task->createdAt->format('m') . '/'
+                            . $task->getId()
                     );
                 }
 
