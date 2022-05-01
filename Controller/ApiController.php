@@ -320,6 +320,11 @@ final class ApiController extends Controller
         /** @var Task $new */
         $new = $this->updateTaskFromRequest($request);
         $this->updateModel($request->header->account, $old, $new, TaskMapper::class, 'task', $request->getOrigin());
+
+        if (!empty($new->trigger)) {
+            $this->app->eventManager->triggerSimilar($new->trigger, '', $new);
+        }
+
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully updated.', $new);
     }
 
@@ -415,6 +420,11 @@ final class ApiController extends Controller
         }
 
         $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
+
+        if (!empty($task->trigger)) {
+            $this->app->eventManager->triggerSimilar($task->trigger, '', $task);
+        }
+
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully created.', $element);
     }
 
@@ -607,6 +617,10 @@ final class ApiController extends Controller
             $task->due = $new->due;
 
             $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
+
+            if (!empty($task->trigger)) {
+                $this->app->eventManager->triggerSimilar($task->trigger, '', $task);
+            }
         }
 
         $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully updated.', $new);

@@ -60,6 +60,16 @@ class Task implements \JsonSerializable
     public string $redirect = '';
 
     /**
+     * Trigger
+     *
+     * Event trigger to execute on task change.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    public string $trigger = '';
+
+    /**
      * Creator.
      *
      * @var Account
