@@ -170,7 +170,7 @@ echo $this->getData('nav')->render(); ?>
             <?php endif; ?>
             <?php $c = 0; $previous = null;
             foreach ($elements as $key => $element) : ++$c; ?>
-                <?php if (($c === 1 && $element->getStatus() !== TaskStatus::OPEN)
+                <?php if ($c === 1
                     || ($previous !== null && $element->getStatus() !== $previous->getStatus())
                 ) : ?>
                     <section class="portlet">
@@ -190,7 +190,7 @@ echo $this->getData('nav')->render(); ?>
                     </section>
                 <?php endif; ?>
 
-                <?php if (($c === 1 && $element->getPriority() !== $task->getPriority())
+                <?php if (($c === 1)
                     || ($previous !== null && $element->getPriority() !== $previous->getPriority())
                 ) : ?>
                     <section class="portlet">

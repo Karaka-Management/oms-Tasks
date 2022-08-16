@@ -13,7 +13,6 @@
 declare(strict_types=1);
 
 use Modules\Tasks\Models\TaskPriority;
-use Modules\Tasks\Models\TaskStatus;
 use phpOMS\Uri\UriFactory;
 
 $tasksList = $this->getData('tasks') ?? [];
@@ -33,16 +32,13 @@ $tasksList = $this->getData('tasks') ?? [];
             <?php
             $c = 0;
             foreach ($tasksList as $key => $task) : ++$c;
-            $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('{/prefix}task/single?{?}&id=' . $task->getId()));
-
-            $color                                                         = 'darkred';
-            if ($task->getStatus() === TaskStatus::DONE) { $color          = 'green'; }
-            elseif ($task->getStatus() === TaskStatus::OPEN) { $color      = 'darkblue'; }
-            elseif ($task->getStatus() === TaskStatus::WORKING) { $color   = 'purple'; }
-            elseif ($task->getStatus() === TaskStatus::CANCELED) { $color  = 'red'; }
-            elseif ($task->getStatus() === TaskStatus::SUSPENDED) { $color = 'yellow'; } ?>
+                $url = UriFactory::build(!empty($task->redirect)
+                    ? $task->redirect
+                    : ('{/prefix}task/single?{?}&id=' . $task->getId())
+                );
+            ?>
                 <tr data-href="<?= $url; ?>">
-                    <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml($color); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?></span></a>
+                    <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?></span></a>
                     <td><a href="<?= $url; ?>">
                         <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>

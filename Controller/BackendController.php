@@ -63,7 +63,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->get('Content')->getData('head');
-        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-dashboard');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
@@ -126,6 +126,10 @@ final class BackendController extends Controller implements DashboardElementInte
      */
     public function viewDashboard(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
+        /** @var \phpOMS\Model\Html\Head $head */
+        $head = $response->get('Content')->getData('head');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
+
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Tasks/Theme/Backend/dashboard-task');
         $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
@@ -179,7 +183,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->get('Content')->getData('head');
-        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
 
         /** @var \Modules\Tasks\Models\Task $task */
         $task = TaskMapper::get()

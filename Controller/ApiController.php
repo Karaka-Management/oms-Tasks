@@ -318,7 +318,7 @@ final class ApiController extends Controller
         $old = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         /** @var Task $new */
-        $new = $this->updateTaskFromRequest($request);
+        $new = $this->updateTaskFromRequest($request, clone $old);
         $this->updateModel($request->header->account, $old, $new, TaskMapper::class, 'task', $request->getOrigin());
 
         if (!empty($new->trigger)) {
@@ -337,10 +337,8 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    private function updateTaskFromRequest(RequestAbstract $request) : Task
+    private function updateTaskFromRequest(RequestAbstract $request, Task $task) : Task
     {
-        /** @var Task $task */
-        $task                 = TaskMapper::get()->where('id', (int) ($request->getData('id')))->execute();
         $task->title          = (string) ($request->getData('title') ?? $task->title);
         $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
         $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
@@ -602,7 +600,7 @@ final class ApiController extends Controller
         $old = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
 
         /** @var TaskElement $new */
-        $new = $this->updateTaskElementFromRequest($request);
+        $new = $this->updateTaskElementFromRequest($request, clone $old);
         $this->updateModel($request->header->account, $old, $new, TaskElementMapper::class, 'taskelement', $request->getOrigin());
 
         if ($old->getStatus() !== $new->getStatus()
@@ -635,10 +633,8 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    private function updateTaskElementFromRequest(RequestAbstract $request) : TaskElement
+    private function updateTaskElementFromRequest(RequestAbstract $request, TaskElement $element) : TaskElement
     {
-        /** @var TaskElement $element */
-        $element      = TaskElementMapper::get()->where('id', (int) ($request->getData('id')))->execute();
         $element->due = $request->getData('due') !== null ? new \DateTime((string) ($request->getData('due'))) : $element->due;
         $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
         $element->description    = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
