@@ -33,7 +33,7 @@ final class RelationAbstractTest extends \PHPUnit\Framework\TestCase
         {
             public function getRelation() { return new Modules\Admin\Models\Group(); }
 
-            public function jsonSerialize() { return []; }
+            public function jsonSerialize() : mixed { return []; }
         };
     }
 

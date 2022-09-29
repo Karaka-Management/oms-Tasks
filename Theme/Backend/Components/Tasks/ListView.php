@@ -50,7 +50,7 @@ class ListView extends View
     /**
      * {@inheritdoc}
      */
-    public function render(...$data) : string
+    public function render(mixed ...$data) : string
     {
         $this->tasks = $data[0];
         return parent::render();
