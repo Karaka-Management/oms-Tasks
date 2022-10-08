@@ -361,7 +361,7 @@ echo $this->getData('nav')->render(); ?>
                     </div>
 
                     <div class="more-container">
-                        <input id="more-customer-sales" type="checkbox">
+                        <input id="more-customer-sales" type="checkbox" name="more-container">
                         <label for="more-customer-sales">
                             <span>Advanced</span>
                             <i class="fa fa-chevron-right expand"></i>
