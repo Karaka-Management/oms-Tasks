@@ -74,10 +74,10 @@ class TaskView extends View
             ->execute();
 
         if (($profile instanceof NullProfile) || $profile->image->getPath() === '') {
-            return UriFactory::build('{/prefix}' . $this->defaultProfileImage->getPath());
+            return UriFactory::build('' . $this->defaultProfileImage->getPath());
         }
 
-        return UriFactory::build('{/prefix}' . $profile->image->getPath());
+        return UriFactory::build('' . $profile->image->getPath());
     }
 
     /**

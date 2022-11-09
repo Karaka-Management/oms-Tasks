@@ -31,7 +31,7 @@ use phpOMS\Uri\UriFactory;
             <?php
             $c = 0;
             foreach ($this->tasks as $key => $task) : ++$c;
-            $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('{/prefix}task/single?{?}&id=' . $task->getId()));
+            $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('task/single?{?}&id=' . $task->getId()));
 
             $color                                                         = 'darkred';
             if ($task->getStatus() === TaskStatus::DONE) { $color          = 'green'; }

@@ -34,7 +34,7 @@ $tasksList = $this->getData('tasks') ?? [];
             foreach ($tasksList as $key => $task) : ++$c;
                 $url = UriFactory::build(!empty($task->redirect)
                     ? $task->redirect
-                    : ('{/prefix}task/single?{?}&id=' . $task->getId())
+                    : ('task/single?{?}&id=' . $task->getId())
                 );
             ?>
                 <tr data-href="<?= $url; ?>">
@@ -54,7 +54,7 @@ $tasksList = $this->getData('tasks') ?? [];
         </table>
         </div>
         <div class="portlet-foot">
-            <a class="button" href="<?= UriFactory::build('{/prefix}task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
+            <a class="button" href="<?= UriFactory::build('task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
         </div>
     </div>
 </div>
