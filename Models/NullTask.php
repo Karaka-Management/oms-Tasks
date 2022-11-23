@@ -44,12 +44,4 @@ final class NullTask extends Task
     {
         return ['id' => $this->id];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function jsonSerialize() : mixed
-    {
-        return ['id' => $this->id];
-    }
 }
