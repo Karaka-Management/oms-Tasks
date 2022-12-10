@@ -54,7 +54,7 @@ $tasksList = $this->getData('tasks') ?? [];
         </table>
         </div>
         <div class="portlet-foot">
-            <a class="button" href="<?= UriFactory::build('task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
+            <a class="button" href="<?= UriFactory::build('{/lang}/{/app}/task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
         </div>
     </div>
 </div>
