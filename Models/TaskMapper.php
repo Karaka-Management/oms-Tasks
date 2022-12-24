@@ -333,7 +333,7 @@ final class TaskMapper extends DataMapperFactory
             ->where($userWhere)
             ->andWhere(self::TABLE . '_d1.' . self::PRIMARYFIELD, '=', $task);
 
-        return !empty($query->execute()->fetchAll());
+        return !empty($query->execute()?->fetchAll());
     }
 
     /**
