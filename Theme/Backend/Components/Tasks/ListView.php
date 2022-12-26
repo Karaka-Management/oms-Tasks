@@ -52,6 +52,7 @@ class ListView extends View
      */
     public function render(mixed ...$data) : string
     {
+        /** @var array{0: \Modules\Tasks\Models\Task[]} $data */
         $this->tasks = $data[0];
         return parent::render();
     }

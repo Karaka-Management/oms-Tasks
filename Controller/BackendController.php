@@ -165,7 +165,10 @@ final class BackendController extends Controller implements DashboardElementInte
     {
         $view = new TaskView($this->app->l11nManager, $request, $response);
 
-        $profileImage              = $this->app->appSettings->get(names: SettingsEnum::DEFAULT_PROFILE_IMAGE, module: 'Profile');
+        /** @var \Model\Setting $profileImage */
+        $profileImage = $this->app->appSettings->get(names: SettingsEnum::DEFAULT_PROFILE_IMAGE, module: 'Profile');
+
+        /** @var \Modules\Media\Models\Media $image */
         $image                     = MediaMapper::get()->where('id', (int) $profileImage->content)->execute();
         $view->defaultProfileImage = $image;
 

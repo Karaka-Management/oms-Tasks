@@ -260,7 +260,12 @@ final class ApiController extends Controller
 
                     $internalResponse = new HttpResponse();
                     $this->app->moduleManager->get('Tag')->apiTagCreate($request, $internalResponse, null);
-                    $task->addTag($internalResponse->get($request->uri->__toString())['response']);
+
+                    if (!\is_array($data = $internalResponse->get($request->uri->__toString()))) {
+                        continue;
+                    }
+
+                    $task->addTag($data['response']);
                 } else {
                     $task->addTag(new NullTag((int) $tag['id']));
                 }

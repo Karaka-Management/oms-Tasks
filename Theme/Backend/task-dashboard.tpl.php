@@ -76,7 +76,7 @@ if ($open !== null) :
                         <td data-label="<?= $this->getHtml('Tag'); ?>">
                             <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                             <a href="<?= $url; ?>">
-                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= $tag->icon !== null ? '<i class="' . $this->printHtml($tag->icon ?? '') . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
@@ -137,7 +137,7 @@ if ($open !== null) :
                         <td data-label="<?= $this->getHtml('Tag'); ?>">
                             <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                             <a href="<?= $url; ?>">
-                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= $tag->icon !== null ? '<i class="' . $this->printHtml($tag->icon ?? '') . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
