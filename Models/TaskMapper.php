@@ -175,8 +175,7 @@ final class TaskMapper extends DataMapperFactory
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_duty', '=', DutyType::TO);
 
-        /** @return array */
-        return self::getAll()->execute($query); /** @return array */
+        return self::getAll()->execute($query);
     }
 
     /**
