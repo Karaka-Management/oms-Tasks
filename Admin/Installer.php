@@ -40,7 +40,7 @@ final class Installer extends InstallerAbstract
      */
     public const PATH = __DIR__;
 
-        /**
+    /**
      * {@inheritdoc}
      */
     public static function install(ApplicationAbstract $app, ModuleInfo $info, SettingsInterface $cfgHandler) : void
