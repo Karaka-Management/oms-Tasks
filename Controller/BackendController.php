@@ -106,7 +106,6 @@ final class BackendController extends Controller implements DashboardElementInte
         /** @var \Modules\Tasks\Models\Task[] $open */
         $open = TaskMapper::getAll()
             ->with('createdBy')
-            ->with('taskElements')
             ->with('tags')
             ->with('tags/title')
             ->where('tags/title/language', $response->getLanguage())

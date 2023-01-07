@@ -125,6 +125,14 @@ class Task implements \JsonSerializable
     public int $completion = -1;
 
     /**
+     * Attributes.
+     *
+     * @var ItemAttribute[]
+     * @since 1.0.0
+     */
+    private array $attributes = [];
+
+    /**
      * Task can be closed by user.
      *
      * Setting it to false will only allow other modules to close this task
@@ -600,6 +608,73 @@ class Task implements \JsonSerializable
     public function setType(int $type = TaskType::SINGLE) : void
     {
         $this->type = $type;
+    }
+
+        /**
+     * Add attribute to item
+     *
+     * @param ItemAttribute $attribute Note
+     *
+     * @return void
+     *
+     * @since 1.0.0
+     */
+    public function addAttribute(ItemAttribute $attribute) : void
+    {
+        $this->attributes[] = $attribute;
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return ItemAttribute[]
+     *
+     * @since 1.0.0
+     */
+    public function getAttributes() : array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Has attribute value
+     *
+     * @param string $attrName  Attribute name
+     * @param mixed  $attrValue Attribute value
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    public function hasAttributeValue(string $attrName, mixed $attrValue) : bool
+    {
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->type->name === $attrName && $attribute->value->getValue() === $attrValue) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get attribute
+     *
+     * @param string $attrName Attribute name
+     *
+     * @return null|AttributeValue
+     *
+     * @since 1.0.0
+     */
+    public function getAttribute(string $attrName) : ?AttributeValue
+    {
+        foreach ($this->attributes as $attribute) {
+            if ($attribute->type->name === $attrName) {
+                return $attribute->value;
+            }
+        }
+
+        return null;
     }
 
     /**

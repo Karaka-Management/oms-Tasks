@@ -29,6 +29,18 @@ use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Models\TaskType;
+use Modules\Tasks\Models\TaskAttribute;
+use Modules\Tasks\Models\TaskAttributeMapper;
+use Modules\Tasks\Models\TaskAttributeType;
+use Modules\Tasks\Models\TaskAttributeTypeL11n;
+use Modules\Tasks\Models\TaskAttributeTypeL11nMapper;
+use Modules\Tasks\Models\TaskAttributeTypeMapper;
+use Modules\Tasks\Models\TaskAttributeValue;
+use Modules\Tasks\Models\TaskAttributeValueL11n;
+use Modules\Tasks\Models\TaskAttributeValueL11nMapper;
+use Modules\Tasks\Models\TaskAttributeValueMapper;
+use Modules\Tasks\Models\NullTaskAttributeType;
+use Modules\Tasks\Models\NullTaskAttributeValue;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
@@ -664,5 +676,372 @@ final class ApiController extends Controller
         }
 
         return $element;
+    }
+
+    /**
+     * Api method to create task attribute
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiTaskAttributeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    {
+        if (!empty($val = $this->validateTaskAttributeCreate($request))) {
+            $response->set('attribute_create', new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
+
+            return;
+        }
+
+        $attribute = $this->createTaskAttributeFromRequest($request);
+        $this->createModel($request->header->account, $attribute, TaskAttributeMapper::class, 'attribute', $request->getOrigin());
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute', 'Attribute successfully created', $attribute);
+    }
+
+    /**
+     * Method to create task attribute from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return TaskAttribute
+     *
+     * @since 1.0.0
+     */
+    private function createTaskAttributeFromRequest(RequestAbstract $request) : TaskAttribute
+    {
+        $attribute       = new TaskAttribute();
+        $attribute->task = (int) $request->getData('task');
+        $attribute->type = new NullTaskAttributeType((int) $request->getData('type'));
+
+        if ($request->getData('value') !== null) {
+            $attribute->value = new NullTaskAttributeValue((int) $request->getData('value'));
+        } else {
+            $newRequest = clone $request;
+            $newRequest->setData('value', $request->getData('custom'), true);
+
+            $value = $this->createTaskAttributeValueFromRequest($request);
+
+            $attribute->value = $value;
+        }
+
+        return $attribute;
+    }
+
+    /**
+     * Validate task attribute create request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateTaskAttributeCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['type'] = empty($request->getData('type')))
+            || ($val['value'] = (empty($request->getData('value')) && empty($request->getData('custom'))))
+            || ($val['task'] = empty($request->getData('task')))
+        ) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
+     * Api method to create task attribute l11n
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiTaskAttributeTypeL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    {
+        if (!empty($val = $this->validateTaskAttributeTypeL11nCreate($request))) {
+            $response->set('attr_type_l11n_create', new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
+
+            return;
+        }
+
+        $attrL11n = $this->createTaskAttributeTypeL11nFromRequest($request);
+        $this->createModel($request->header->account, $attrL11n, TaskAttributeTypeL11nMapper::class, 'attr_type_l11n', $request->getOrigin());
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute type localization', 'Attribute type localization successfully created', $attrL11n);
+    }
+
+    /**
+     * Method to create task attribute l11n from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return TaskAttributeTypeL11n
+     *
+     * @since 1.0.0
+     */
+    private function createTaskAttributeTypeL11nFromRequest(RequestAbstract $request) : TaskAttributeTypeL11n
+    {
+        $attrL11n       = new TaskAttributeTypeL11n();
+        $attrL11n->type = (int) ($request->getData('type') ?? 0);
+        $attrL11n->setLanguage((string) (
+            $request->getData('language') ?? $request->getLanguage()
+        ));
+        $attrL11n->title = (string) ($request->getData('title') ?? '');
+
+        return $attrL11n;
+    }
+
+    /**
+     * Validate task attribute l11n create request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateTaskAttributeTypeL11nCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['title'] = empty($request->getData('title')))
+            || ($val['type'] = empty($request->getData('type')))
+        ) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
+     * Api method to create task attribute type
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiTaskAttributeTypeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    {
+        if (!empty($val = $this->validateTaskAttributeTypeCreate($request))) {
+            $response->set('attr_type_create', new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
+
+            return;
+        }
+
+        $attrType = $this->createTaskAttributeTypeFromRequest($request);
+        $this->createModel($request->header->account, $attrType, TaskAttributeTypeMapper::class, 'attr_type', $request->getOrigin());
+
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute type', 'Attribute type successfully created', $attrType);
+    }
+
+    /**
+     * Method to create task attribute from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return TaskAttributeType
+     *
+     * @since 1.0.0
+     */
+    private function createTaskAttributeTypeFromRequest(RequestAbstract $request) : TaskAttributeType
+    {
+        $attrType = new TaskAttributeType($request->getData('name') ?? '');
+        $attrType->setL11n((string) ($request->getData('title') ?? ''), $request->getData('language') ?? ISO639x1Enum::_EN);
+        $attrType->setFields((int) ($request->getData('fields') ?? 0));
+        $attrType->custom            = (bool) ($request->getData('custom') ?? false);
+        $attrType->isRequired        = (bool) ($request->getData('is_required') ?? false);
+        $attrType->validationPattern = (string) ($request->getData('validation_pattern') ?? '');
+
+        return $attrType;
+    }
+
+    /**
+     * Validate task attribute create request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateTaskAttributeTypeCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['title'] = empty($request->getData('title')))
+            || ($val['name'] = empty($request->getData('name')))
+        ) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
+     * Api method to create task attribute value
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiTaskAttributeValueCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    {
+        if (!empty($val = $this->validateTaskAttributeValueCreate($request))) {
+            $response->set('attr_value_create', new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
+
+            return;
+        }
+
+        $attrValue = $this->createTaskAttributeValueFromRequest($request);
+        $this->createModel($request->header->account, $attrValue, TaskAttributeValueMapper::class, 'attr_value', $request->getOrigin());
+
+        if ($attrValue->isDefault) {
+            $this->createModelRelation(
+                $request->header->account,
+                (int) $request->getData('attributetype'),
+                $attrValue->getId(),
+                TaskAttributeTypeMapper::class, 'defaults', '', $request->getOrigin()
+            );
+        }
+
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute value', 'Attribute value successfully created', $attrValue);
+    }
+
+    /**
+     * Method to create task attribute value from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return TaskAttributeValue
+     *
+     * @since 1.0.0
+     */
+    private function createTaskAttributeValueFromRequest(RequestAbstract $request) : TaskAttributeValue
+    {
+        $type = (int) ($request->getData('attributetype') ?? 0);
+
+        $attrValue            = new TaskAttributeValue($type, $request->getData('value'));
+        $attrValue->isDefault = (bool) ($request->getData('default') ?? false);
+
+        if ($request->getData('title') !== null) {
+            $attrValue->setL11n($request->getData('title'), $request->getData('language') ?? ISO639x1Enum::_EN);
+        }
+
+        return $attrValue;
+    }
+
+    /**
+     * Validate task attribute value create request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateTaskAttributeValueCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['attributetype'] = empty($request->getData('attributetype')))
+            || ($val['value'] = empty($request->getData('value')))
+        ) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
+     * Api method to create task attribute l11n
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param mixed            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiTaskAttributeValueL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    {
+        if (!empty($val = $this->validateTaskAttributeValueL11nCreate($request))) {
+            $response->set('attr_value_l11n_create', new FormValidation($val));
+            $response->header->status = RequestStatusCode::R_400;
+
+            return;
+        }
+
+        $attrL11n = $this->createTaskAttributeValueL11nFromRequest($request);
+        $this->createModel($request->header->account, $attrL11n, TaskAttributeValueL11nMapper::class, 'attr_value_l11n', $request->getOrigin());
+        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute type localization', 'Attribute type localization successfully created', $attrL11n);
+    }
+
+    /**
+     * Method to create task attribute l11n from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return TaskAttributeValueL11n
+     *
+     * @since 1.0.0
+     */
+    private function createTaskAttributeValueL11nFromRequest(RequestAbstract $request) : TaskAttributeValueL11n
+    {
+        $attrL11n        = new TaskAttributeValueL11n();
+        $attrL11n->value = (int) ($request->getData('value') ?? 0);
+        $attrL11n->setLanguage((string) (
+            $request->getData('language') ?? $request->getLanguage()
+        ));
+        $attrL11n->title = (string) ($request->getData('title') ?? '');
+
+        return $attrL11n;
+    }
+
+    /**
+     * Validate task attribute l11n create request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool>
+     *
+     * @since 1.0.0
+     */
+    private function validateTaskAttributeValueL11nCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['title'] = empty($request->getData('title')))
+            || ($val['value'] = empty($request->getData('value')))
+        ) {
+            return $val;
+        }
+
+        return [];
     }
 }

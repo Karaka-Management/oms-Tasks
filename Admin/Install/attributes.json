@@ -1,0 +1,23 @@
+[
+	    {
+        "name": "category",
+        "l11n": {
+            "en": "Category",
+            "de": "Kategorie"
+        },
+        "value_type": "int",
+        "is_custom_allowed": false,
+        "validation_pattern": "",
+        "is_required": true,
+        "default_value": "",
+        "values": [
+            {
+                "value": 1,
+                "l11n": {
+                    "en": "Todo",
+                    "de": "Todo"
+                }
+            }
+        ]
+    }
+]

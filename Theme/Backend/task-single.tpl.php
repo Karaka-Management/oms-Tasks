@@ -320,7 +320,7 @@ echo $this->getData('nav')->render(); ?>
     </div>
 
     <div class="col-md-6 col-xs-12">
-        <div class="portlet">
+        <div class="portlet sticky">
             <form
                 id="taskElementCreate" method="PUT"
                 action="<?= UriFactory::build('{/api}task/element?{?}&csrf={$CSRF}'); ?>"

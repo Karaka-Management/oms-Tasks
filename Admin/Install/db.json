@@ -104,6 +104,218 @@
             }
         }
     },
+    "task_attr_type": {
+        "name": "task_attr_type",
+        "fields": {
+            "task_attr_type_id": {
+                "name": "task_attr_type_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_attr_type_name": {
+                "name": "task_attr_type_name",
+                "type": "VARCHAR(255)",
+                "null": false
+            },
+            "task_attr_type_fields": {
+                "name": "task_attr_type_fields",
+                "type": "INT(11)",
+                "null": false
+            },
+            "task_attr_type_custom": {
+                "name": "task_attr_type_custom",
+                "type": "TINYINT(1)",
+                "null": false
+            },
+            "task_attr_type_required": {
+                "description": "Every task must have this attribute type if set to true.",
+                "name": "task_attr_type_required",
+                "type": "TINYINT(1)",
+                "null": false
+            },
+            "task_attr_type_pattern": {
+                "description": "This is a regex validation pattern.",
+                "name": "task_attr_type_pattern",
+                "type": "VARCHAR(255)",
+                "null": false
+            }
+        }
+    },
+    "task_attr_type_l11n": {
+        "name": "task_attr_type_l11n",
+        "fields": {
+            "task_attr_type_l11n_id": {
+                "name": "task_attr_type_l11n_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_attr_type_l11n_title": {
+                "name": "task_attr_type_l11n_title",
+                "type": "VARCHAR(255)",
+                "null": false
+            },
+            "task_attr_type_l11n_type": {
+                "name": "task_attr_type_l11n_type",
+                "type": "INT(11)",
+                "null": false,
+                "foreignTable": "task_attr_type",
+                "foreignKey": "task_attr_type_id"
+            },
+            "task_attr_type_l11n_lang": {
+                "name": "task_attr_type_l11n_lang",
+                "type": "VARCHAR(2)",
+                "null": false,
+                "foreignTable": "language",
+                "foreignKey": "language_639_1"
+            }
+        }
+    },
+    "task_attr_value": {
+        "name": "task_attr_value",
+        "fields": {
+            "task_attr_value_id": {
+                "name": "task_attr_value_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_attr_value_default": {
+                "name": "task_attr_value_default",
+                "type": "TINYINT(1)",
+                "null": false
+            },
+            "task_attr_value_valuetype": {
+                "name": "task_attr_value_valuetype",
+                "type": "INT(11)",
+                "null": false
+            },
+            "task_attr_value_valueStr": {
+                "name": "task_attr_value_valueStr",
+                "type": "VARCHAR(255)",
+                "null": true,
+                "default": null
+            },
+            "task_attr_value_valueInt": {
+                "name": "task_attr_value_valueInt",
+                "type": "INT(11)",
+                "null": true,
+                "default": null
+            },
+            "task_attr_value_valueDec": {
+                "name": "task_attr_value_valueDec",
+                "type": "DECIMAL(19,5)",
+                "null": true,
+                "default": null
+            },
+            "task_attr_value_valueDat": {
+                "name": "task_attr_value_valueDat",
+                "type": "DATETIME",
+                "null": true,
+                "default": null
+            },
+            "task_attr_value_unit": {
+                "name": "task_attr_value_unit",
+                "type": "VARCHAR(255)",
+                "null": false
+            }
+        }
+    },
+    "task_attr_value_l11n": {
+        "name": "task_attr_value_l11n",
+        "fields": {
+            "task_attr_value_l11n_id": {
+                "name": "task_attr_value_l11n_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_attr_value_l11n_title": {
+                "name": "task_attr_value_l11n_title",
+                "type": "VARCHAR(255)",
+                "null": false
+            },
+            "task_attr_value_l11n_value": {
+                "name": "task_attr_value_l11n_value",
+                "type": "INT(11)",
+                "null": false,
+                "foreignTable": "task_attr_value",
+                "foreignKey": "task_attr_value_id"
+            },
+            "task_attr_value_l11n_lang": {
+                "name": "task_attr_value_l11n_lang",
+                "type": "VARCHAR(2)",
+                "null": false,
+                "foreignTable": "language",
+                "foreignKey": "language_639_1"
+            }
+        }
+    },
+    "task_attr_default": {
+        "name": "task_attr_default",
+        "fields": {
+            "task_attr_default_id": {
+                "name": "task_attr_default_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_attr_default_type": {
+                "name": "task_attr_default_type",
+                "type": "INT(11)",
+                "null": false,
+                "foreignTable": "task_attr_type",
+                "foreignKey": "task_attr_type_id"
+            },
+            "task_attr_default_value": {
+                "name": "task_attr_default_value",
+                "type": "INT(11)",
+                "null": false,
+                "foreignTable": "task_attr_value",
+                "foreignKey": "task_attr_value_id"
+            }
+        }
+    },
+    "task_attr": {
+        "name": "task_attr",
+        "fields": {
+            "task_attr_id": {
+                "name": "task_attr_id",
+                "type": "INT",
+                "null": false,
+                "primary": true,
+                "autoincrement": true
+            },
+            "task_attr_task": {
+                "name": "task_attr_task",
+                "type": "INT(11)",
+                "null": false,
+                "foreignTable": "task",
+                "foreignKey": "task_id"
+            },
+            "task_attr_type": {
+                "name": "task_attr_type",
+                "type": "INT(11)",
+                "null": false,
+                "foreignTable": "task_attr_type",
+                "foreignKey": "task_attr_type_id"
+            },
+            "task_attr_value": {
+                "name": "task_attr_value",
+                "type": "INT(11)",
+                "null": true,
+                "default": null,
+                "foreignTable": "task_attr_value",
+                "foreignKey": "task_attr_value_id"
+            }
+        }
+    },
     "task_media": {
         "name": "task_media",
         "fields": {

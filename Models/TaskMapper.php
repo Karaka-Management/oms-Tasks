@@ -85,6 +85,12 @@ final class TaskMapper extends DataMapperFactory
             'external' => 'task_tag_dst',
             'self'     => 'task_tag_src',
         ],
+        'attributes' => [
+            'mapper'   => TaskAttributeMapper::class,
+            'table'    => 'task_attr',
+            'self'     => 'task_attr_item',
+            'external' => null,
+        ],
     ];
 
     /**
