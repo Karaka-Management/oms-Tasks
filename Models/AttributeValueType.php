@@ -33,4 +33,8 @@ abstract class AttributeValueType extends Enum
     public const _FLOAT = 3;
 
     public const _DATETIME = 4;
+
+    public const _BOOL = 5;
+
+    public const _FLOAT_INT = 6;
 }

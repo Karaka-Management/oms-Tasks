@@ -34,8 +34,8 @@ final class TaskAttributeValueL11nMapper extends DataMapperFactory
      */
     public const COLUMNS = [
         'task_attr_value_l11n_id'     => ['name' => 'task_attr_value_l11n_id',    'type' => 'int',    'internal' => 'id'],
-        'task_attr_value_l11n_title'  => ['name' => 'task_attr_value_l11n_title', 'type' => 'string', 'internal' => 'title', 'autocomplete' => true],
-        'task_attr_value_l11n_value'  => ['name' => 'task_attr_value_l11n_value',  'type' => 'int',    'internal' => 'value'],
+        'task_attr_value_l11n_title'  => ['name' => 'task_attr_value_l11n_title', 'type' => 'string', 'internal' => 'content', 'autocomplete' => true],
+        'task_attr_value_l11n_value'  => ['name' => 'task_attr_value_l11n_value',  'type' => 'int',    'internal' => 'ref'],
         'task_attr_value_l11n_lang'   => ['name' => 'task_attr_value_l11n_lang',  'type' => 'string', 'internal' => 'language'],
     ];
 
@@ -54,4 +54,12 @@ final class TaskAttributeValueL11nMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const PRIMARYFIELD ='task_attr_value_l11n_id';
+
+    /**
+     * Model to use by the mapper.
+     *
+     * @var string
+     * @since 1.0.0
+     */
+    public const MODEL = BaseStringL11n::class;
 }

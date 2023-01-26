@@ -35,7 +35,6 @@ final class TaskAttributeValueMapper extends DataMapperFactory
     public const COLUMNS = [
         'task_attr_value_id'            => ['name' => 'task_attr_value_id',       'type' => 'int',      'internal' => 'id'],
         'task_attr_value_default'       => ['name' => 'task_attr_value_default',  'type' => 'bool',     'internal' => 'isDefault'],
-        'task_attr_value_valuetype'     => ['name' => 'task_attr_value_valuetype',     'type' => 'int',      'internal' => 'type'],
         'task_attr_value_valueStr'      => ['name' => 'task_attr_value_valueStr', 'type' => 'string',   'internal' => 'valueStr'],
         'task_attr_value_valueInt'      => ['name' => 'task_attr_value_valueInt', 'type' => 'int',      'internal' => 'valueInt'],
         'task_attr_value_valueDec'      => ['name' => 'task_attr_value_valueDec', 'type' => 'float',    'internal' => 'valueDec'],
@@ -54,6 +53,7 @@ final class TaskAttributeValueMapper extends DataMapperFactory
             'mapper'   => TaskAttributeValueL11nMapper::class,
             'table'    => 'task_attr_value_l11n',
             'self'     => 'task_attr_value_l11n_value',
+            'column'   => 'content',
             'external' => null,
         ],
     ];

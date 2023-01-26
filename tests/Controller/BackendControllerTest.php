@@ -46,7 +46,7 @@ final class BackendControllerTest extends \PHPUnit\Framework\TestCase
         };
 
         $this->app->dbPool         = $GLOBALS['dbpool'];
-        $this->app->orgId          = 1;
+        $this->app->unitId          = 1;
         $this->app->accountManager = new AccountManager($GLOBALS['session']);
         $this->app->appSettings    = new CoreSettings();
         $this->app->moduleManager  = new ModuleManager($this->app, __DIR__ . '/../../../Modules/');

@@ -52,7 +52,7 @@ final class TaskAttributeTypeMapper extends DataMapperFactory
             'mapper'   => TaskAttributeTypeL11nMapper::class,
             'table'    => 'task_attr_type_l11n',
             'self'     => 'task_attr_type_l11n_type',
-            'column'   => 'title',
+            'column'   => 'content',
             'external' => null,
         ],
         'defaults' => [
