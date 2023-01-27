@@ -41,6 +41,8 @@ use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Models\TaskType;
+use phpOMS\Localization\BaseStringL11n;
+use phpOMS\Localization\ISO639x1Enum;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\NotificationLevel;
@@ -788,18 +790,18 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract $request Request
      *
-     * @return TaskAttributeTypeL11n
+     * @return BaseStringL11n
      *
      * @since 1.0.0
      */
-    private function createTaskAttributeTypeL11nFromRequest(RequestAbstract $request) : TaskAttributeTypeL11n
+    private function createTaskAttributeTypeL11nFromRequest(RequestAbstract $request) : BaseStringL11n
     {
-        $attrL11n       = new TaskAttributeTypeL11n();
-        $attrL11n->type = (int) ($request->getData('type') ?? 0);
+        $attrL11n      = new BaseStringL11n();
+        $attrL11n->ref = (int) ($request->getData('type') ?? 0);
         $attrL11n->setLanguage((string) (
             $request->getData('language') ?? $request->getLanguage()
         ));
-        $attrL11n->title = (string) ($request->getData('title') ?? '');
+        $attrL11n->content = (string) ($request->getData('title') ?? '');
 
         return $attrL11n;
     }
@@ -943,10 +945,14 @@ final class ApiController extends Controller
      */
     private function createTaskAttributeValueFromRequest(RequestAbstract $request) : TaskAttributeValue
     {
-        $type = (int) ($request->getData('attributetype') ?? 0);
+        /** @var TaskAttributeType $type */
+        $type = TaskAttributeTypeMapper::get()
+            ->where('id', (int) ($request->getData('type') ?? 0))
+            ->execute();
 
-        $attrValue            = new TaskAttributeValue($type, $request->getData('value'));
+        $attrValue            = new TaskAttributeValue();
         $attrValue->isDefault = (bool) ($request->getData('default') ?? false);
+        $attrValue->setValue($request->getData('value'), $type->datatype);
 
         if ($request->getData('title') !== null) {
             $attrValue->setL11n($request->getData('title'), $request->getData('language') ?? ISO639x1Enum::_EN);
@@ -1008,18 +1014,18 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract $request Request
      *
-     * @return TaskAttributeValueL11n
+     * @return BaseStringL11n
      *
      * @since 1.0.0
      */
-    private function createTaskAttributeValueL11nFromRequest(RequestAbstract $request) : TaskAttributeValueL11n
+    private function createTaskAttributeValueL11nFromRequest(RequestAbstract $request) : BaseStringL11n
     {
-        $attrL11n        = new TaskAttributeValueL11n();
-        $attrL11n->value = (int) ($request->getData('value') ?? 0);
+        $attrL11n      = new BaseStringL11n();
+        $attrL11n->ref = (int) ($request->getData('value') ?? 0);
         $attrL11n->setLanguage((string) (
             $request->getData('language') ?? $request->getLanguage()
         ));
-        $attrL11n->title = (string) ($request->getData('title') ?? '');
+        $attrL11n->content = (string) ($request->getData('title') ?? '');
 
         return $attrL11n;
     }

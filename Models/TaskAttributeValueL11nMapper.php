@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Models;
 
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
+use phpOMS\Localization\BaseStringL11n;
 
 /**
  * Task mapper class.
@@ -58,7 +59,7 @@ final class TaskAttributeValueL11nMapper extends DataMapperFactory
     /**
      * Model to use by the mapper.
      *
-     * @var string
+     * @var class-string
      * @since 1.0.0
      */
     public const MODEL = BaseStringL11n::class;

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Modules\Tasks\Models;
 
+use phpOMS\Localization\BaseStringL11n;
 use phpOMS\Localization\ISO639x1Enum;
 
 /**
@@ -63,11 +64,19 @@ class TaskAttributeType implements \JsonSerializable
     public bool $isRequired = false;
 
     /**
+     * Datatype of the attribute
+     *
+     * @var int
+     * @since 1.0.0
+     */
+    public int $datatype = AttributeValueType::_STRING;
+
+    /**
      * Localization
      *
-     * @var TaskAttributeTypeL11n
+     * @var BaseStringL11n
      */
-    private string | TaskAttributeTypeL11n $l11n = '';
+    private string | BaseStringL11n $l11n = '';
 
     /**
      * Possible default attribute values
@@ -111,22 +120,23 @@ class TaskAttributeType implements \JsonSerializable
     /**
      * Set l11n
      *
-     * @param string|TaskAttributeTypeL11n $l11n Tag article l11n
-     * @param string                       $lang Language
+     * @param string|BaseStringL11n $l11n Tag article l11n
+     * @param string                $lang Language
      *
      * @return void
      *
      * @since 1.0.0
      */
-    public function setL11n(string | TaskAttributeTypeL11n $l11n, string $lang = ISO639x1Enum::_EN) : void
+    public function setL11n(string | BaseStringL11n $l11n, string $lang = ISO639x1Enum::_EN) : void
     {
-        if ($l11n instanceof TaskAttributeTypeL11n) {
+        if ($l11n instanceof BaseStringL11n) {
             $this->l11n = $l11n;
-        } elseif (isset($this->l11n) && $this->l11n instanceof TaskAttributeTypeL11n) {
-            $this->l11n->title = $l11n;
+        } elseif (isset($this->l11n) && $this->l11n instanceof BaseStringL11n) {
+            $this->l11n->content  = $l11n;
+            $this->l11n->setLanguage($lang);
         } else {
-            $this->l11n        = new TaskAttributeTypeL11n();
-            $this->l11n->title = $l11n;
+            $this->l11n          = new BaseStringL11n();
+            $this->l11n->content = $l11n;
             $this->l11n->setLanguage($lang);
         }
     }
@@ -138,7 +148,11 @@ class TaskAttributeType implements \JsonSerializable
      */
     public function getL11n() : string
     {
-        return $this->l11n instanceof TaskAttributeTypeL11n ? $this->l11n->title : $this->l11n;
+        if (!isset($this->l11n)) {
+            return '';
+        }
+
+        return $this->l11n instanceof BaseStringL11n ? $this->l11n->content : $this->l11n;
     }
 
     /**

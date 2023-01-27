@@ -127,7 +127,7 @@ class Task implements \JsonSerializable
     /**
      * Attributes.
      *
-     * @var ItemAttribute[]
+     * @var TaskAttribute[]
      * @since 1.0.0
      */
     private array $attributes = [];
@@ -613,13 +613,13 @@ class Task implements \JsonSerializable
     /**
      * Add attribute to item
      *
-     * @param ItemAttribute $attribute Note
+     * @param TaskAttribute $attribute Note
      *
      * @return void
      *
      * @since 1.0.0
      */
-    public function addAttribute(ItemAttribute $attribute) : void
+    public function addAttribute(TaskAttribute $attribute) : void
     {
         $this->attributes[] = $attribute;
     }
@@ -627,7 +627,7 @@ class Task implements \JsonSerializable
     /**
      * Get attributes
      *
-     * @return ItemAttribute[]
+     * @return TaskAttribute[]
      *
      * @since 1.0.0
      */
@@ -662,11 +662,11 @@ class Task implements \JsonSerializable
      *
      * @param string $attrName Attribute name
      *
-     * @return null|AttributeValue
+     * @return null|TaskAttributeValue
      *
      * @since 1.0.0
      */
-    public function getAttribute(string $attrName) : ?AttributeValue
+    public function getAttribute(string $attrName) : ?TaskAttributeValue
     {
         foreach ($this->attributes as $attribute) {
             if ($attribute->type->name === $attrName) {

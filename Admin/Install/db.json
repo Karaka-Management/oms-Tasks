@@ -189,11 +189,6 @@
                 "type": "TINYINT(1)",
                 "null": false
             },
-            "task_attr_value_valuetype": {
-                "name": "task_attr_value_valuetype",
-                "type": "INT(11)",
-                "null": false
-            },
             "task_attr_value_valueStr": {
                 "name": "task_attr_value_valueStr",
                 "type": "VARCHAR(255)",
