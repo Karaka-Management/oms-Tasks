@@ -57,7 +57,6 @@ echo $this->getData('nav')->render(); ?>
                     </div>
 
                     <div class="form-group">
-                        <label for="iMessage"><?= $this->getHtml('Message'); ?></label>
                         <?= $this->getData('editor')->render('task-editor'); ?>
                     </div>
 

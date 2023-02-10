@@ -29,11 +29,9 @@ use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskAttribute;
 use Modules\Tasks\Models\TaskAttributeMapper;
 use Modules\Tasks\Models\TaskAttributeType;
-use Modules\Tasks\Models\TaskAttributeTypeL11n;
 use Modules\Tasks\Models\TaskAttributeTypeL11nMapper;
 use Modules\Tasks\Models\TaskAttributeTypeMapper;
 use Modules\Tasks\Models\TaskAttributeValue;
-use Modules\Tasks\Models\TaskAttributeValueL11n;
 use Modules\Tasks\Models\TaskAttributeValueL11nMapper;
 use Modules\Tasks\Models\TaskAttributeValueMapper;
 use Modules\Tasks\Models\TaskElement;
@@ -114,7 +112,14 @@ final class ApiController extends Controller
             $this->createTaskMedia($task, $request);
         }
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully created.', $task);
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $task
+        );
     }
 
     /**
@@ -146,8 +151,15 @@ final class ApiController extends Controller
 
             $collection = null;
             foreach ($uploaded as $media) {
-                MediaMapper::create()->execute($media);
-                TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $task->getId(),
+                    $media->getId(),
+                    TaskMapper::class,
+                    'media',
+                    '',
+                    $request->getOrigin()
+                );
 
                 $accountPath = '/Accounts/'
                     . $account->getId() . ' '
@@ -162,7 +174,7 @@ final class ApiController extends Controller
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($accountPath);
 
-                ReferenceMapper::create()->execute($ref);
+                $this->createModel($request->header->account, $ref, ReferenceMapper::class, 'media_reference', $request->getOrigin());
 
                 if ($collection === null) {
                     /** @var \Modules\Media\Models\Media $media */
@@ -181,7 +193,15 @@ final class ApiController extends Controller
                     }
                 }
 
-                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $collection->getId(),
+                    $ref->getId(),
+                    CollectionMapper::class,
+                    'sources',
+                    '',
+                    $request->getOrigin()
+                );
             }
         }
 
@@ -192,7 +212,15 @@ final class ApiController extends Controller
                 /** @var \Modules\Media\Models\Media $media */
                 $media = MediaMapper::get()->where('id', (int) $file)->limit(1)->execute();
 
-                TaskMapper::writer()->createRelationTable('media', [$media->getId()], $task->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $task->getId(),
+                    $media->getId(),
+                    TaskMapper::class,
+                    'media',
+                    '',
+                    $request->getOrigin()
+                );
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
@@ -200,7 +228,7 @@ final class ApiController extends Controller
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($path);
 
-                ReferenceMapper::create()->execute($ref);
+                $this->createModel($request->header->account, $ref, ReferenceMapper::class, 'media_reference', $request->getOrigin());
 
                 if ($collection === null) {
                     /** @var \Modules\Media\Models\Media $media */
@@ -215,7 +243,15 @@ final class ApiController extends Controller
                     }
                 }
 
-                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $collection->getId(),
+                    $ref->getId(),
+                    CollectionMapper::class,
+                    'sources',
+                    '',
+                    $request->getOrigin()
+                );
             }
         }
     }
@@ -344,7 +380,14 @@ final class ApiController extends Controller
             $this->app->eventManager->triggerSimilar($new->trigger, '', $new);
         }
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully updated.', $new);
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulUpdate'),
+            $new
+        );
     }
 
     /**
@@ -442,7 +485,14 @@ final class ApiController extends Controller
             $this->app->eventManager->triggerSimilar($task->trigger, '', $task);
         }
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully created.', $element);
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $element
+        );
     }
 
     /**
@@ -476,8 +526,15 @@ final class ApiController extends Controller
             $collection = null;
 
             foreach ($uploaded as $media) {
-                MediaMapper::create()->execute($media);
-                TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $element->getId(),
+                    $media->getId(),
+                    TaskElementMapper::class,
+                    'media',
+                    '',
+                    $request->getOrigin()
+                );
 
                 $accountPath = '/Accounts/' . $account->getId() . ' '
                     . $account->login . '/Tasks/'
@@ -491,7 +548,7 @@ final class ApiController extends Controller
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($accountPath);
 
-                ReferenceMapper::create()->execute($ref);
+                $this->createModel($request->header->account, $ref, ReferenceMapper::class, 'media_reference', $request->getOrigin());
 
                 if ($collection === null) {
                     $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
@@ -504,7 +561,15 @@ final class ApiController extends Controller
                     );
                 }
 
-                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $collection->getId(),
+                    $ref->getId(),
+                    CollectionMapper::class,
+                    'sources',
+                    '',
+                    $request->getOrigin()
+                );
             }
         }
 
@@ -515,7 +580,15 @@ final class ApiController extends Controller
                 /** @var \Modules\Media\Models\Media $media */
                 $media = MediaMapper::get()->where('id', (int) $file)->limit(1)->execute();
 
-                TaskElementMapper::writer()->createRelationTable('media', [$media->getId()], $element->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $element->getId(),
+                    $media->getId(),
+                    TaskElementMapper::class,
+                    'media',
+                    '',
+                    $request->getOrigin()
+                );
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
@@ -523,7 +596,7 @@ final class ApiController extends Controller
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($path);
 
-                ReferenceMapper::create()->execute($ref);
+                $this->createModel($request->header->account, $ref, ReferenceMapper::class, 'media_reference', $request->getOrigin());
 
                 if ($collection === null) {
                     $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
@@ -533,7 +606,15 @@ final class ApiController extends Controller
                     );
                 }
 
-                CollectionMapper::writer()->createRelationTable('sources', [$ref->getId()], $collection->getId());
+                $this->createModelRelation(
+                    $request->header->account,
+                    $collection->getId(),
+                    $ref->getId(),
+                    CollectionMapper::class,
+                    'sources',
+                    '',
+                    $request->getOrigin()
+                );
             }
         }
     }
@@ -640,7 +721,14 @@ final class ApiController extends Controller
             }
         }
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully updated.', $new);
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulUpdate'),
+            $new
+        );
     }
 
     /**
@@ -704,7 +792,15 @@ final class ApiController extends Controller
 
         $attribute = $this->createTaskAttributeFromRequest($request);
         $this->createModel($request->header->account, $attribute, TaskAttributeMapper::class, 'attribute', $request->getOrigin());
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute', 'Attribute successfully created', $attribute);
+
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $attribute
+        );
     }
 
     /**
@@ -782,7 +878,15 @@ final class ApiController extends Controller
 
         $attrL11n = $this->createTaskAttributeTypeL11nFromRequest($request);
         $this->createModel($request->header->account, $attrL11n, TaskAttributeTypeL11nMapper::class, 'attr_type_l11n', $request->getOrigin());
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute type localization', 'Attribute type localization successfully created', $attrL11n);
+
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $attrL11n
+        );
     }
 
     /**
@@ -852,7 +956,14 @@ final class ApiController extends Controller
         $attrType = $this->createTaskAttributeTypeFromRequest($request);
         $this->createModel($request->header->account, $attrType, TaskAttributeTypeMapper::class, 'attr_type', $request->getOrigin());
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute type', 'Attribute type successfully created', $attrType);
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $attrType
+        );
     }
 
     /**
@@ -931,7 +1042,14 @@ final class ApiController extends Controller
             );
         }
 
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute value', 'Attribute value successfully created', $attrValue);
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $attrValue
+        );
     }
 
     /**
@@ -1006,7 +1124,15 @@ final class ApiController extends Controller
 
         $attrL11n = $this->createTaskAttributeValueL11nFromRequest($request);
         $this->createModel($request->header->account, $attrL11n, TaskAttributeValueL11nMapper::class, 'attr_value_l11n', $request->getOrigin());
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Attribute type localization', 'Attribute type localization successfully created', $attrL11n);
+
+        $this->fillJsonResponse(
+            $request,
+            $response,
+            NotificationLevel::OK,
+            '',
+            $this->app->l11nManager->getText($response->getLanguage(), '0', '0', 'SucessfulCreate'),
+            $attrL11n
+        );
     }
 
     /**

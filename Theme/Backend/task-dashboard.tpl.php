@@ -54,7 +54,11 @@ if ($open !== null) :
                 <?php
                     $c = 0;
                     foreach ($open as $key => $task) : ++$c;
-                        $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('task/single?{?}&id=' . $task->getId()));
+                        $url = UriFactory::build(!empty($task->redirect)
+                            ? '{/lang}{/app}/' . $task->redirect
+                            : ('task/single?{?}&id=' . $task->getId()),
+                            ['$id' => $task->getId()]
+                        );
                 ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Status'); ?>">
@@ -115,7 +119,11 @@ if ($open !== null) :
                         }
 
                         ++$c;
-                        $url = UriFactory::build(!empty($task->redirect) ? $task->redirect : ('task/single?{?}&id=' . $task->getId()));
+                        $url = UriFactory::build(!empty($task->redirect)
+                            ? '{/lang}{/app}/' . $task->redirect
+                            : ('task/single?{?}&id=' . $task->getId()),
+                            ['$id' => $task->getId()]
+                        );
                 ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
                         <td data-label="<?= $this->getHtml('Status'); ?>">

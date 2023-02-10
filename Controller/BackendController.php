@@ -190,12 +190,15 @@ final class BackendController extends Controller implements DashboardElementInte
         /** @var \Modules\Tasks\Models\Task $task */
         $task = TaskMapper::get()
             ->with('createdBy')
+            ->with('tags')
+            ->with('tags/title')
             ->with('taskElements')
             ->with('taskElements/createdBy')
             ->with('taskElements/media')
             ->with('taskElements/accRelation')
             ->with('taskElements/accRelation/relation')
             ->where('id', (int) $request->getData('id'))
+            ->where('tags/title/language', $request->getLanguage())
             ->execute();
 
         $accountId = $request->header->account;
