@@ -141,7 +141,7 @@ final class TaskMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='task_id';
+    public const PRIMARYFIELD = 'task_id';
 
     /**
      * Get open tasks by createdBy

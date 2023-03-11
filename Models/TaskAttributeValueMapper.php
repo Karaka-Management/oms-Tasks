@@ -72,5 +72,5 @@ final class TaskAttributeValueMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='task_attr_value_id';
+    public const PRIMARYFIELD = 'task_attr_value_id';
 }

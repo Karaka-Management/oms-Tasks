@@ -108,5 +108,5 @@ final class TaskElementMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='task_element_id';
+    public const PRIMARYFIELD = 'task_element_id';
 }

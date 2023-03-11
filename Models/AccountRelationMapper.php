@@ -67,5 +67,5 @@ final class AccountRelationMapper extends DataMapperFactory
      * @var string
      * @since 1.0.0
      */
-    public const PRIMARYFIELD ='task_account_id';
+    public const PRIMARYFIELD = 'task_account_id';
 }
