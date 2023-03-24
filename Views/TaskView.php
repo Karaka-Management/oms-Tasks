@@ -6,7 +6,7 @@
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -29,7 +29,7 @@ use phpOMS\Views\View;
  * Task view class.
  *
  * @package Modules\Tasks
- * @license OMS License 1.0
+ * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  */
@@ -74,10 +74,10 @@ class TaskView extends View
             ->execute();
 
         if (($profile instanceof NullProfile) || $profile->image->getPath() === '') {
-            return UriFactory::build('{/lang}/{/app}/' . $this->defaultProfileImage->getPath());
+            return UriFactory::build('{/base}/' . $this->defaultProfileImage->getPath());
         }
 
-        return UriFactory::build('{/lang}/{/app}/' . $profile->image->getPath());
+        return UriFactory::build('{/base}/' . $profile->image->getPath());
     }
 
     /**

@@ -6,7 +6,7 @@
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -39,7 +39,7 @@ use phpOMS\Views\View;
  * @property \Web\WebApplication $app
  *
  * @package Modules\Tasks
- * @license OMS License 1.0
+ * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  */
@@ -79,13 +79,13 @@ final class BackendController extends Controller implements DashboardElementInte
         if ($request->getData('ptype') === 'p') {
             $view->setData('tasks',
                 $mapperQuery->with('createdBy')
-                    ->where('id', (int) ($request->getData('id') ?? 0), '<')
+                    ->where('id', $request->getDataInt('id') ?? 0, '<')
                     ->execute()
             );
         } elseif ($request->getData('ptype') === 'n') {
             $view->setData('tasks',
                 $mapperQuery->with('createdBy')
-                    ->where('id', (int) ($request->getData('id') ?? 0), '>')
+                    ->where('id', $request->getDataInt('id') ?? 0, '>')
                     ->execute()
             );
         } else {

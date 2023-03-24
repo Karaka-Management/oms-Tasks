@@ -6,7 +6,7 @@
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -53,7 +53,7 @@ use phpOMS\Utils\Parser\Markdown\Markdown;
  * Api controller for the tasks module.
  *
  * @package Modules\Tasks
- * @license OMS License 1.0
+ * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  */
@@ -286,16 +286,16 @@ final class ApiController extends Controller
     public function createTaskFromRequest(RequestAbstract $request) : Task
     {
         $task                 = new Task();
-        $task->title          = (string) ($request->getData('title') ?? '');
-        $task->description    = Markdown::parse((string) ($request->getData('plain') ?? ''));
-        $task->descriptionRaw = (string) ($request->getData('plain') ?? '');
+        $task->title          = $request->getDataString('title') ?? '';
+        $task->description    = Markdown::parse($request->getDataString('plain') ?? '');
+        $task->descriptionRaw = $request->getDataString('plain') ?? '';
         $task->setCreatedBy(new NullAccount($request->header->account));
         $task->setStatus(TaskStatus::OPEN);
         $task->setType(TaskType::SINGLE);
-        $task->redirect = (string) ($request->getData('redirect') ?? '');
+        $task->redirect = $request->getDataString('redirect') ?? '';
 
         if (empty($request->getData('priority'))) {
-            $task->due = empty($request->getData('due')) ? null : new \DateTime($request->getData('due'));
+            $task->due = $request->getDataDateTime('due');
         } else {
             $task->setPriority((int) $request->getData('priority'));
         }
@@ -323,7 +323,7 @@ final class ApiController extends Controller
         }
 
         $element = new TaskElement();
-        $element->addTo(new NullAccount((int) ($request->getData('forward') ?? $request->header->account)));
+        $element->addTo(new NullAccount($request->getDataInt('forward') ?? $request->header->account));
         $element->createdBy = $task->getCreatedBy();
         $element->due       = $task->due;
         $element->setPriority($task->getPriority());
@@ -404,11 +404,11 @@ final class ApiController extends Controller
         $task->title          = (string) ($request->getData('title') ?? $task->title);
         $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
         $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
-        $task->due            = $request->getData('due') !== null ? new \DateTime((string) ($request->getData('due'))) : $task->due;
-        $task->setStatus((int) ($request->getData('status') ?? $task->getStatus()));
-        $task->setType((int) ($request->getData('type') ?? $task->getType()));
-        $task->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
-        $task->completion = (int) ($request->getData('completion') ?? $task->completion);
+        $task->due            = $request->hasData('due') ? new \DateTime((string) ($request->getData('due'))) : $task->due;
+        $task->setStatus($request->getDataInt('status') ?? $task->getStatus());
+        $task->setType($request->getDataInt('type') ?? $task->getType());
+        $task->setPriority($request->getDataInt('priority') ?? $task->getPriority());
+        $task->completion = $request->getDataInt('completion') ?? $task->completion;
 
         return $task;
     }
@@ -463,7 +463,7 @@ final class ApiController extends Controller
         $element = $this->createTaskElementFromRequest($request, $task);
 
         $task->due        = $element->due;
-        $task->completion = (int) ($request->getData('completion') ?? $task->completion);
+        $task->completion = $request->getDataInt('completion') ?? $task->completion;
         $task->setPriority($element->getPriority());
         $task->setStatus($element->getStatus());
 
@@ -633,12 +633,12 @@ final class ApiController extends Controller
     {
         $element            = new TaskElement();
         $element->createdBy = new NullAccount($request->header->account);
-        $element->due       = !empty($request->getData('due')) ? new \DateTime((string) ($request->getData('due'))) : $task->due;
-        $element->setPriority((int) ($request->getData('priority') ?? $task->getPriority()));
+        $element->due       = $request->getDataDateTime('due') ?? $task->due;
+        $element->setPriority($request->getDataInt('priority') ?? $task->getPriority());
         $element->setStatus((int) ($request->getData('status')));
         $element->task           = $task->getId();
-        $element->description    = Markdown::parse((string) ($request->getData('plain') ?? ''));
-        $element->descriptionRaw = (string) ($request->getData('plain') ?? '');
+        $element->description    = Markdown::parse($request->getDataString('plain') ?? '');
+        $element->descriptionRaw = $request->getDataString('plain') ?? '';
 
         $tos = $request->getData('to') ?? $request->header->account;
         if (!\is_array($tos)) {
@@ -742,10 +742,10 @@ final class ApiController extends Controller
      */
     private function updateTaskElementFromRequest(RequestAbstract $request, TaskElement $element) : TaskElement
     {
-        $element->due = $request->getData('due') !== null ? new \DateTime((string) ($request->getData('due'))) : $element->due;
-        $element->setStatus((int) ($request->getData('status') ?? $element->getStatus()));
-        $element->description    = Markdown::parse((string) ($request->getData('plain') ?? $element->descriptionRaw));
-        $element->descriptionRaw = (string) ($request->getData('plain') ?? $element->descriptionRaw);
+        $element->due = $request->getDataDateTime('due') ?? $element->due;
+        $element->setStatus($request->getDataInt('status') ?? $element->getStatus());
+        $element->description    = Markdown::parse($request->getDataString('plain') ?? $element->descriptionRaw);
+        $element->descriptionRaw = $request->getDataString('plain') ?? $element->descriptionRaw;
 
         $tos = $request->getData('to') ?? $request->header->account;
         if (!\is_array($tos)) {
@@ -818,7 +818,7 @@ final class ApiController extends Controller
         $attribute->task = (int) $request->getData('task');
         $attribute->type = new NullTaskAttributeType((int) $request->getData('type'));
 
-        if ($request->getData('value') !== null) {
+        if ($request->hasData('value')) {
             $attribute->value = new NullTaskAttributeValue((int) $request->getData('value'));
         } else {
             $newRequest = clone $request;
@@ -901,11 +901,11 @@ final class ApiController extends Controller
     private function createTaskAttributeTypeL11nFromRequest(RequestAbstract $request) : BaseStringL11n
     {
         $attrL11n      = new BaseStringL11n();
-        $attrL11n->ref = (int) ($request->getData('type') ?? 0);
-        $attrL11n->setLanguage((string) (
-            $request->getData('language') ?? $request->getLanguage()
-        ));
-        $attrL11n->content = (string) ($request->getData('title') ?? '');
+        $attrL11n->ref = $request->getDataInt('type') ?? 0;
+        $attrL11n->setLanguage(
+            $request->getDataString('language') ?? $request->getLanguage()
+        );
+        $attrL11n->content = $request->getDataString('title') ?? '';
 
         return $attrL11n;
     }
@@ -977,12 +977,12 @@ final class ApiController extends Controller
      */
     private function createTaskAttributeTypeFromRequest(RequestAbstract $request) : TaskAttributeType
     {
-        $attrType = new TaskAttributeType($request->getData('name') ?? '');
-        $attrType->setL11n((string) ($request->getData('title') ?? ''), $request->getData('language') ?? ISO639x1Enum::_EN);
-        $attrType->setFields((int) ($request->getData('fields') ?? 0));
-        $attrType->custom            = (bool) ($request->getData('custom') ?? false);
+        $attrType = new TaskAttributeType($request->getDataString('name') ?? '');
+        $attrType->setL11n($request->getDataString('title') ?? '', $request->getDataString('language') ?? ISO639x1Enum::_EN);
+        $attrType->setFields($request->getDataInt('fields') ?? 0);
+        $attrType->custom            = $request->getDataBool('custom') ?? false;
         $attrType->isRequired        = (bool) ($request->getData('is_required') ?? false);
-        $attrType->validationPattern = (string) ($request->getData('validation_pattern') ?? '');
+        $attrType->validationPattern = $request->getDataString('validation_pattern') ?? '';
 
         return $attrType;
     }
@@ -1065,15 +1065,15 @@ final class ApiController extends Controller
     {
         /** @var TaskAttributeType $type */
         $type = TaskAttributeTypeMapper::get()
-            ->where('id', (int) ($request->getData('type') ?? 0))
+            ->where('id', $request->getDataInt('type') ?? 0)
             ->execute();
 
         $attrValue            = new TaskAttributeValue();
-        $attrValue->isDefault = (bool) ($request->getData('default') ?? false);
+        $attrValue->isDefault = $request->getDataBool('default') ?? false;
         $attrValue->setValue($request->getData('value'), $type->datatype);
 
-        if ($request->getData('title') !== null) {
-            $attrValue->setL11n($request->getData('title'), $request->getData('language') ?? ISO639x1Enum::_EN);
+        if ($request->hasData('title')) {
+            $attrValue->setL11n($request->getDataString('title') ?? '', $request->getDataString('language') ?? ISO639x1Enum::_EN);
         }
 
         return $attrValue;
@@ -1147,11 +1147,11 @@ final class ApiController extends Controller
     private function createTaskAttributeValueL11nFromRequest(RequestAbstract $request) : BaseStringL11n
     {
         $attrL11n      = new BaseStringL11n();
-        $attrL11n->ref = (int) ($request->getData('value') ?? 0);
-        $attrL11n->setLanguage((string) (
-            $request->getData('language') ?? $request->getLanguage()
-        ));
-        $attrL11n->content = (string) ($request->getData('title') ?? '');
+        $attrL11n->ref = $request->getDataInt('value') ?? 0;
+        $attrL11n->setLanguage(
+            $request->getDataString('language') ?? $request->getLanguage()
+        );
+        $attrL11n->content = $request->getDataString('title') ?? '';
 
         return $attrL11n;
     }

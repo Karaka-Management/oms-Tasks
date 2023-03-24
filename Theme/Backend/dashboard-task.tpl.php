@@ -6,7 +6,7 @@
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -54,7 +54,7 @@ $tasksList = $this->getData('tasks') ?? [];
         </table>
         </div>
         <div class="portlet-foot">
-            <a class="button" href="<?= UriFactory::build('{/lang}/{/app}/task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
+            <a class="button" href="<?= UriFactory::build('{/base}/task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
         </div>
     </div>
 </div>

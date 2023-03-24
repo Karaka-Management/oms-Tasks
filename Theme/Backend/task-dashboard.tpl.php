@@ -6,7 +6,7 @@
  *
  * @package   Modules\Tasks
  * @copyright Dennis Eichhorn
- * @license   OMS License 1.0
+ * @license   OMS License 2.0
  * @version   1.0.0
  * @link      https://jingga.app
  */
@@ -14,14 +14,6 @@ declare(strict_types=1);
 
 use Modules\Tasks\Models\TaskPriority;
 use phpOMS\Uri\UriFactory;
-
-/**
- * @todo Karaka/oms-Tasks#4
- *  Batch handle tasks in the dashboard list
- *  In the dashboard/list it should be possible to change the status of a task without going into it (changing it to done is the most important).
- *  This could be done with a button but also touch sliding/swiping should be possible for mobile.
- *  It could also make sense to implement checkboxes infront of the list items which then show a close/done etc. button which can be pressed and changes the status of all of the checked tasks.
- */
 
 /** @var \phpOMS\Views\View $this */
 /** @var \Modules\Tasks\Models\Task[] $tasks */
@@ -84,7 +76,7 @@ if ($open !== null) :
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a class="content" href="<?= UriFactory::build('{/lang}/{/app}/profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                            <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                         <?php endforeach; if ($c == 0) : ?>
@@ -149,7 +141,7 @@ if ($open !== null) :
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a class="content" href="<?= UriFactory::build('{/lang}/{/app}/profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                            <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                 <?php endforeach; if ($c == 0) : ?>
