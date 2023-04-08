@@ -71,8 +71,8 @@ final class ApiController extends Controller
     private function validateTaskCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['title'] = empty($request->getData('title')))
-            || ($val['plain'] = empty($request->getData('plain')))
+        if (($val['title'] = !$request->hasData('title'))
+            || ($val['plain'] = !$request->hasData('plain'))
         ) {
             return $val;
         }
@@ -294,7 +294,7 @@ final class ApiController extends Controller
         $task->setType(TaskType::SINGLE);
         $task->redirect = $request->getDataString('redirect') ?? '';
 
-        if (empty($request->getData('priority'))) {
+        if (!$request->hasData('priority')) {
             $task->due = $request->getDataDateTime('due');
         } else {
             $task->setPriority((int) $request->getData('priority'));
@@ -428,7 +428,7 @@ final class ApiController extends Controller
         if (($val['status'] = !TaskStatus::isValidValue((int) $request->getData('status')))
             || ($val['due'] = !((bool) \strtotime((string) $request->getData('due'))))
             || ($val['task'] = !(\is_numeric($request->getData('task'))))
-            || ($val['forward'] = !(\is_numeric(empty($request->getData('forward')) ? $request->header->account : $request->getData('forward'))))
+            || ($val['forward'] = !(\is_numeric(!$request->hasData('forward') ? $request->header->account : $request->getData('forward'))))
         ) {
             return $val;
         }
@@ -844,9 +844,9 @@ final class ApiController extends Controller
     private function validateTaskAttributeCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['type'] = empty($request->getData('type')))
-            || ($val['value'] = (empty($request->getData('value')) && empty($request->getData('custom'))))
-            || ($val['task'] = empty($request->getData('task')))
+        if (($val['type'] = !$request->hasData('type'))
+            || ($val['value'] = (!$request->hasData('value') && !$request->hasData('custom')))
+            || ($val['task'] = !$request->hasData('task'))
         ) {
             return $val;
         }
@@ -922,8 +922,8 @@ final class ApiController extends Controller
     private function validateTaskAttributeTypeL11nCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['title'] = empty($request->getData('title')))
-            || ($val['type'] = empty($request->getData('type')))
+        if (($val['title'] = !$request->hasData('title'))
+            || ($val['type'] = !$request->hasData('type'))
         ) {
             return $val;
         }
@@ -999,8 +999,8 @@ final class ApiController extends Controller
     private function validateTaskAttributeTypeCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['title'] = empty($request->getData('title')))
-            || ($val['name'] = empty($request->getData('name')))
+        if (($val['title'] = !$request->hasData('title'))
+            || ($val['name'] = !$request->hasData('name'))
         ) {
             return $val;
         }
@@ -1091,8 +1091,8 @@ final class ApiController extends Controller
     private function validateTaskAttributeValueCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['attributetype'] = empty($request->getData('attributetype')))
-            || ($val['value'] = empty($request->getData('value')))
+        if (($val['attributetype'] = !$request->hasData('attributetype'))
+            || ($val['value'] = !$request->hasData('value'))
         ) {
             return $val;
         }
@@ -1168,8 +1168,8 @@ final class ApiController extends Controller
     private function validateTaskAttributeValueL11nCreate(RequestAbstract $request) : array
     {
         $val = [];
-        if (($val['title'] = empty($request->getData('title')))
-            || ($val['value'] = empty($request->getData('value')))
+        if (($val['title'] = !$request->hasData('title'))
+            || ($val['value'] = !$request->hasData('value'))
         ) {
             return $val;
         }
