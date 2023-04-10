@@ -25,6 +25,9 @@ use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
  * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
+ *
+ * @template T of TaskElement
+ * @extends DataMapperFactory<T>
  */
 final class TaskElementMapper extends DataMapperFactory
 {

@@ -30,6 +30,9 @@ use phpOMS\DataStorage\Database\Query\Where;
  * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
+ *
+ * @template T of Task
+ * @extends DataMapperFactory<T>
  */
 final class TaskMapper extends DataMapperFactory
 {
