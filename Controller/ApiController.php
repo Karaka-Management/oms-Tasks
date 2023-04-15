@@ -20,6 +20,7 @@ use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\MediaMapper;
 use Modules\Media\Models\NullCollection;
 use Modules\Media\Models\NullMedia;
+use Modules\Media\Models\PathSettings;
 use Modules\Media\Models\Reference;
 use Modules\Media\Models\ReferenceMapper;
 use Modules\Tag\Models\NullTag;
@@ -141,12 +142,13 @@ final class ApiController extends Controller
 
         if (!empty($uploadedFiles = $request->getFiles())) {
             $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
-                [],
-                [],
-                $uploadedFiles,
-                $request->header->account,
-                __DIR__ . '/../../../Modules/Media/Files' . $path,
-                $path,
+                names: [],
+                fileNames: [],
+                files: $uploadedFiles,
+                account: $request->header->account,
+                basePath: __DIR__ . '/../../../Modules/Media/Files' . $path,
+                virtualPath: $path,
+                pathSettings: PathSettings::FILE_PATH
             );
 
             $collection = null;
