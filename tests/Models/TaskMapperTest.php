@@ -95,8 +95,8 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         $task->addMedia($media);
 
         $id = TaskMapper::create()->execute($task);
-        self::assertGreaterThan(0, $task->getId());
-        self::assertEquals($id, $task->getId());
+        self::assertGreaterThan(0, $task->id);
+        self::assertEquals($id, $task->id);
 
         $taskR = TaskMapper::get()
             ->with('media')
@@ -106,11 +106,11 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
             ->with('taskElements/accRelation/relation')
             ->with('taskElements/grpRelation')
             ->with('taskElements/grpRelation/relation')
-            ->where('id', $task->getId())
+            ->where('id', $task->id)
             ->execute();
         self::assertEquals($task->createdAt->format('Y-m-d'), $taskR->createdAt->format('Y-m-d'));
         self::assertEquals($task->start->format('Y-m-d'), $taskR->start->format('Y-m-d'));
-        self::assertEquals($task->getCreatedBy()->getId(), $taskR->getCreatedBy()->getId());
+        self::assertEquals($task->getCreatedBy()->id, $taskR->getCreatedBy()->id);
         self::assertEquals($task->description, $taskR->description);
         self::assertEquals($task->descriptionRaw, $taskR->descriptionRaw);
         self::assertEquals($task->title, $taskR->title);

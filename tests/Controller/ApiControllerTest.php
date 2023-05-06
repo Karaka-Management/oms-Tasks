@@ -120,7 +120,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $this->module->apiTaskCreate($request, $response);
 
         self::assertEquals('Controller Test Title', $response->get('')['response']->title);
-        self::assertGreaterThan(0, $response->get('')['response']->getId());
+        self::assertGreaterThan(0, $response->get('')['response']->id);
     }
 
     /**
@@ -137,7 +137,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskGet($request, $response);
 
-        self::assertEquals(1, $response->get('')['response']->getId());
+        self::assertEquals(1, $response->get('')['response']->id);
     }
 
     /**
@@ -195,7 +195,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $this->module->apiTaskElementCreate($request, $response);
 
         self::assertEquals('Controller Test', $response->get('')['response']->descriptionRaw);
-        self::assertGreaterThan(0, $response->get('')['response']->getId());
+        self::assertGreaterThan(0, $response->get('')['response']->id);
     }
 
     /**
@@ -212,7 +212,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskElementGet($request, $response);
 
-        self::assertEquals(1, $response->get('')['response']->getId());
+        self::assertEquals(1, $response->get('')['response']->id);
     }
 
     /**

@@ -30,7 +30,7 @@ class TaskAttribute implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $id = 0;
+    public int $id = 0;
 
     /**
      * Task this attribute belongs to

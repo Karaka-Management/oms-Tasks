@@ -43,7 +43,7 @@ final class RelationAbstractTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefault() : void
     {
-        self::assertEquals(0, $this->rel->getId());
+        self::assertEquals(0, $this->rel->id);
         self::assertEquals(DutyType::TO, $this->rel->getDuty());
     }
 

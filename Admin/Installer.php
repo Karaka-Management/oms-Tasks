@@ -87,7 +87,7 @@ final class Installer extends InstallerAbstract
             $request->setData('title', \reset($attribute['l11n']));
             $request->setData('language', \array_keys($attribute['l11n'])[0] ?? 'en');
             $request->setData('is_required', $attribute['is_required'] ?? false);
-            $request->setData('is_custom_allowed', $attribute['is_custom_allowed'] ?? false);
+            $request->setData('custom', $attribute['is_custom_allowed'] ?? false);
             $request->setData('validation_pattern', $attribute['validation_pattern'] ?? '');
 
             $module->apiTaskAttributeTypeCreate($request, $response);

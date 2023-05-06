@@ -1,13 +1,13 @@
 <div class="ipt-wrap">
     <div class="ipt-first">
         <span class="input">
-            <div class="advancedSelect" id="<?= $this->getId(); ?>"
+            <div class="advancedSelect" id="<?= $this->id; ?>"
                     data-search="true"
                     data-multiple="false"
-                    data-src="api/admin/find/accgrp?search={!#i<?= $this->getId(); ?>}">
+                    data-src="api/admin/find/accgrp?search={!#i<?= $this->id; ?>}">
                 <template><!-- Template for the selected element --></template>
             </div>
-            <div id="<?= $this->getId(); ?>-popup" class="popup" data-active="true" data-selected="<?= $task->getStatus(); ?>">
+            <div id="<?= $this->id; ?>-popup" class="popup" data-active="true" data-selected="<?= $task->getStatus(); ?>">
                 <template class="rowTemplate"><!-- Template for remote data or data manually to be added --></template>
                 <tr><td data-value="<?= TaskStatus::OPEN; ?>"><?= $this->getHtml('S1'); ?>
                 <tr><td data-value="<?= TaskStatus::WORKING; ?>"><?= $this->getHtml('S2'); ?>

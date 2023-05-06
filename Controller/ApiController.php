@@ -155,8 +155,8 @@ final class ApiController extends Controller
             foreach ($uploaded as $media) {
                 $this->createModelRelation(
                     $request->header->account,
-                    $task->getId(),
-                    $media->getId(),
+                    $task->id,
+                    $media->id,
                     TaskMapper::class,
                     'media',
                     '',
@@ -164,15 +164,15 @@ final class ApiController extends Controller
                 );
 
                 $accountPath = '/Accounts/'
-                    . $account->getId() . ' '
+                    . $account->id . ' '
                     . $account->login . '/Tasks/'
                     . $task->createdAt->format('Y') . '/'
                     . $task->createdAt->format('m') . '/'
-                    . $task->getId();
+                    . $task->id;
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
-                $ref->source    = new NullMedia($media->getId());
+                $ref->source    = new NullMedia($media->id);
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($accountPath);
 
@@ -182,23 +182,23 @@ final class ApiController extends Controller
                     /** @var \Modules\Media\Models\Media $media */
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
-                    if ($collection instanceof NullCollection) {
+                    if ($collection->id === 0) {
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                             $accountPath,
                             $request->header->account,
                             __DIR__ . '/../../../Modules/Media/Files/Accounts/'
-                                . $account->getId() . '/Tasks/'
+                                . $account->id . '/Tasks/'
                                 . $task->createdAt->format('Y') . '/'
                                 . $task->createdAt->format('m') . '/'
-                                . $task->getId()
+                                . $task->id
                         );
                     }
                 }
 
                 $this->createModelRelation(
                     $request->header->account,
-                    $collection->getId(),
-                    $ref->getId(),
+                    $collection->id,
+                    $ref->id,
                     CollectionMapper::class,
                     'sources',
                     '',
@@ -216,8 +216,8 @@ final class ApiController extends Controller
 
                 $this->createModelRelation(
                     $request->header->account,
-                    $task->getId(),
-                    $media->getId(),
+                    $task->id,
+                    $media->id,
                     TaskMapper::class,
                     'media',
                     '',
@@ -226,7 +226,7 @@ final class ApiController extends Controller
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
-                $ref->source    = new NullMedia($media->getId());
+                $ref->source    = new NullMedia($media->id);
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($path);
 
@@ -236,7 +236,7 @@ final class ApiController extends Controller
                     /** @var \Modules\Media\Models\Media $media */
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
-                    if ($collection instanceof NullCollection) {
+                    if ($collection->id === 0) {
                         $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                             $path,
                             $request->header->account,
@@ -247,8 +247,8 @@ final class ApiController extends Controller
 
                 $this->createModelRelation(
                     $request->header->account,
-                    $collection->getId(),
-                    $ref->getId(),
+                    $collection->id,
+                    $ref->id,
                     CollectionMapper::class,
                     'sources',
                     '',
@@ -273,7 +273,7 @@ final class ApiController extends Controller
             . $task->createdAt->format('Y') . '/'
             . $task->createdAt->format('m') . '/'
             . $task->createdAt->format('d') . '/'
-            . $task->getId();
+            . $task->id;
     }
 
     /**
@@ -530,23 +530,23 @@ final class ApiController extends Controller
             foreach ($uploaded as $media) {
                 $this->createModelRelation(
                     $request->header->account,
-                    $element->getId(),
-                    $media->getId(),
+                    $element->id,
+                    $media->id,
                     TaskElementMapper::class,
                     'media',
                     '',
                     $request->getOrigin()
                 );
 
-                $accountPath = '/Accounts/' . $account->getId() . ' '
+                $accountPath = '/Accounts/' . $account->id . ' '
                     . $account->login . '/Tasks/'
                     . $task->createdAt->format('Y') . '/'
                     . $task->createdAt->format('m') . '/'
-                    . $task->getId();
+                    . $task->id;
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
-                $ref->source    = new NullMedia($media->getId());
+                $ref->source    = new NullMedia($media->id);
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($accountPath);
 
@@ -556,17 +556,17 @@ final class ApiController extends Controller
                     $collection = $this->app->moduleManager->get('Media')->createRecursiveMediaCollection(
                         $accountPath,
                         $request->header->account,
-                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->getId()
+                        __DIR__ . '/../../../Modules/Media/Files/Accounts/' . $account->id
                             . '/Tasks/' . $task->createdAt->format('Y') . '/'
                             . $task->createdAt->format('m') . '/'
-                            . $task->getId()
+                            . $task->id
                     );
                 }
 
                 $this->createModelRelation(
                     $request->header->account,
-                    $collection->getId(),
-                    $ref->getId(),
+                    $collection->id,
+                    $ref->id,
                     CollectionMapper::class,
                     'sources',
                     '',
@@ -584,8 +584,8 @@ final class ApiController extends Controller
 
                 $this->createModelRelation(
                     $request->header->account,
-                    $element->getId(),
-                    $media->getId(),
+                    $element->id,
+                    $media->id,
                     TaskElementMapper::class,
                     'media',
                     '',
@@ -594,7 +594,7 @@ final class ApiController extends Controller
 
                 $ref            = new Reference();
                 $ref->name      = $media->name;
-                $ref->source    = new NullMedia($media->getId());
+                $ref->source    = new NullMedia($media->id);
                 $ref->createdBy = new NullAccount($request->header->account);
                 $ref->setVirtualPath($path);
 
@@ -610,8 +610,8 @@ final class ApiController extends Controller
 
                 $this->createModelRelation(
                     $request->header->account,
-                    $collection->getId(),
-                    $ref->getId(),
+                    $collection->id,
+                    $ref->id,
                     CollectionMapper::class,
                     'sources',
                     '',
@@ -638,7 +638,7 @@ final class ApiController extends Controller
         $element->due       = $request->getDataDateTime('due') ?? $task->due;
         $element->setPriority($request->getDataInt('priority') ?? $task->getPriority());
         $element->setStatus((int) ($request->getData('status')));
-        $element->task           = $task->getId();
+        $element->task           = $task->id;
         $element->description    = Markdown::parse($request->getDataString('plain') ?? '');
         $element->descriptionRaw = $request->getDataString('plain') ?? '';
 
@@ -1039,7 +1039,7 @@ final class ApiController extends Controller
             $this->createModelRelation(
                 $request->header->account,
                 (int) $request->getData('attributetype'),
-                $attrValue->getId(),
+                $attrValue->id,
                 TaskAttributeTypeMapper::class, 'defaults', '', $request->getOrigin()
             );
         }

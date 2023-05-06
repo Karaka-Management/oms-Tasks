@@ -34,7 +34,7 @@ $tasksList = $this->getData('tasks') ?? [];
             foreach ($tasksList as $key => $task) : ++$c;
                 $url = UriFactory::build(!empty($task->redirect)
                     ? $task->redirect
-                    : ('task/single?{?}&id=' . $task->getId())
+                    : ('task/single?{?}&id=' . $task->id)
                 );
             ?>
                 <tr data-href="<?= $url; ?>">

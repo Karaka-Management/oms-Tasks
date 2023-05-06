@@ -19,8 +19,8 @@ use phpOMS\Uri\UriFactory;
 /** @var \Modules\Tasks\Models\Task[] $tasks */
 $tasks = $this->getData('tasks') ?? [];
 
-$previous = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \reset($tasks)->getId() . '&ptype=p';
-$next     = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \end($tasks)->getId() . '&ptype=n';
+$previous = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \reset($tasks)->id . '&ptype=p';
+$next     = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \end($tasks)->id . '&ptype=n';
 
 $open = $this->getData('open');
 
@@ -48,8 +48,8 @@ if ($open !== null) :
                     foreach ($open as $key => $task) : ++$c;
                         $url = UriFactory::build(!empty($task->redirect)
                             ? '{/lang}{/app}/' . $task->redirect
-                            : ('task/single?{?}&id=' . $task->getId()),
-                            ['$id' => $task->getId()]
+                            : ('task/single?{?}&id=' . $task->id),
+                            ['$id' => $task->id]
                         );
                 ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
@@ -76,7 +76,7 @@ if ($open !== null) :
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                            <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                         <?php endforeach; if ($c == 0) : ?>
@@ -106,15 +106,15 @@ if ($open !== null) :
                 <?php
                     $c = 0;
                     foreach ($tasks as $key => $task) :
-                        if ($open !== null && isset($open[$task->getId()])) {
+                        if ($open !== null && isset($open[$task->id])) {
                             continue;
                         }
 
                         ++$c;
                         $url = UriFactory::build(!empty($task->redirect)
                             ? '{/lang}{/app}/' . $task->redirect
-                            : ('task/single?{?}&id=' . $task->getId()),
-                            ['$id' => $task->getId()]
+                            : ('task/single?{?}&id=' . $task->id),
+                            ['$id' => $task->id]
                         );
                 ?>
                     <tr tabindex="0" data-href="<?= $url; ?>">
@@ -141,7 +141,7 @@ if ($open !== null) :
                             </a>
                             <?php endforeach; ?>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
-                            <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->getId()); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                            <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
                         <td data-label="<?= $this->getHtml('Created'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                 <?php endforeach; if ($c == 0) : ?>

@@ -30,8 +30,8 @@ final class AccountRelationTest extends \PHPUnit\Framework\TestCase
     public function testDefault() : void
     {
         $obj = new AccountRelation();
-        self::assertEquals(0, $obj->getId());
-        self::assertEquals(0, $obj->getRelation()->getId());
+        self::assertEquals(0, $obj->id);
+        self::assertEquals(0, $obj->getRelation()->id);
         self::assertEquals(DutyType::TO, $obj->getDuty());
     }
 
@@ -42,7 +42,7 @@ final class AccountRelationTest extends \PHPUnit\Framework\TestCase
     public function testSetGet() : void
     {
         $obj = new AccountRelation($a = new NullAccount(1), DutyType::CC);
-        self::assertEquals(1, $obj->getRelation()->getId());
+        self::assertEquals(1, $obj->getRelation()->id);
         self::assertEquals(DutyType::CC, $obj->getDuty());
 
         self::assertEquals([

@@ -33,7 +33,7 @@ class TaskAttributeType implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $id = 0;
+    public int $id = 0;
 
     /**
      * Name/string identifier by which it can be found/categorized

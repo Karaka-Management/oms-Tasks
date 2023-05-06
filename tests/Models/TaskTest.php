@@ -45,8 +45,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefault() : void
     {
-        self::assertEquals(0, $this->task->getId());
-        self::assertEquals(0, $this->task->getCreatedBy()->getId());
+        self::assertEquals(0, $this->task->id);
+        self::assertEquals(0, $this->task->getCreatedBy()->id);
         self::assertEquals('', $this->task->title);
         self::assertFalse($this->task->isToAccount(0));
         self::assertFalse($this->task->isCCAccount(0));
@@ -77,7 +77,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     public function testCreatedByInputOutput() : void
     {
         $this->task->setCreatedBy(new NullAccount(1));
-        self::assertEquals(1, $this->task->getCreatedBy()->getId());
+        self::assertEquals(1, $this->task->getCreatedBy()->id);
     }
 
     /**
@@ -182,8 +182,8 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($this->task->isCCGroup(8));
         self::assertTrue($this->task->isCCGroup(9));
 
-        self::assertEquals(0, $this->task->getTaskElements()[0]->getId());
-        self::assertEquals(0, $this->task->getTaskElement(0)->getId());
+        self::assertEquals(0, $this->task->getTaskElements()[0]->id);
+        self::assertEquals(0, $this->task->getTaskElement(0)->id);
     }
 
     /**

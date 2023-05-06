@@ -40,6 +40,6 @@ class TaskViewTest extends \PHPUnit\Framework\TestCase
     {
         $view = new TaskView();
 
-        self::assertEquals('Web/Backend/img/default-user.jpg', $view->getAccountImage(1));
+        self::assertEquals('/Web/Backend/img/default-user.jpg', $view->getAccountImage(1));
     }
 }

@@ -203,11 +203,11 @@ final class BackendController extends Controller implements DashboardElementInte
 
         $accountId = $request->header->account;
 
-        if (!($task->createdBy->getId() === $accountId
+        if (!($task->createdBy->id === $accountId
             || $task->isCCAccount($accountId)
             || $task->isToAccount($accountId))
             && !$this->app->accountManager->get($accountId)->hasPermission(
-                PermissionType::READ, $this->app->unitId, $this->app->appId, self::NAME, PermissionCategory::TASK, $task->getId())
+                PermissionType::READ, $this->app->unitId, $this->app->appId, self::NAME, PermissionCategory::TASK, $task->id)
         ) {
             $view->setTemplate('/Web/Backend/Error/403_inline');
             $response->header->status = RequestStatusCode::R_403;

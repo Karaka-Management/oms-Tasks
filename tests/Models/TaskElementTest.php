@@ -42,8 +42,8 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testDefault() : void
     {
-        self::assertEquals(0, $this->element->getId());
-        self::assertEquals(0, $this->element->createdBy->getId());
+        self::assertEquals(0, $this->element->id);
+        self::assertEquals(0, $this->element->createdBy->id);
         self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $this->element->createdAt->format('Y-m-d'));
         self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $this->element->due->format('Y-m-d'));
         self::assertEquals(TaskStatus::OPEN, $this->element->getStatus());
@@ -62,7 +62,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     public function testCreatedByInputOutput() : void
     {
         $this->element->createdBy = new NullAccount(1);
-        self::assertEquals(1, $this->element->createdBy->getId());
+        self::assertEquals(1, $this->element->createdBy->id);
     }
 
     /**

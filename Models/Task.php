@@ -38,7 +38,7 @@ class Task implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $id = 0;
+    public int $id = 0;
 
     /**
      * Title.
@@ -107,7 +107,7 @@ class Task implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $type = TaskType::SINGLE;
+    public int $type = TaskType::SINGLE;
 
     /**
      * Status.
@@ -115,7 +115,7 @@ class Task implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $status = TaskStatus::OPEN;
+    public int $status = TaskStatus::OPEN;
 
     /**
      * Completion status
