@@ -157,7 +157,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('AllTasks'); ?><i class="fa fa-download floatRight download btn"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('All'); ?><i class="fa fa-download floatRight download btn"></i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
