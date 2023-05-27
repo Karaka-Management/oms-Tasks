@@ -378,7 +378,7 @@ final class TaskMapper extends DataMapperFactory
             }
 
             $count = $fetched[0][0] ?? 0;
-        } catch (\Exception $e) {
+        } catch (\Exception $_) {
             return -1;
         }
 
