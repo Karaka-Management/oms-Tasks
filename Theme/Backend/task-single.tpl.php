@@ -54,20 +54,18 @@ echo $this->getData('nav')->render(); ?>
                     </div>
                 </template>
             <?php endif; ?>
-            <div class="portlet-head">
-                <div class="row middle-xs">
-                    <span class="col-xs-0">
-                        <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($task->createdBy->id); ?>">
+            <div class="portlet-head middle-xs">
+                <span class="col-xs-0">
+                    <img class="profile-image" loading="lazy" alt="<?= $this->getHtml('User', '0', '0'); ?>" src="<?= $this->getAccountImage($task->createdBy->id); ?>">
+                </span>
+                <span>
+                    <?= $this->printHtml($task->createdBy->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
+                </span>
+                <span class="end-xs plain-grid">
+                    <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
+                        <?= $this->getHtml('S' . $task->getStatus()); ?>
                     </span>
-                    <span>
-                        <?= $this->printHtml($task->createdBy->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
-                    </span>
-                    <span class="col-xs end-xs plain-grid">
-                        <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
-                            <?= $this->getHtml('S' . $task->getStatus()); ?>
-                        </span>
-                    </span>
-                </div>
+                </span>
             </div>
             <div class="portlet-body">
                 <span class="task-title" data-tpl-text="/title" data-tpl-value="/title" data-value=""><?= $this->printHtml($task->title); ?></span>
@@ -77,28 +75,26 @@ echo $this->getData('nav')->render(); ?>
                     data-tpl-value-path="/0/response/descriptionRaw"
                     data-tpl-text-path="/0/response/description"
                     data-value=""><?= $task->description; ?></article>
+                <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                    <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                <?php endforeach; ?>
+                <?php if (!empty($taskMedia)) : ?>
+                    <div>
+                        <?php foreach ($taskMedia as $media) : ?>
+                            <span><a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a></span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="portlet-foot row">
                 <div class="row col-xs plain-grid">
                     <div class="col-xs">
-                        <?php if (!empty($taskMedia)) : ?>
-                            <div>
-                                <?php foreach ($taskMedia as $media) : ?>
-                                    <span><a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a></span>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-
                         <div>
                             <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
                                 <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($task->due->format('Y/m/d H:i')); ?>
                             <?php else : ?>
                                 <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $task->getPriority()); ?>
                             <?php endif; ?>
-
-                            <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
-                                <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
-                            <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="col-xs-0 end-xs plain-grid">
@@ -234,31 +230,30 @@ echo $this->getData('nav')->render(); ?>
                         </div>
                     </div>
 
-                    <?php if ($element->description !== '') : ?>
+                    <?php
+                    $elementMedia = $element->getMedia();
+                    if ($element->description !== '') : ?>
                         <div class="portlet-body">
                             <article class="taskElement-content" data-tpl-text="{/base}/api/task/element?id={$id}"
                                 data-tpl-value="{/base}/api/task/element?id={$id}"
                                 data-tpl-value-path="/0/response/descriptionRaw"
                                 data-tpl-text-path="/0/response/description"
                                 data-value=""><?= $element->description; ?></article>
+
+                            <?php if (!empty($elementMedia)) : ?>
+                                <div>
+                                    <?php foreach ($elementMedia as $media) : ?>
+                                        <span><a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a></span>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
-
-
-                    <?php $elementMedia = $element->getMedia();
-                        if (!empty($elementMedia)
-                            || ($task->isEditable
-                                && $this->request->header->account === $element->createdBy->id)
+                    <?php
+                        if ($task->isEditable
+                                && $this->request->header->account === $element->createdBy->id
                         ) : ?>
                     <div class="portlet-foot row middle-xs">
-                        <?php if (!empty($elementMedia)) : ?>
-                            <div>
-                                <?php foreach ($elementMedia as $media) : ?>
-                                    <span><a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a></span>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-
                         <?php if ($element->getStatus() !== TaskStatus::CANCELED
                             || $element->getStatus() !== TaskStatus::DONE
                             || $element->getStatus() !== TaskStatus::SUSPENDED
@@ -307,7 +302,10 @@ echo $this->getData('nav')->render(); ?>
                                 ); ?></a> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
-                                    <a href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $to->getRelation()->id); ?>"><?= $this->printHtml($to->getRelation()->name1); ?></a>
+                                    <a href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $to->getRelation()->id); ?>"><?= $this->renderUserName(
+                                        '%3$s %2$s %1$s',
+                                        [$to->getRelation()->name1, $to->getRelation()->name2, $to->getRelation()->name3, $to->getRelation()->login]
+                                    ); ?></a>
                                 <?php elseif ($to instanceof GroupRelation) : ?>
                                     <?= $this->printHtml($to->getRelation()->name); ?>
                                 <?php endif; ?>

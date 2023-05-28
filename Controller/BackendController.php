@@ -98,10 +98,10 @@ final class BackendController extends Controller implements DashboardElementInte
 
         $openQuery = new Builder($this->app->dbPool->get(), true);
         $openQuery->innerJoin(TaskElementMapper::TABLE)
-                    ->on(TaskMapper::TABLE . '_d1.' . TaskMapper::PRIMARYFIELD, '=', TaskElementMapper::TABLE . '.task_element_task')
-                ->innerJoin(AccountRelationMapper::TABLE)
-                    ->on(TaskElementMapper::TABLE . '.' . TaskElementMapper::PRIMARYFIELD, '=', AccountRelationMapper::TABLE . '.task_account_task_element')
-                ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $request->header->account);
+                ->on(TaskMapper::TABLE . '_d1.' . TaskMapper::PRIMARYFIELD, '=', TaskElementMapper::TABLE . '.task_element_task')
+            ->innerJoin(AccountRelationMapper::TABLE)
+                ->on(TaskElementMapper::TABLE . '.' . TaskElementMapper::PRIMARYFIELD, '=', AccountRelationMapper::TABLE . '.task_account_task_element')
+            ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $request->header->account);
 
         /** @var \Modules\Tasks\Models\Task[] $open */
         $open = TaskMapper::getAll()
@@ -190,6 +190,7 @@ final class BackendController extends Controller implements DashboardElementInte
         /** @var \Modules\Tasks\Models\Task $task */
         $task = TaskMapper::get()
             ->with('createdBy')
+            ->with('media')
             ->with('tags')
             ->with('tags/title')
             ->with('taskElements')

@@ -39,7 +39,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('YourOpen'); ?> (<?= \count($open); ?>)<i class="fa fa-download floatRight download btn"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('YourOpen'); ?> (<?= \count($open); ?>)<i class="lni lni-download download btn end-xs"></i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
@@ -54,7 +54,7 @@ echo $this->getData('nav')->render(); ?>
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
                                     $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/lang}{/app}/' . $task->redirect
+                                        ? '{/app}/' . $task->redirect
                                         : ('task/single?{?}&id=' . $task->id),
                                         ['$id' => $task->id]
                                     );
@@ -98,7 +98,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($open); ?>)<i class="fa fa-download floatRight download btn"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($open); ?>)<i class="lni lni-download download btn end-xs"></i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
@@ -113,7 +113,7 @@ echo $this->getData('nav')->render(); ?>
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
                                     $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/lang}{/app}/' . $task->redirect
+                                        ? '{/app}/' . $task->redirect
                                         : ('task/single?{?}&id=' . $task->id),
                                         ['$id' => $task->id]
                                     );
@@ -157,7 +157,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('All'); ?><i class="fa fa-download floatRight download btn"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('All'); ?><i class="lni lni-download download btn end-xs"></i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
@@ -177,7 +177,7 @@ echo $this->getData('nav')->render(); ?>
 
                                     ++$c;
                                     $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/lang}{/app}/' . $task->redirect
+                                        ? '{/app}/' . $task->redirect
                                         : ('task/single?{?}&id=' . $task->id),
                                         ['$id' => $task->id]
                                     );
@@ -228,7 +228,7 @@ echo $this->getData('nav')->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('UnreadChanges'); ?> (<?= \count($open); ?>)<i class="fa fa-download floatRight download btn"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('UnreadChanges'); ?> (<?= \count($open); ?>)<i class="lni lni-download download btn end-xs"></i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
@@ -243,7 +243,7 @@ echo $this->getData('nav')->render(); ?>
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
                                     $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/lang}{/app}/' . $task->redirect
+                                        ? '{/app}/' . $task->redirect
                                         : ('task/single?{?}&id=' . $task->id),
                                         ['$id' => $task->id]
                                     );
