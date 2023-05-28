@@ -97,9 +97,9 @@ final class Installer extends InstallerAbstract
                 continue;
             }
 
-            $taskAttrType[$attribute['name']] = !\is_array($responseData['response'])
-                ? $responseData['response']->toArray()
-                : $responseData['response'];
+            $taskAttrType[$attribute['name']] = \is_array($responseData['response'])
+                ? $responseData['response']
+                : $responseData['response']->toArray();
 
             $isFirst = true;
             foreach ($attribute['l11n'] as $language => $l11n) {
@@ -169,9 +169,9 @@ final class Installer extends InstallerAbstract
                     continue;
                 }
 
-                $attrValue = !\is_array($responseData['response'])
-                    ? $responseData['response']->toArray()
-                    : $responseData['response'];
+                $attrValue = \is_array($responseData['response'])
+                    ? $responseData['response']
+                    : $responseData['response']->toArray();
 
                 $taskAttrValue[$attribute['name']][] = $attrValue;
 

@@ -53,9 +53,9 @@ echo $this->getData('nav')->render(); ?>
                             <?php
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
-                                    $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/app}/' . $task->redirect
-                                        : ('task/single?{?}&id=' . $task->id),
+                                    $url = UriFactory::build(empty($task->redirect)
+                                        ? 'task/single?{?}&id=' . $task->id
+                                        : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
                             ?>
@@ -79,7 +79,7 @@ echo $this->getData('nav')->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
@@ -112,9 +112,9 @@ echo $this->getData('nav')->render(); ?>
                             <?php
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
-                                    $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/app}/' . $task->redirect
-                                        : ('task/single?{?}&id=' . $task->id),
+                                    $url = UriFactory::build(empty($task->redirect)
+                                        ? 'task/single?{?}&id=' . $task->id
+                                        : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
                             ?>
@@ -138,7 +138,7 @@ echo $this->getData('nav')->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
@@ -176,9 +176,9 @@ echo $this->getData('nav')->render(); ?>
                                     }
 
                                     ++$c;
-                                    $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/app}/' . $task->redirect
-                                        : ('task/single?{?}&id=' . $task->id),
+                                    $url = UriFactory::build(empty($task->redirect)
+                                        ? 'task/single?{?}&id=' . $task->id
+                                        : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
                             ?>
@@ -202,7 +202,7 @@ echo $this->getData('nav')->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
@@ -242,9 +242,9 @@ echo $this->getData('nav')->render(); ?>
                             <?php
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
-                                    $url = UriFactory::build(!empty($task->redirect)
-                                        ? '{/app}/' . $task->redirect
-                                        : ('task/single?{?}&id=' . $task->id),
+                                    $url = UriFactory::build(empty($task->redirect)
+                                        ? 'task/single?{?}&id=' . $task->id
+                                        : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
                             ?>
@@ -268,7 +268,7 @@ echo $this->getData('nav')->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">

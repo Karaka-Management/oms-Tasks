@@ -76,7 +76,7 @@ echo $this->getData('nav')->render(); ?>
                     data-tpl-text-path="/0/response/description"
                     data-value=""><?= $task->description; ?></article>
                 <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
-                    <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= !empty($tag->icon) ? '<i class="' . $this->printHtml($tag->icon) . '"></i>' : ''; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                    <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                 <?php endforeach; ?>
                 <?php if (!empty($taskMedia)) : ?>
                     <div>
@@ -380,7 +380,7 @@ echo $this->getData('nav')->render(); ?>
                             <div class="form-group">
                                 <label for="iDue"><?= $this->getHtml('Due'); ?></label>
                                 <input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
-                                        !empty($elements) ? \end($elements)->due->format('Y-m-d\TH:i:s') : $task->due->format('Y-m-d\TH:i:s')
+                                        empty($elements) ? $task->due->format('Y-m-d\TH:i:s') : \end($elements)->due->format('Y-m-d\TH:i:s')
                                     ); ?>">
                             </div>
                         </div>
