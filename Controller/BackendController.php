@@ -72,7 +72,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('tags')
             ->with('tags/title')
             ->where('status', TaskStatus::OPEN, '!=')
-            ->where('tags/title/language', $response->getLanguage())
+            ->where('tags/title/language', $response->header->l11n->language)
             ->sort('createdAt', OrderType::DESC)
             ->limit(25);
 
@@ -108,7 +108,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('createdBy')
             ->with('tags')
             ->with('tags/title')
-            ->where('tags/title/language', $response->getLanguage())
+            ->where('tags/title/language', $response->header->l11n->language)
             ->where('status', TaskStatus::OPEN)
             ->sort('createdAt', OrderType::DESC)
             ->query($openQuery)
@@ -140,7 +140,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->sort('taskElements/createdAt', OrderType::DESC)
             ->limit(5)
             ->where('id', 0, '>')
-            ->where('tags/title/language', $response->getLanguage())
+            ->where('tags/title/language', $response->header->l11n->language)
             ->execute();
 
         $view->addData('tasks', $tasks);
@@ -176,8 +176,8 @@ final class BackendController extends Controller implements DashboardElementInte
             $view->setTemplate('/Web/Backend/Error/403');
 
             $this->app->loadLanguageFromPath(
-                $response->getLanguage(),
-                __DIR__ . '/../../../Web/Backend/Error/lang/' . $response->getLanguage() . '.lang.php'
+                $response->header->l11n->language,
+                __DIR__ . '/../../../Web/Backend/Error/lang/' . $response->header->l11n->language . '.lang.php'
             );
 
             return $view;
@@ -199,7 +199,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('taskElements/accRelation')
             ->with('taskElements/accRelation/relation')
             ->where('id', (int) $request->getData('id'))
-            ->where('tags/title/language', $request->getLanguage())
+            ->where('tags/title/language', $request->header->l11n->language)
             ->execute();
 
         $accountId = $request->header->account;
