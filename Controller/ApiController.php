@@ -96,7 +96,7 @@ final class ApiController extends Controller
     public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
-            $response->set($request->uri->__toString(), new FormValidation($val));
+            $response->data[$request->uri->__toString()] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -106,7 +106,7 @@ final class ApiController extends Controller
         $task = $this->createTaskFromRequest($request);
         $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
 
-        if (!empty($request->getFiles())
+        if (!empty($request->files)
             || !empty($request->getDataJson('media'))
         ) {
             $this->createTaskMedia($task, $request);
@@ -139,7 +139,7 @@ final class ApiController extends Controller
         /** @var \Modules\Admin\Models\Account $account */
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
-        if (!empty($uploadedFiles = $request->getFiles())) {
+        if (!empty($uploadedFiles = $request->files)) {
             $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
                 names: [],
                 fileNames: [],
@@ -453,7 +453,7 @@ final class ApiController extends Controller
     public function apiTaskElementCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
-            $response->set('task_element_create', new FormValidation($val));
+            $response->data['task_element_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -474,7 +474,7 @@ final class ApiController extends Controller
 
         $this->createModel($request->header->account, $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
 
-        if (!empty($request->getFiles())
+        if (!empty($request->files)
             || !empty($request->getDataJson('media'))
         ) {
             $this->createTaskElementMedia($task, $element, $request);
@@ -514,7 +514,7 @@ final class ApiController extends Controller
         /** @var \Modules\Admin\Models\Account $account */
         $account = AccountMapper::get()->where('id', $request->header->account)->execute();
 
-        if (!empty($uploadedFiles = $request->getFiles())) {
+        if (!empty($uploadedFiles = $request->files)) {
             $uploaded = $this->app->moduleManager->get('Media')->uploadFiles(
                 [],
                 [],
@@ -784,7 +784,7 @@ final class ApiController extends Controller
     public function apiTaskAttributeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeCreate($request))) {
-            $response->set('attribute_create', new FormValidation($val));
+            $response->data['attribute_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -870,7 +870,7 @@ final class ApiController extends Controller
     public function apiTaskAttributeTypeL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeTypeL11nCreate($request))) {
-            $response->set('attr_type_l11n_create', new FormValidation($val));
+            $response->data['attr_type_l11n_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -947,7 +947,7 @@ final class ApiController extends Controller
     public function apiTaskAttributeTypeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeTypeCreate($request))) {
-            $response->set('attr_type_create', new FormValidation($val));
+            $response->data['attr_type_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -1024,7 +1024,7 @@ final class ApiController extends Controller
     public function apiTaskAttributeValueCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeValueCreate($request))) {
-            $response->set('attr_value_create', new FormValidation($val));
+            $response->data['attr_value_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
@@ -1116,7 +1116,7 @@ final class ApiController extends Controller
     public function apiTaskAttributeValueL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeValueL11nCreate($request))) {
-            $response->set('attr_value_l11n_create', new FormValidation($val));
+            $response->data['attr_value_l11n_create'] = new FormValidation($val);
             $response->header->status = RequestStatusCode::R_400;
 
             return;
