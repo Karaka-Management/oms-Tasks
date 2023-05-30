@@ -62,11 +62,11 @@ final class BackendController extends Controller implements DashboardElementInte
         $view = new View($this->app->l11nManager, $request, $response);
 
         /** @var \phpOMS\Model\Html\Head $head */
-        $head = $response->get('Content')->getData('head');
+        $head = $response->get('Content')->head;
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-dashboard');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
         $mapperQuery = TaskMapper::getAnyRelatedToUser($request->header->account)
             ->with('tags')
@@ -77,23 +77,17 @@ final class BackendController extends Controller implements DashboardElementInte
             ->limit(25);
 
         if ($request->getData('ptype') === 'p') {
-            $view->setData('tasks',
-                $mapperQuery->with('createdBy')
+            $view->data['tasks'] = $mapperQuery->with('createdBy')
                     ->where('id', $request->getDataInt('id') ?? 0, '<')
-                    ->execute()
-            );
+                    ->execute();
         } elseif ($request->getData('ptype') === 'n') {
-            $view->setData('tasks',
-                $mapperQuery->with('createdBy')
+            $view->data['tasks'] = $mapperQuery->with('createdBy')
                     ->where('id', $request->getDataInt('id') ?? 0, '>')
-                    ->execute()
-            );
+                    ->execute();
         } else {
-            $view->setData('tasks',
-                $mapperQuery->with('createdBy')
+            $view->data['tasks'] = $mapperQuery->with('createdBy')
                     ->where('id', 0, '>')
-                    ->execute()
-            );
+                    ->execute();
         }
 
         $openQuery = new Builder($this->app->dbPool->get(), true);
@@ -114,7 +108,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->query($openQuery)
             ->execute();
 
-        $view->setData('open', $open);
+        $view->data['open'] = $open;
 
         return $view;
     }
@@ -126,12 +120,12 @@ final class BackendController extends Controller implements DashboardElementInte
     public function viewDashboard(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : RenderableInterface
     {
         /** @var \phpOMS\Model\Html\Head $head */
-        $head = $response->get('Content')->getData('head');
+        $head = $response->get('Content')->head;
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
 
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Tasks/Theme/Backend/dashboard-task');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
         /** @var \Modules\Tasks\Models\Task[] $tasks */
         $tasks = TaskMapper::getAnyRelatedToUser($request->header->account)
@@ -143,7 +137,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->where('tags/title/language', $response->header->l11n->language)
             ->execute();
 
-        $view->addData('tasks', $tasks);
+        $view->data['tasks'] = $tasks;
 
         return $view;
     }
@@ -184,7 +178,7 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         /** @var \phpOMS\Model\Html\Head $head */
-        $head = $response->get('Content')->getData('head');
+        $head = $response->get('Content')->head;
         $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
 
         /** @var \Modules\Tasks\Models\Task $task */
@@ -216,14 +210,14 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-single');
-        $view->addData('task', $task);
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
+        $view->data['task'] = $task;
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
         $accGrpSelector = new \Modules\Profile\Theme\Backend\Components\AccountGroupSelector\BaseView($this->app->l11nManager, $request, $response);
-        $view->addData('accGrpSelector', $accGrpSelector);
+        $view->data['accGrpSelector'] = $accGrpSelector;
 
         $editor = new \Modules\Editor\Theme\Backend\Components\Editor\BaseView($this->app->l11nManager, $request, $response);
-        $view->addData('editor', $editor);
+        $view->data['editor'] = $editor;
 
         return $view;
     }
@@ -245,13 +239,13 @@ final class BackendController extends Controller implements DashboardElementInte
         $view = new View($this->app->l11nManager, $request, $response);
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-create');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
         $accGrpSelector = new \Modules\Profile\Theme\Backend\Components\AccountGroupSelector\BaseView($this->app->l11nManager, $request, $response);
-        $view->addData('accGrpSelector', $accGrpSelector);
+        $view->data['accGrpSelector'] = $accGrpSelector;
 
         $editor = new \Modules\Editor\Theme\Backend\Components\Editor\BaseView($this->app->l11nManager, $request, $response);
-        $view->addData('editor', $editor);
+        $view->data['editor'] = $editor;
 
         return $view;
     }
@@ -272,7 +266,7 @@ final class BackendController extends Controller implements DashboardElementInte
     {
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-analysis');
-        $view->addData('nav', $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response));
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
         return $view;
     }

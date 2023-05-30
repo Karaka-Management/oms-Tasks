@@ -20,13 +20,13 @@ use phpOMS\Uri\UriFactory;
 
 /** @var Modules\Tasks\Views\TaskView $this */
 /** @var Modules\Tasks\Models\Task $task */
-$task      = $this->getData('task');
+$task      = $this->data['task'];
 $taskMedia = $task->getMedia();
 $elements  = $task->invertTaskElements();
 $cElements = \count($elements);
 $color     = $this->getStatus($task->getStatus());
 
-echo $this->getData('nav')->render(); ?>
+echo $this->data['nav']->render(); ?>
 
 <div class="row">
     <div class="col-md-6 col-xs-12">

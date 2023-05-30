@@ -15,7 +15,7 @@ declare(strict_types=1);
 use Modules\Tasks\Models\TaskPriority;
 use phpOMS\Uri\UriFactory;
 
-$tasksList = $this->getData('tasks') ?? [];
+$tasksList = $this->data['tasks'] ?? [];
 ?>
 
 <div id="tasks-dashboard" class="col-xs-12 col-md-6" draggable="true">
