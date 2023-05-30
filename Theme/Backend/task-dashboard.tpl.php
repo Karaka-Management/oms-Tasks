@@ -17,14 +17,14 @@ use phpOMS\Uri\UriFactory;
 
 /** @var \phpOMS\Views\View $this */
 /** @var \Modules\Tasks\Models\Task[] $tasks */
-$tasks = $this->getData('tasks') ?? [];
+$tasks = $this->data['tasks'] ?? [];
 
 $previous = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \reset($tasks)->id . '&ptype=p';
 $next     = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \end($tasks)->id . '&ptype=n';
 
-$open = $this->getData('open');
+$open = $this->data['open'];
 
-echo $this->getData('nav')->render(); ?>
+echo $this->data['nav']->render(); ?>
 
 <div class="tabview tab-2">
     <div class="box wf-100 col-xs-12">
