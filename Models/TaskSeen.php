@@ -55,5 +55,4 @@ class TaskSeen
     {
         $this->seenAt = new \DateTime('now');
     }
-
 }

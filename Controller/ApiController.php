@@ -97,7 +97,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
             $response->data[$request->uri->__toString()] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status                    = RequestStatusCode::R_400;
 
             return;
         }
@@ -454,7 +454,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
             $response->data['task_element_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status              = RequestStatusCode::R_400;
 
             return;
         }
@@ -785,7 +785,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskAttributeCreate($request))) {
             $response->data['attribute_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status           = RequestStatusCode::R_400;
 
             return;
         }
@@ -871,7 +871,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskAttributeTypeL11nCreate($request))) {
             $response->data['attr_type_l11n_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status                = RequestStatusCode::R_400;
 
             return;
         }
@@ -948,7 +948,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskAttributeTypeCreate($request))) {
             $response->data['attr_type_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status           = RequestStatusCode::R_400;
 
             return;
         }
@@ -1025,7 +1025,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskAttributeValueCreate($request))) {
             $response->data['attr_value_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status            = RequestStatusCode::R_400;
 
             return;
         }
@@ -1117,7 +1117,7 @@ final class ApiController extends Controller
     {
         if (!empty($val = $this->validateTaskAttributeValueL11nCreate($request))) {
             $response->data['attr_value_l11n_create'] = new FormValidation($val);
-            $response->header->status = RequestStatusCode::R_400;
+            $response->header->status                 = RequestStatusCode::R_400;
 
             return;
         }
