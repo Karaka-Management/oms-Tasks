@@ -64,7 +64,7 @@ class Controller extends ModuleAbstract
      * @var string[]
      * @since 1.0.0
      */
-    protected static array $providing = [
+    public static array $providing = [
         'Navigation',
     ];
 
@@ -74,5 +74,5 @@ class Controller extends ModuleAbstract
      * @var string[]
      * @since 1.0.0
      */
-    protected static array $dependencies = [];
+    public static array $dependencies = [];
 }
