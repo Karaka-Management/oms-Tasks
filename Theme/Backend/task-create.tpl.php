@@ -57,11 +57,11 @@ echo $this->data['nav']->render(); ?>
                     </div>
 
                     <div class="form-group">
-                        <?= $this->getData('editor')->render('task-editor'); ?>
+                        <?= $this->data['editor']->render('task-editor'); ?>
                     </div>
 
                     <div class="form-group">
-                        <?= $this->getData('editor')->getData('text')->render('task-editor', 'plain', 'fTask'); ?>
+                        <?= $this->data['editor']->getData('text')->render('task-editor', 'plain', 'fTask'); ?>
                     </div>
                 </div>
                 <div class="portlet-foot">

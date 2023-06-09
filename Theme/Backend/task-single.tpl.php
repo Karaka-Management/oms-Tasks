@@ -75,7 +75,9 @@ echo $this->data['nav']->render(); ?>
                     data-tpl-value-path="/0/response/descriptionRaw"
                     data-tpl-text-path="/0/response/description"
                     data-value=""><?= $task->description; ?></article>
-                <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                <?php
+                    $tags = $task->getTags();
+                    foreach ($tags as $tag) : ?>
                     <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
                 <?php endforeach; ?>
                 <?php if (!empty($taskMedia)) : ?>
