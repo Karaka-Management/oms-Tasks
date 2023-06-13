@@ -178,7 +178,7 @@ final class ApiController extends Controller
                 $this->createModel($request->header->account, $ref, ReferenceMapper::class, 'media_reference', $request->getOrigin());
 
                 if ($collection === null) {
-                    /** @var \Modules\Media\Models\Media $media */
+                    /** @var \Modules\Media\Models\Collection $collection */
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
                     if ($collection->id === 0) {
@@ -232,7 +232,7 @@ final class ApiController extends Controller
                 $this->createModel($request->header->account, $ref, ReferenceMapper::class, 'media_reference', $request->getOrigin());
 
                 if ($collection === null) {
-                    /** @var \Modules\Media\Models\Media $media */
+                    /** @var \Modules\Media\Models\Collection $collection */
                     $collection = MediaMapper::getParentCollection($path)->limit(1)->execute();
 
                     if ($collection->id === 0) {

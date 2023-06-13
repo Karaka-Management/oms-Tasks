@@ -76,7 +76,6 @@ return ['Tasks' => [
     'Year'               => 'Year',
     'YourOpen'           => 'Your Open',
     'OpenGiven'          => 'Open Given',
-    'All'                => 'All',
     'For'                => 'For',
     'UnreadChanges'      => 'Unread Changes',
     'Unread'             => 'Unread',
