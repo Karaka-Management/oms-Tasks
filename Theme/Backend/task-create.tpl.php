@@ -25,7 +25,7 @@ echo $this->data['nav']->render(); ?>
                 <div class="portlet-head"><?= $this->getHtml('Task'); ?></div>
                 <div class="portlet-body">
                     <div class="form-group">
-                        <label for="iReceiver"><?= $this->getHtml('To'); ?></label>
+                        <label for="iiReceiver"><?= $this->getHtml('To'); ?></label>
                         <?= $this->getData('accGrpSelector')->render('iReceiver', 'forward', true); ?>
                     </div>
 

@@ -356,7 +356,7 @@ echo $this->data['nav']->render(); ?>
                     </div>
 
                     <div class="form-group">
-                        <label for="iReceiver"><?= $this->getHtml('To'); ?></label>
+                        <label for="iiReceiver"><?= $this->getHtml('To'); ?></label>
                         <?= $this->getData('accGrpSelector')->render('iReceiver', 'to', true); ?>
                     </div>
 
