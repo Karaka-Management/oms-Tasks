@@ -43,10 +43,8 @@ use phpOMS\Localization\BaseStringL11n;
 use phpOMS\Localization\ISO639x1Enum;
 use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
-use phpOMS\Message\NotificationLevel;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
-use phpOMS\Model\Message\FormValidation;
 use phpOMS\Utils\Parser\Markdown\Markdown;
 
 /**
@@ -96,8 +94,8 @@ final class ApiController extends Controller
     public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
-            $response->data[$request->uri->__toString()] = new FormValidation($val);
-            $response->header->status                    = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
@@ -112,14 +110,7 @@ final class ApiController extends Controller
             $this->createTaskMedia($task, $request);
         }
 
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $task
-        );
+        $this->createStandardCreateResponse($request, $response, $task);
     }
 
     /**
@@ -352,7 +343,7 @@ final class ApiController extends Controller
     {
         /** @var Task $task */
         $task = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task', 'Task successfully returned.', $task);
+        $this->createStandardReturnResponse($request, $response, $task);
     }
 
     /**
@@ -381,14 +372,7 @@ final class ApiController extends Controller
             $this->app->eventManager->triggerSimilar($new->trigger, '', $new);
         }
 
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulUpdate'),
-            $new
-        );
+        $this->createStandardUpdateResponse($request, $response, $new);
     }
 
     /**
@@ -453,8 +437,8 @@ final class ApiController extends Controller
     public function apiTaskElementCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
-            $response->data['task_element_create'] = new FormValidation($val);
-            $response->header->status              = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
@@ -486,14 +470,7 @@ final class ApiController extends Controller
             $this->app->eventManager->triggerSimilar($task->trigger, '', $task);
         }
 
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $element
-        );
+        $this->createStandardCreateResponse($request, $response, $element);
     }
 
     /**
@@ -678,7 +655,7 @@ final class ApiController extends Controller
     {
         /** @var TaskElement $task */
         $task = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
-        $this->fillJsonResponse($request, $response, NotificationLevel::OK, 'Task element', 'Task element successfully returned.', $task);
+        $this->createStandardReturnResponse($request, $response, $task);
     }
 
     /**
@@ -721,14 +698,7 @@ final class ApiController extends Controller
             }
         }
 
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulUpdate'),
-            $new
-        );
+        $this->createStandardUpdateResponse($request, $response, $new);
     }
 
     /**
@@ -784,23 +754,15 @@ final class ApiController extends Controller
     public function apiTaskAttributeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeCreate($request))) {
-            $response->data['attribute_create'] = new FormValidation($val);
-            $response->header->status           = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
 
         $attribute = $this->createTaskAttributeFromRequest($request);
         $this->createModel($request->header->account, $attribute, TaskAttributeMapper::class, 'attribute', $request->getOrigin());
-
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $attribute
-        );
+        $this->createStandardCreateResponse($request, $response, $attribute);
     }
 
     /**
@@ -870,23 +832,15 @@ final class ApiController extends Controller
     public function apiTaskAttributeTypeL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeTypeL11nCreate($request))) {
-            $response->data['attr_type_l11n_create'] = new FormValidation($val);
-            $response->header->status                = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
 
         $attrL11n = $this->createTaskAttributeTypeL11nFromRequest($request);
         $this->createModel($request->header->account, $attrL11n, TaskAttributeTypeL11nMapper::class, 'attr_type_l11n', $request->getOrigin());
-
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $attrL11n
-        );
+        $this->createStandardCreateResponse($request, $response, $attrL11n);
     }
 
     /**
@@ -947,23 +901,15 @@ final class ApiController extends Controller
     public function apiTaskAttributeTypeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeTypeCreate($request))) {
-            $response->data['attr_type_create'] = new FormValidation($val);
-            $response->header->status           = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
 
         $attrType = $this->createTaskAttributeTypeFromRequest($request);
         $this->createModel($request->header->account, $attrType, TaskAttributeTypeMapper::class, 'attr_type', $request->getOrigin());
-
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $attrType
-        );
+        $this->createStandardCreateResponse($request, $response, $attrType);
     }
 
     /**
@@ -981,7 +927,7 @@ final class ApiController extends Controller
         $attrType->setL11n($request->getDataString('title') ?? '', $request->getDataString('language') ?? ISO639x1Enum::_EN);
         $attrType->setFields($request->getDataInt('fields') ?? 0);
         $attrType->custom            = $request->getDataBool('custom') ?? false;
-        $attrType->isRequired        = (bool) ($request->getData('is_required') ?? false);
+        $attrType->isRequired        = $request->getDataBool('is_required') ?? false;
         $attrType->validationPattern = $request->getDataString('validation_pattern') ?? '';
 
         return $attrType;
@@ -1024,8 +970,8 @@ final class ApiController extends Controller
     public function apiTaskAttributeValueCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeValueCreate($request))) {
-            $response->data['attr_value_create'] = new FormValidation($val);
-            $response->header->status            = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
@@ -1042,14 +988,7 @@ final class ApiController extends Controller
             );
         }
 
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $attrValue
-        );
+        $this->createStandardCreateResponse($request, $response, $attrValue);
     }
 
     /**
@@ -1116,23 +1055,15 @@ final class ApiController extends Controller
     public function apiTaskAttributeValueL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
     {
         if (!empty($val = $this->validateTaskAttributeValueL11nCreate($request))) {
-            $response->data['attr_value_l11n_create'] = new FormValidation($val);
-            $response->header->status                 = RequestStatusCode::R_400;
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
 
             return;
         }
 
         $attrL11n = $this->createTaskAttributeValueL11nFromRequest($request);
         $this->createModel($request->header->account, $attrL11n, TaskAttributeValueL11nMapper::class, 'attr_value_l11n', $request->getOrigin());
-
-        $this->fillJsonResponse(
-            $request,
-            $response,
-            NotificationLevel::OK,
-            '',
-            $this->app->l11nManager->getText($response->header->l11n->language, '0', '0', 'SucessfulCreate'),
-            $attrL11n
-        );
+        $this->createStandardCreateResponse($request, $response, $attrL11n);
     }
 
     /**
