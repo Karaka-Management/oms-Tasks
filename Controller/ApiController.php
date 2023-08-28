@@ -386,10 +386,10 @@ final class ApiController extends Controller
      */
     private function updateTaskFromRequest(RequestAbstract $request, Task $task) : Task
     {
-        $task->title          = (string) ($request->getData('title') ?? $task->title);
-        $task->description    = Markdown::parse((string) ($request->getData('plain') ?? $task->descriptionRaw));
-        $task->descriptionRaw = (string) ($request->getData('plain') ?? $task->descriptionRaw);
-        $task->due            = $request->hasData('due') ? new \DateTime((string) ($request->getData('due'))) : $task->due;
+        $task->title          = $request->getDataString('title') ?? $task->title;
+        $task->description    = Markdown::parse($request->getDataString('plain') ?? $task->descriptionRaw);
+        $task->descriptionRaw = $request->getDataString('plain') ?? $task->descriptionRaw;
+        $task->due            = $request->hasData('due') ? new \DateTime($request->getDataString('due') ?? 'now') : $task->due;
         $task->setStatus($request->getDataInt('status') ?? $task->getStatus());
         $task->setType($request->getDataInt('type') ?? $task->getType());
         $task->setPriority($request->getDataInt('priority') ?? $task->getPriority());
