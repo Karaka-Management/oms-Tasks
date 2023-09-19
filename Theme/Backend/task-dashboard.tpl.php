@@ -98,7 +98,7 @@ echo $this->data['nav']->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($open); ?>)<i class="lni lni-download download btn end-xs"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($this->data['given']); ?>)<i class="lni lni-download download btn end-xs"></i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
@@ -111,7 +111,7 @@ echo $this->data['nav']->render(); ?>
                             <tbody>
                             <?php
                                 $c = 0;
-                                foreach ($open as $key => $task) : ++$c;
+                                foreach ($this->data['given'] as $key => $task) : ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
                                         ? 'task/single?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),

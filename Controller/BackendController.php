@@ -112,6 +112,21 @@ final class BackendController extends Controller implements DashboardElementInte
 
         $view->data['open'] = $open;
 
+        // given
+        // @todo: this should also include forwarded tasks
+        /** @var \Modules\Tasks\Models\Task[] $given */
+        $given = TaskMapper::getAll()
+            ->with('createdBy')
+            ->with('tags')
+            ->with('tags/title')
+            ->where('tags/title/language', $response->header->l11n->language)
+            ->where('status', TaskStatus::OPEN)
+            ->where('createdBy', $response->header->account, '=')
+            ->sort('createdAt', OrderType::DESC)
+            ->execute();
+
+        $view->data['given'] = $given;
+
         /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
         $unread = TaskSeenMapper::getAll()
             ->where('task', \array_keys($open), 'in')
