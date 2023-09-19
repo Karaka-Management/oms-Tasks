@@ -242,7 +242,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
                     $unseen->isRemindered = false;
 
-                    $this->updateModel($request->header->account, $old, $unseen, TaskSeenMapper::class, 'task-seen', $request->getOrigin());
+                    $this->updateModel($request->header->account, $old, $unseen, TaskSeenMapper::class, 'task_seen', $request->getOrigin());
                 }
             }
 
@@ -251,7 +251,7 @@ final class BackendController extends Controller implements DashboardElementInte
                 $taskSeen->seenBy = $request->header->account;
                 $taskSeen->task = (int) $request->getData('id');
 
-                $this->createModel($request->header->account, $taskSeen, TaskSeenMapper::class, 'task-seen', $request->getOrigin());
+                $this->createModel($request->header->account, $taskSeen, TaskSeenMapper::class, 'task_seen', $request->getOrigin());
             }
         }
 
