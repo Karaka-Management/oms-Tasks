@@ -54,7 +54,7 @@ echo $this->data['nav']->render(); ?>
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? 'task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/single?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -113,7 +113,7 @@ echo $this->data['nav']->render(); ?>
                                 $c = 0;
                                 foreach ($this->data['given'] as $key => $task) : ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? 'task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/single?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -177,7 +177,7 @@ echo $this->data['nav']->render(); ?>
 
                                     ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? 'task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/single?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -247,7 +247,7 @@ echo $this->data['nav']->render(); ?>
                                     }
 
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? 'task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/single?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
