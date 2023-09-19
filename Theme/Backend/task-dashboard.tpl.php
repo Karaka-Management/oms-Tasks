@@ -242,6 +242,10 @@ echo $this->data['nav']->render(); ?>
                             <?php
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
+                                    if (isset($this->data['unread'][$key])) {
+                                        continue;
+                                    }
+
                                     $url = UriFactory::build(empty($task->redirect)
                                         ? 'task/single?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),

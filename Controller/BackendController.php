@@ -21,6 +21,8 @@ use Modules\Tasks\Models\AccountRelationMapper;
 use Modules\Tasks\Models\PermissionCategory;
 use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
+use Modules\Tasks\Models\TaskSeen;
+use Modules\Tasks\Models\TaskSeenMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Views\TaskView;
 use phpOMS\Account\PermissionType;
@@ -110,6 +112,23 @@ final class BackendController extends Controller implements DashboardElementInte
 
         $view->data['open'] = $open;
 
+        /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
+        $unread = TaskSeenMapper::getAll()
+            ->where('task', \array_keys($open), 'in')
+            ->where('seenBy', $request->header->account)
+            ->execute();
+
+        $unseen = [];
+        foreach ($unread as $read) {
+            if ($read->isRemindered && ($read->reminderAt?->getTimestamp() ?? 0) > $request->header->getRequestTime()) {
+                continue;
+            }
+
+            $unseen[$read->task] = true;
+        }
+
+        $view->data['unread'] = $unseen;
+
         return $view;
     }
 
@@ -195,6 +214,31 @@ final class BackendController extends Controller implements DashboardElementInte
             ->where('id', (int) $request->getData('id'))
             ->where('tags/title/language', $request->header->l11n->language)
             ->execute();
+
+        if ($task !== 0) {
+            $taskSeen = TaskSeenMapper::getAll()
+                ->where('task', (int) $request->getData('id'))
+                ->where('seenBy', $request->header->account)
+                ->execute();
+
+            foreach ($taskSeen as $unseen) {
+                if ($unseen->isRemindered && ($unseen->reminderAt?->getTimestamp() ?? 0) < $request->header->getRequestTime()) {
+                    $old = clone $unseen;
+
+                    $unseen->isRemindered = false;
+
+                    $this->updateModel($request->header->account, $old, $unseen, TaskSeenMapper::class, 'task-seen', $request->getOrigin());
+                }
+            }
+
+            if (empty($taskSeen)) {
+                $taskSeen = new TaskSeen();
+                $taskSeen->seenBy = $request->header->account;
+                $taskSeen->task = (int) $request->getData('id');
+
+                $this->createModel($request->header->account, $taskSeen, TaskSeenMapper::class, 'task-seen', $request->getOrigin());
+            }
+        }
 
         $accountId = $request->header->account;
 
