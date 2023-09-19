@@ -33,7 +33,7 @@ $tasksList = $this->data['tasks'] ?? [];
             $c = 0;
             foreach ($tasksList as $key => $task) : ++$c;
                 $url = UriFactory::build(empty($task->redirect)
-                    ? 'task/single?{?}&id=' . $task->id
+                    ? '{/base}/task/single?{?}&id=' . $task->id
                     : ($task->redirect)
                 );
             ?>
