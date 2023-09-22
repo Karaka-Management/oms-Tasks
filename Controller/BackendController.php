@@ -231,6 +231,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->execute();
 
         if ($task !== 0) {
+            /** @var \Modules\Tasks\Models\TaskSeen[] $taskSeen */
             $taskSeen = TaskSeenMapper::getAll()
                 ->where('task', (int) $request->getData('id'))
                 ->where('seenBy', $request->header->account)
