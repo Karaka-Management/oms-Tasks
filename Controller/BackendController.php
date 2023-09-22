@@ -230,6 +230,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->where('tags/title/language', $request->header->l11n->language)
             ->execute();
 
+        // Set task as seen
         if ($task !== 0) {
             /** @var \Modules\Tasks\Models\TaskSeen[] $taskSeen */
             $taskSeen = TaskSeenMapper::getAll()
@@ -248,9 +249,9 @@ final class BackendController extends Controller implements DashboardElementInte
             }
 
             if (empty($taskSeen)) {
-                $taskSeen = new TaskSeen();
+                $taskSeen         = new TaskSeen();
                 $taskSeen->seenBy = $request->header->account;
-                $taskSeen->task = (int) $request->getData('id');
+                $taskSeen->task   = (int) $request->getData('id');
 
                 $this->createModel($request->header->account, $taskSeen, TaskSeenMapper::class, 'task_seen', $request->getOrigin());
             }
