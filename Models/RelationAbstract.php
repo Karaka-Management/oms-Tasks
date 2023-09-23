@@ -41,7 +41,7 @@ abstract class RelationAbstract implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $duty = DutyType::TO;
+    public int $duty = DutyType::TO;
 
     /**
      * Element id.

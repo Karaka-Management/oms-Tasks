@@ -33,7 +33,7 @@ class AccountRelation extends RelationAbstract
      * @var Account
      * @since 1.0.0
      */
-    private Account $relation;
+    public Account $relation;
 
     /**
      * Constructor.

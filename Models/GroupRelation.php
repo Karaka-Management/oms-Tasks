@@ -33,7 +33,7 @@ class GroupRelation extends RelationAbstract
      * @var Group
      * @since 1.0.0
      */
-    private Group $relation;
+    public Group $relation;
 
     /**
      * Constructor.
