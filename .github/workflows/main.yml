@@ -171,14 +171,14 @@ jobs:
           ref: develop
           repository: Karaka-Management/Build
           path: Build
-    - name: Checkout phpOMS Repository
+    - name: Checkout Karaka Repository
       uses: actions/checkout@main
       with:
           fetch-depth: 1
           ref: develop
-          repository: Karaka-Management/phpOMS
-          path: phpOMS
-          token: ${{ secrets.GH_PAT }}
+          repository: Karaka-Management/Karaka
+          path: Karaka
+          submodules: recursive
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@master
       with:
