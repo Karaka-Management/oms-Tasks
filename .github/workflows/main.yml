@@ -151,12 +151,6 @@ jobs:
           repository: Karaka-Management/Karaka
           path: Karaka
           submodules: recursive
-    - name: log
-      run: |
-        ls ./
-        ls ./Karaka
-        ls ./Karaka/Modules
-        ls ./Karaka/Modules/Admin
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@master
       with:
