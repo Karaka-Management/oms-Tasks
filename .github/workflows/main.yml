@@ -150,6 +150,7 @@ jobs:
           ref: develop
           repository: Karaka-Management/Karaka
           path: Karaka
+          submodules: recursive
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@master
       with:
