@@ -65,7 +65,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $account = new Account();
         TestUtils::setMember($account, 'id', 1);
 
-        $permission = new AccountPermission();
+        $permission       = new AccountPermission();
         $permission->unit = 1;
         $permission->app  = 2;
         $permission->setPermission(
