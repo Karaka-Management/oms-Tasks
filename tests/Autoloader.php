@@ -33,8 +33,8 @@ final class Autoloader
      * @since 1.0.0
      */
     private static $paths = [
-        __DIR__ . '/../',
         __DIR__ . '/../Karaka/',
+        __DIR__ . '/../',
         __DIR__ . '/../../',
     ];
 
@@ -59,7 +59,7 @@ final class Autoloader
      */
     public static function addPath(string $path) : void
     {
-        self::$paths[] = $path;
+        self::$paths[] = \rtrim($path, '/\\') . '/';
     }
 
     /**
