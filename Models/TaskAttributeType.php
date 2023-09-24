@@ -49,7 +49,7 @@ class TaskAttributeType implements \JsonSerializable
      * @var int
      * @since 1.0.0
      */
-    protected int $fields = 0;
+    public int $fields = 0;
 
     /**
      * Is a custom value allowed (e.g. custom string)
