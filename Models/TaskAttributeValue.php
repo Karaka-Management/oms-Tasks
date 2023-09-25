@@ -148,7 +148,7 @@ class TaskAttributeValue implements \JsonSerializable
     /**
      * Set value
      *
-     * @param int|string|float $value Value
+     * @param null|int|string|float $value Value
      *
      * @return void
      *
