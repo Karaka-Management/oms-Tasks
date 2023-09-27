@@ -83,7 +83,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -91,7 +91,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
@@ -331,7 +331,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -339,7 +339,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskGet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskGet(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         /** @var Task $task */
         $task = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
@@ -351,7 +351,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -359,7 +359,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskSet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskSet(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         /** @var Task $old */
         $old = TaskMapper::get()->where('id', (int) $request->getData('id'))->execute();
@@ -426,7 +426,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -434,7 +434,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskElementCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskElementCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskElementCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
@@ -643,7 +643,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -651,7 +651,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskElementGet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskElementGet(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         /** @var TaskElement $task */
         $task = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
@@ -663,7 +663,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -671,7 +671,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskElementSet(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         /** @var TaskElement $old */
         $old = TaskElementMapper::get()->where('id', (int) $request->getData('id'))->execute();
@@ -743,7 +743,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -751,7 +751,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskAttributeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskAttributeCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskAttributeCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
@@ -821,7 +821,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -829,7 +829,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskAttributeTypeL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskAttributeTypeL11nCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskAttributeTypeL11nCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
@@ -890,7 +890,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -898,7 +898,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskAttributeTypeCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskAttributeTypeCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskAttributeTypeCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
@@ -959,7 +959,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -967,7 +967,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskAttributeValueCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskAttributeValueCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskAttributeValueCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
@@ -1047,7 +1047,7 @@ final class ApiController extends Controller
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
-     * @param mixed            $data     Generic data
+     * @param array            $data     Generic data
      *
      * @return void
      *
@@ -1055,7 +1055,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    public function apiTaskAttributeValueL11nCreate(RequestAbstract $request, ResponseAbstract $response, mixed $data = null) : void
+    public function apiTaskAttributeValueL11nCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         if (!empty($val = $this->validateTaskAttributeValueL11nCreate($request))) {
             $response->header->status = RequestStatusCode::R_400;
