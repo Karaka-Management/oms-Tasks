@@ -76,14 +76,14 @@ class TaskAttributeType implements \JsonSerializable
      *
      * @var BaseStringL11n
      */
-    private string | BaseStringL11n $l11n = '';
+    public string | BaseStringL11n $l11n = '';
 
     /**
      * Possible default attribute values
      *
      * @var array
      */
-    private array $defaults = [];
+    public array $defaults = [];
 
     /**
      * Default attribute value

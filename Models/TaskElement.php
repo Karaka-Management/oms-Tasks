@@ -108,7 +108,7 @@ class TaskElement implements \JsonSerializable
      * @var Media[]
      * @since 1.0.0
      */
-    private array $media = [];
+    public array $media = [];
 
     /**
      * Accounts who received this task element.
@@ -116,7 +116,7 @@ class TaskElement implements \JsonSerializable
      * @var AccountRelation[]
      * @since 1.0.0
      */
-    protected array $accRelation = [];
+    public array $accRelation = [];
 
     /**
      * Groups who received this task element.
@@ -124,7 +124,7 @@ class TaskElement implements \JsonSerializable
      * @var GroupRelation[]
      * @since 1.0.0
      */
-    protected array $grpRelation = [];
+    public array $grpRelation = [];
 
     /**
      * Constructor.

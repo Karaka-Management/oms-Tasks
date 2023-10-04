@@ -130,7 +130,7 @@ class Task implements \JsonSerializable
      * @var TaskAttribute[]
      * @since 1.0.0
      */
-    private array $attributes = [];
+    public array $attributes = [];
 
     /**
      * Task can be closed by user.
@@ -182,7 +182,7 @@ class Task implements \JsonSerializable
      * @var TaskElement[]
      * @since 1.0.0
      */
-    protected array $taskElements = [];
+    public array $taskElements = [];
 
     /**
      * Tags.
@@ -190,7 +190,7 @@ class Task implements \JsonSerializable
      * @var Tag[]
      * @since 1.0.0
      */
-    protected array $tags = [];
+    public array $tags = [];
 
     /**
      * Schedule
@@ -214,7 +214,7 @@ class Task implements \JsonSerializable
      * @var array
      * @since 1.0.0
      */
-    protected array $media = [];
+    public array $media = [];
 
     /**
      * Constructor.
