@@ -47,6 +47,17 @@ return [
             ],
         ],
     ],
+    '^.*/task/reminder(\?.*|$)' => [
+        [
+            'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskReminderCreate',
+            'verb'       => RouteVerb::PUT,
+            'permission' => [
+                'module' => ApiController::NAME,
+                'type'   => PermissionType::CREATE,
+                'state'  => PermissionCategory::TASK,
+            ],
+        ],
+    ],
     '^.*/task/element.*$' => [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementCreate',

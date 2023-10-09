@@ -74,6 +74,7 @@ return ['Tasks' => [
     'To'                 => 'To',
     'Today'              => 'Today',
     'Type'               => 'Type',
+    'ReminderedBy'         => 'Remindered by',
     'Unread'             => 'Unread',
     'UnreadChanges'      => 'Unread Changes',
     'Upload'             => 'Upload',

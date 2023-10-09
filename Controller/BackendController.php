@@ -80,16 +80,24 @@ final class BackendController extends Controller implements DashboardElementInte
 
         if ($request->getData('ptype') === 'p') {
             $view->data['tasks'] = $mapperQuery->with('createdBy')
-                    ->where('id', $request->getDataInt('id') ?? 0, '<')
-                    ->execute();
+                ->where('id', $request->getDataInt('id') ?? 0, '<')
+                ->execute();
         } elseif ($request->getData('ptype') === 'n') {
             $view->data['tasks'] = $mapperQuery->with('createdBy')
-                    ->where('id', $request->getDataInt('id') ?? 0, '>')
-                    ->execute();
+                ->where('id', $request->getDataInt('id') ?? 0, '>')
+                ->execute();
         } else {
             $view->data['tasks'] = $mapperQuery->with('createdBy')
-                    ->where('id', 0, '>')
-                    ->execute();
+                ->where('id', 0, '>')
+                ->execute();
+        }
+
+        $view->data['task_media'] = [];
+        foreach ($view->data['tasks'] as $task) {
+            $view->data['task_media'][$task->id] = TaskMapper::has()
+                ->with('media')
+                ->where('id', $task->id)
+                ->execute();
         }
 
         $openQuery = new Builder($this->app->dbPool->get(), true);
@@ -112,6 +120,13 @@ final class BackendController extends Controller implements DashboardElementInte
 
         $view->data['open'] = $open;
 
+        foreach ($view->data['open'] as $task) {
+            $view->data['task_media'][$task->id] = TaskMapper::has()
+                ->with('media')
+                ->where('id', $task->id)
+                ->execute();
+        }
+
         // given
         // @todo: this should also include forwarded tasks
         /** @var \Modules\Tasks\Models\Task[] $given */
@@ -126,6 +141,13 @@ final class BackendController extends Controller implements DashboardElementInte
             ->execute();
 
         $view->data['given'] = $given;
+
+        foreach ($view->data['given'] as $task) {
+            $view->data['task_media'][$task->id] = TaskMapper::has()
+                ->with('media')
+                ->where('id', $task->id)
+                ->execute();
+        }
 
         /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
         $unread = TaskSeenMapper::getAll()
@@ -143,6 +165,13 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         $view->data['unread'] = $unseen;
+
+        foreach ($view->data['unread'] as $task) {
+            $view->data['task_media'][$task->id] = TaskMapper::has()
+                ->with('media')
+                ->where('id', $task->id)
+                ->execute();
+        }
 
         return $view;
     }
@@ -230,33 +259,6 @@ final class BackendController extends Controller implements DashboardElementInte
             ->where('tags/title/language', $request->header->l11n->language)
             ->execute();
 
-        // Set task as seen
-        if ($task !== 0) {
-            /** @var \Modules\Tasks\Models\TaskSeen[] $taskSeen */
-            $taskSeen = TaskSeenMapper::getAll()
-                ->where('task', (int) $request->getData('id'))
-                ->where('seenBy', $request->header->account)
-                ->execute();
-
-            foreach ($taskSeen as $unseen) {
-                if ($unseen->isRemindered && ($unseen->reminderAt?->getTimestamp() ?? 0) < $request->header->getRequestTime()) {
-                    $old = clone $unseen;
-
-                    $unseen->isRemindered = false;
-
-                    $this->updateModel($request->header->account, $old, $unseen, TaskSeenMapper::class, 'task_seen', $request->getOrigin());
-                }
-            }
-
-            if (empty($taskSeen)) {
-                $taskSeen         = new TaskSeen();
-                $taskSeen->seenBy = $request->header->account;
-                $taskSeen->task   = (int) $request->getData('id');
-
-                $this->createModel($request->header->account, $taskSeen, TaskSeenMapper::class, 'task_seen', $request->getOrigin());
-            }
-        }
-
         $accountId = $request->header->account;
 
         if (!($task->createdBy->id === $accountId
@@ -269,6 +271,46 @@ final class BackendController extends Controller implements DashboardElementInte
             $response->header->status = RequestStatusCode::R_403;
             return $view;
         }
+
+        $reminderStatus = [];
+
+        // Set task as seen
+        if ($task->id !== 0) {
+            /** @var \Modules\Tasks\Models\TaskSeen[] $taskSeen */
+            $taskSeen = TaskSeenMapper::getAll()
+                ->with('reminderBy')
+                ->where('task', $task->id)
+                ->where('seenBy', $request->header->account)
+                ->execute();
+
+            foreach ($taskSeen as $unseen) {
+                // Shows all reminders
+                if ($unseen->reminderBy !== null
+                    && ($unseen->reminderAt?->getTimestamp() ?? 0) < $request->header->getRequestTime()
+                    && ($unseen->reminderAt?->getTimestamp() ?? 0) > ($unseen->seenAt?->getTimestamp() ?? 0) - 300
+                ) {
+                    $reminderStatus[] = $unseen;
+
+                    if ($unseen->isRemindered) {
+                        $new               = clone $unseen;
+                        $new->seenAt       = new \DateTime('now');
+                        $new->isRemindered = false;
+
+                        $this->updateModel($request->header->account, $unseen, $new, TaskSeenMapper::class, 'reminder_seen', $request->getOrigin());
+                    }
+                }
+            }
+
+            if (empty($taskSeen)) {
+                $taskSeen         = new TaskSeen();
+                $taskSeen->seenBy = $request->header->account;
+                $taskSeen->task   = (int) $request->getData('id');
+
+                $this->createModel($request->header->account, $taskSeen, TaskSeenMapper::class, 'task_seen', $request->getOrigin());
+            }
+        }
+
+        $view->data['reminder'] = $reminderStatus;
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-single');
         $view->data['task'] = $task;

@@ -30,6 +30,12 @@ echo $this->data['nav']->render(); ?>
 
 <div class="row">
     <div class="col-md-6 col-xs-12">
+        <?php if (!empty($this->data['reminder'])) : ?>
+        <section class="portlet highlight-4">
+            <div class="portlet-body"><?= $this->getHtml('ReminderedBy'); ?> <?= \reset($this->data['reminder'])->reminderBy->name1; ?></div>
+        </section>
+        <?php endif; ?>
+
         <section id="task" class="portlet"
             data-update-content="#task"
             data-update-element="#task .task-title, #task .task-content"
@@ -62,6 +68,9 @@ echo $this->data['nav']->render(); ?>
                     <?= $this->printHtml($task->createdBy->name1); ?> - <?= $this->printHtml($task->createdAt->format('Y/m/d H:i')); ?>
                 </span>
                 <span class="end-xs plain-grid">
+                    <form style="display: inline-block;" id="taskReminder" action="<?= UriFactory::build('{/api}task/reminder?{?}&csrf={$CSRF}'); ?>" method="POST">
+                        <i class="lni lni-alarm btn submit"></i>
+                    </form>
                     <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
                         <?= $this->getHtml('S' . $task->getStatus()); ?>
                     </span>

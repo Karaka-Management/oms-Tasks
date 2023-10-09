@@ -37,6 +37,8 @@ use Modules\Tasks\Models\TaskAttributeValueMapper;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
+use Modules\Tasks\Models\TaskSeen;
+use Modules\Tasks\Models\TaskSeenMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Models\TaskType;
 use phpOMS\Localization\BaseStringL11n;
@@ -58,6 +60,53 @@ use phpOMS\Utils\Parser\Markdown\Markdown;
 final class ApiController extends Controller
 {
     /**
+     * Api method to remind a task
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param array            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
+    public function apiTaskReminderCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
+    {
+        if (!empty($val = $this->validateTaskReminderCreate($request))) {
+            $response->header->status = RequestStatusCode::R_400;
+            $this->createInvalidCreateResponse($request, $response, $val);
+
+            return;
+        }
+
+        /** @var TaskSeen[] $reminder */
+        $reminder = $this->createTaskReminderFromRequest($request);
+        $this->createModel($request->header->account, $reminder, TaskSeenMapper::class, 'reminder', $request->getOrigin());
+        $this->createStandardCreateResponse($request, $response, $reminder);
+    }
+
+    /**
+     * Validate reminder create request
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return array<string, bool> Returns the validation array of the request
+     *
+     * @since 1.0.0
+     */
+    private function validateTaskReminderCreate(RequestAbstract $request) : array
+    {
+        $val = [];
+        if (($val['id'] = !$request->hasData('id'))) {
+            return $val;
+        }
+
+        return [];
+    }
+
+    /**
      * Validate task create request
      *
      * @param RequestAbstract $request Request
@@ -76,6 +125,34 @@ final class ApiController extends Controller
         }
 
         return [];
+    }
+
+    /**
+     * Method to create remeinder from request.
+     *
+     * @param RequestAbstract $request Request
+     *
+     * @return TaskSeen[] Returns the created reminders from the request
+     *
+     * @since 1.0.0
+     */
+    public function createTaskReminderFromRequest(RequestAbstract $request) : array
+    {
+        /** @var AccountRelation[] $responsible */
+        $responsible = TaskMapper::getResponsible((int) $request->getData('id'));
+
+        $reminder = [];
+        foreach ($responsible as $account) {
+            $unseen             = new TaskSeen();
+            $unseen->task       = (int) $request->getData('id');
+            $unseen->seenBy     = $account->relation->id;
+            $unseen->reminderBy = new NullAccount($request->header->account);
+            $unseen->reminderAt = new \DateTime('now');
+
+            $remidner[] = $unseen;
+        }
+
+        return $reminder;
     }
 
     /**
@@ -303,7 +380,7 @@ final class ApiController extends Controller
                     $internalResponse = new HttpResponse();
                     $this->app->moduleManager->get('Tag')->apiTagCreate($request, $internalResponse);
 
-                    if (!\is_array($data = $internalResponse->get($request->uri->__toString()))) {
+                    if (!\is_array($data = $internalResponse->getDataArray($request->uri->__toString()))) {
                         continue;
                     }
 
@@ -780,11 +857,11 @@ final class ApiController extends Controller
         $attribute->task = (int) $request->getData('task');
         $attribute->type = new NullTaskAttributeType((int) $request->getData('type'));
 
-        if ($request->hasData('value')) {
-            $attribute->value = new NullTaskAttributeValue((int) $request->getData('value'));
+        if ($request->hasData('value_id')) {
+            $attribute->value = new NullTaskAttributeValue((int) $request->getData('value_id'));
         } else {
             $newRequest = clone $request;
-            $newRequest->setData('value', $request->getData('custom'), true);
+            $newRequest->setData('value', $request->getData('value'), true);
 
             $value = $this->createTaskAttributeValueFromRequest($request);
 

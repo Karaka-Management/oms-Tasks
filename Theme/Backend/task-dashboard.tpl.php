@@ -45,6 +45,7 @@ echo $this->data['nav']->render(); ?>
                             <thead>
                                 <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td>
                                 <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Tag'); ?>
                                 <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
@@ -74,6 +75,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -104,6 +106,7 @@ echo $this->data['nav']->render(); ?>
                             <thead>
                                 <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td>
                                 <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Tag'); ?>
                                 <td><?= $this->getHtml('For'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
@@ -133,6 +136,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -163,6 +167,7 @@ echo $this->data['nav']->render(); ?>
                             <thead>
                                 <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td>
                                 <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Tag'); ?>
                                 <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
@@ -197,6 +202,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -234,6 +240,7 @@ echo $this->data['nav']->render(); ?>
                             <thead>
                                 <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td>
                                 <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
                                 <td><?= $this->getHtml('Tag'); ?>
                                 <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
@@ -267,6 +274,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">

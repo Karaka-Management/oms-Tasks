@@ -119,8 +119,8 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskCreate($request, $response);
 
-        self::assertEquals('Controller Test Title', $response->get('')['response']->title);
-        self::assertGreaterThan(0, $response->get('')['response']->id);
+        self::assertEquals('Controller Test Title', $response->getDataArray('')['response']->title);
+        self::assertGreaterThan(0, $response->getDataArray('')['response']->id);
     }
 
     /**
@@ -137,7 +137,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskGet($request, $response);
 
-        self::assertEquals(1, $response->get('')['response']->id);
+        self::assertEquals(1, $response->getDataArray('')['response']->id);
     }
 
     /**
@@ -157,7 +157,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $this->module->apiTaskSet($request, $response);
         $this->module->apiTaskGet($request, $response);
 
-        self::assertEquals('New Title', $response->get('')['response']->title);
+        self::assertEquals('New Title', $response->getDataArray('')['response']->title);
     }
 
     /**
@@ -194,8 +194,8 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskElementCreate($request, $response);
 
-        self::assertEquals('Controller Test', $response->get('')['response']->descriptionRaw);
-        self::assertGreaterThan(0, $response->get('')['response']->id);
+        self::assertEquals('Controller Test', $response->getDataArray('')['response']->descriptionRaw);
+        self::assertGreaterThan(0, $response->getDataArray('')['response']->id);
     }
 
     /**
@@ -212,7 +212,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskElementGet($request, $response);
 
-        self::assertEquals(1, $response->get('')['response']->id);
+        self::assertEquals(1, $response->getDataArray('')['response']->id);
     }
 
     /**
@@ -231,7 +231,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $this->module->apiTaskElementSet($request, $response);
         $this->module->apiTaskElementGet($request, $response);
 
-        self::assertEquals('This is a changed description', $response->get('')['response']->descriptionRaw);
+        self::assertEquals('This is a changed description', $response->getDataArray('')['response']->descriptionRaw);
     }
 
     /**
@@ -249,7 +249,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskCreate($request, $response);
 
-        self::assertNotEquals([], $response->get(''));
+        self::assertNotEquals([], $response->getData(''));
     }
 
     /**
@@ -269,6 +269,6 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
 
         $this->module->apiTaskElementCreate($request, $response);
 
-        self::assertNotEquals([], $response->get(''));
+        self::assertNotEquals([], $response->getData(''));
     }
 }

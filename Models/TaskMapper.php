@@ -165,6 +165,28 @@ final class TaskMapper extends DataMapperFactory
     }
 
     /**
+     * Get responsible users for task
+     *
+     * @param int $task Task
+     *
+     * @return AccountRelation[]
+     *
+     * @since 1.0.0
+     */
+    public static function getResponsible(int $task) : array
+    {
+        $query = AccountRelationMapper::getQuery();
+        $query->innerJoin(TaskElementMapper::TABLE)
+                ->on(AccountRelationMapper::TABLE . '_d1.task_account_task_element', '=', TaskElementMapper::TABLE . '.task_element_task')
+            ->innerJoin(self::TABLE)
+                ->on(TaskElementMapper::TABLE . '_d1.task_element_task', '=', self::TABLE . '.task_id')
+            ->where(self::TABLE . '.task_id', '=', $task);
+
+        return AccountRelationMapper::getAll()
+            ->execute($query);
+    }
+
+    /**
      * Get open tasks for user
      *
      * @param int $user User
