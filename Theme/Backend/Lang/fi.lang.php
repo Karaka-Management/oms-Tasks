@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => 'Etusija',
     'Received'           => 'Otettu vastaan',
     'Redirected'         => 'Ohjattu',
+    'ReminderedBy'       => '',
     'S1'                 => 'Avata',
     'S2'                 => 'Käynnissä',
     'S3'                 => 'Keskeytetty',

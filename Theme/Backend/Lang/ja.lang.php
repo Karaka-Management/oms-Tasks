@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => '優先度',
     'Received'           => '受け取った',
     'Redirected'         => 'リダイレクト',
+    'ReminderedBy'       => '',
     'S1'                 => '開ける',
     'S2'                 => '進行中',
     'S3'                 => '一時停止',

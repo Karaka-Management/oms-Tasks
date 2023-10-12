@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => 'Přednost',
     'Received'           => 'Obdržený',
     'Redirected'         => 'Přesměrovaný',
+    'ReminderedBy'       => '',
     'S1'                 => 'Otevřeno',
     'S2'                 => 'Probíhající',
     'S3'                 => 'Pozastavený',

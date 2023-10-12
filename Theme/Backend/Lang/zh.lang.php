@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => '优先事项',
     'Received'           => '已收到',
     'Redirected'         => '重定向',
+    'ReminderedBy'       => '',
     'S1'                 => '打开',
     'S2'                 => '进行中',
     'S3'                 => '暂停',

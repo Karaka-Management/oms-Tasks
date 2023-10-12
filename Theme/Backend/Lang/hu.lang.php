@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => 'Kiemelten fontos',
     'Received'           => 'Kapott',
     'Redirected'         => 'Átirányított',
+    'ReminderedBy'       => '',
     'S1'                 => 'Nyisd ki',
     'S2'                 => 'Folyamatban',
     'S3'                 => 'Felfüggesztett',

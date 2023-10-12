@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => 'Prioritet',
     'Received'           => 'Mottagen',
     'Redirected'         => 'Omdirigerad',
+    'ReminderedBy'       => '',
     'S1'                 => 'Öppen',
     'S2'                 => 'Pågående',
     'S3'                 => 'Upphängd',

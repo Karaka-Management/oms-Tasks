@@ -53,6 +53,7 @@ return ['Tasks' => [
     'Priority'           => '우선 사항',
     'Received'           => '받았다',
     'Redirected'         => '리디렉션 된 것',
+    'ReminderedBy'       => '',
     'S1'                 => '열려있는',
     'S2'                 => '진행중인',
     'S3'                 => '정지 된',
