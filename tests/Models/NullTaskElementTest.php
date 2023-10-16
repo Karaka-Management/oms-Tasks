@@ -23,7 +23,7 @@ final class NullTaskElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @covers Modules\Tasks\Models\NullTaskElement
-     * @group framework
+     * @group module
      */
     public function testNull() : void
     {
@@ -32,11 +32,21 @@ final class NullTaskElementTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @covers Modules\Tasks\Models\NullTaskElement
-     * @group framework
+     * @group module
      */
     public function testId() : void
     {
         $null = new NullTaskElement(2);
         self::assertEquals(2, $null->id);
+    }
+
+    /**
+     * @covers Modules\Tasks\Models\NullTaskElement
+     * @group module
+     */
+    public function testJsonSerialize() : void
+    {
+        $null = new NullTaskElement(2);
+        self::assertEquals(['id' => 2], $null);
     }
 }
