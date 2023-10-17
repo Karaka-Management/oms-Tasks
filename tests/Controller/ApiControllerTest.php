@@ -27,6 +27,7 @@ use phpOMS\Event\EventManager;
 use phpOMS\Localization\L11nManager;
 use phpOMS\Message\Http\HttpRequest;
 use phpOMS\Message\Http\HttpResponse;
+use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Module\ModuleManager;
 use phpOMS\Router\WebRouter;
 use phpOMS\System\MimeType;
@@ -248,8 +249,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
 
         $this->module->apiTaskCreate($request, $response);
-
-        self::assertNotEquals([], $response->getData(''));
+        self::assertEquals(RequestStatusCode::R_400, $response->header->status);
     }
 
     /**
@@ -268,7 +268,6 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         $request->setData('plain', 'Controller Test');
 
         $this->module->apiTaskElementCreate($request, $response);
-
-        self::assertNotEquals([], $response->getData(''));
+        self::assertEquals(RequestStatusCode::R_400, $response->header->status);
     }
 }
