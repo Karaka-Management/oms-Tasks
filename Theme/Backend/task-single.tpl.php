@@ -69,7 +69,7 @@ echo $this->data['nav']->render(); ?>
                 </span>
                 <span class="end-xs plain-grid">
                     <form style="display: inline-block;" id="taskReminder" action="<?= UriFactory::build('{/api}task/reminder?{?}&csrf={$CSRF}'); ?>" method="POST">
-                        <i class="lni lni-alarm btn submit"></i>
+                        <i class="g-icon btn submit">notifications</i>
                     </form>
                     <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
                         <?= $this->getHtml('S' . $task->getStatus()); ?>
@@ -373,7 +373,7 @@ echo $this->data['nav']->render(); ?>
                         <input id="more-customer-sales" type="checkbox" name="more-container">
                         <label for="more-customer-sales">
                             <span>Advanced</span>
-                            <i class="fa fa-chevron-right expand"></i>
+                            <i class="g-icon expand">chevron_right</i>
                         </label>
                         <div>
                             <div class="form-group">

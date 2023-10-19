@@ -39,17 +39,17 @@ echo $this->data['nav']->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('YourOpen'); ?> (<?= \count($open); ?>)<i class="lni lni-download download btn end-xs"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('YourOpen'); ?> (<?= \count($open); ?>)<i class="g-icon download btn end-xs">download</i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
-                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td>
-                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td><?= $this->getHtml('Tag'); ?>
-                                <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Creator'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                             <tbody>
                             <?php
                                 $c = 0;
@@ -75,7 +75,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -100,17 +100,17 @@ echo $this->data['nav']->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($this->data['given']); ?>)<i class="lni lni-download download btn end-xs"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($this->data['given']); ?>)<i class="g-icon download btn end-xs">download</i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
-                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td>
-                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td><?= $this->getHtml('Tag'); ?>
-                                <td><?= $this->getHtml('For'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('For'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                             <tbody>
                             <?php
                                 $c = 0;
@@ -136,7 +136,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -161,17 +161,17 @@ echo $this->data['nav']->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('All'); ?><i class="lni lni-download download btn end-xs"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('All'); ?><i class="g-icon download btn end-xs">download</i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
-                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td>
-                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td><?= $this->getHtml('Tag'); ?>
-                                <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Creator'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                             <tbody>
                             <?php
                                 $c = 0;
@@ -202,7 +202,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -234,17 +234,17 @@ echo $this->data['nav']->render(); ?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="portlet">
-                        <div class="portlet-head"><?= $this->getHtml('UnreadChanges'); ?><i class="lni lni-download download btn end-xs"></i></div>
+                        <div class="portlet-head"><?= $this->getHtml('UnreadChanges'); ?><i class="g-icon download btn end-xs">download</i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
                             <thead>
-                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Status'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Due/Priority'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td>
-                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td class="wf-100"><?= $this->getHtml('Title'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                                 <td><?= $this->getHtml('Tag'); ?>
-                                <td><?= $this->getHtml('Creator'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
-                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc fa fa-chevron-up"></i><i class="sort-desc fa fa-chevron-down"></i>
+                                <td><?= $this->getHtml('Creator'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
+                                <td><?= $this->getHtml('Created'); ?><i class="sort-asc g-icon">expand_less</i><i class="sort-desc g-icon">expand_more</i>
                             <tbody>
                             <?php
                                 $c = 0;
@@ -274,7 +274,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="lni lni-paperclip"></i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">

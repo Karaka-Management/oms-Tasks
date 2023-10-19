@@ -7,7 +7,7 @@
         "name": "Tasks",
         "uri": "{/base}/task/dashboard?{?}",
         "target": "self",
-        "icon": "fa fa-bolt",
+        "icon": "bolt",
         "order": 15,
         "from": "Tasks",
         "permission": { "permission": 2, "category": null, "element": null },

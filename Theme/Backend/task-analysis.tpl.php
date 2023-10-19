@@ -23,7 +23,7 @@ echo $this->data['nav']->render(); ?>
                 <form>
                     <table class="layout wf-100">
                         <tr><td><label for="iAccount"><?= $this->getHtml('Account'); ?></label>
-                        <tr><td><span class="input"><button type="button" formaction=""><i class="fa fa-book"></i></button><input type="number" min="1" id="iAccount" name="account" placeholder="&#xf007; Guest" required></span>
+                        <tr><td><span class="input"><button type="button" formaction=""><i class="g-icon">book</i></button><input type="number" min="1" id="iAccount" name="account" placeholder="&#xf007; Guest" required></span>
                         <tr><td><label for="iFrom"><?= $this->getHtml('From'); ?></label>
                         <tr><td><input type="datetime-local" id="iFrom" name="from" value="<?= $this->printHtml((new \DateTime('NOW'))->format('Y-m-d\TH:i:s')); ?>">
                         <tr><td><label for="iTo"><?= $this->getHtml('To'); ?></label>
