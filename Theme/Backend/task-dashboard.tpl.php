@@ -81,11 +81,24 @@ echo $this->data['nav']->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
+                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= $this->printHtml($tag->getL11n()); ?>
+                                            </span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                            <?= $this->printHtml($this->renderUserName(
+                                                '%3$s %2$s %1$s',
+                                                [
+                                                    $task->createdBy->name1,
+                                                    $task->createdBy->name2,
+                                                    $task->createdBy->name3,
+                                                    $task->createdBy->login ?? ''
+                                                ])
+                                            ); ?>
+                                        </a>
                                     <td data-label="<?= $this->getHtml('Created'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                                     <?php endforeach; if ($c == 0) : ?>
@@ -142,11 +155,24 @@ echo $this->data['nav']->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
+                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= $this->printHtml($tag->getL11n()); ?>
+                                            </span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                            <?= $this->printHtml($this->renderUserName(
+                                                '%3$s %2$s %1$s',
+                                                [
+                                                    $task->createdBy->name1,
+                                                    $task->createdBy->name2,
+                                                    $task->createdBy->name3,
+                                                    $task->createdBy->login ?? ''
+                                                ])
+                                            ); ?>
+                                        </a>
                                     <td data-label="<?= $this->getHtml('Created'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                                     <?php endforeach; if ($c == 0) : ?>
@@ -208,11 +234,24 @@ echo $this->data['nav']->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
+                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= $this->printHtml($tag->getL11n()); ?>
+                                            </span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                            <?= $this->printHtml($this->renderUserName(
+                                                '%3$s %2$s %1$s',
+                                                [
+                                                    $task->createdBy->name1,
+                                                    $task->createdBy->name2,
+                                                    $task->createdBy->name3,
+                                                    $task->createdBy->login ?? ''
+                                                ])
+                                            ); ?>
+                                        </a>
                                     <td data-label="<?= $this->getHtml('Created'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                             <?php endforeach; if ($c == 0) : ?>
@@ -280,11 +319,24 @@ echo $this->data['nav']->render(); ?>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
-                                        <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                                            <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
+                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= $this->printHtml($tag->getL11n()); ?>
+                                            </span>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>"><?= $this->printHtml($this->renderUserName('%3$s %2$s %1$s', [$task->createdBy->name1, $task->createdBy->name2, $task->createdBy->name3, $task->createdBy->login ?? ''])); ?></a>
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                            <?= $this->printHtml($this->renderUserName(
+                                                '%3$s %2$s %1$s',
+                                                [
+                                                    $task->createdBy->name1,
+                                                    $task->createdBy->name2,
+                                                    $task->createdBy->name3,
+                                                    $task->createdBy->login ?? ''
+                                                ])
+                                            ); ?>
+                                        </a>
                                     <td data-label="<?= $this->getHtml('Created'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                                     <?php endforeach; if ($c == 0) : ?>

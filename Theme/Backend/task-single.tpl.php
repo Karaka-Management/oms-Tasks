@@ -87,12 +87,16 @@ echo $this->data['nav']->render(); ?>
                 <?php
                     $tags = $task->getTags();
                     foreach ($tags as $tag) : ?>
-                    <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>"><?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?></span>
+                    <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
+                        <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?><?= $this->printHtml($tag->getL11n()); ?>
+                    </span>
                 <?php endforeach; ?>
                 <?php if (!empty($taskMedia)) : ?>
                     <div>
                         <?php foreach ($taskMedia as $media) : ?>
-                            <span><a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a></span>
+                            <span>
+                                <a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a>
+                            </span>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>

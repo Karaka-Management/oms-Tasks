@@ -38,7 +38,10 @@ $tasksList = $this->data['tasks'] ?? [];
                 );
             ?>
                 <tr data-href="<?= $url; ?>">
-                    <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?></span></a>
+                    <td><a href="<?= $url; ?>">
+                        <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">
+                            <?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?>
+                        </span></a>
                     <td><a href="<?= $url; ?>">
                         <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
