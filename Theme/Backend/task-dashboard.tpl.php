@@ -82,7 +82,7 @@ echo $this->data['nav']->render(); ?>
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
-                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= empty($tag->icon) ? '' : '<i class="g-icon">' . $this->printHtml($tag->icon) . '</i>'; ?>
                                                 <?= $this->printHtml($tag->getL11n()); ?>
                                             </span>
                                         </a>
@@ -156,7 +156,7 @@ echo $this->data['nav']->render(); ?>
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
-                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= empty($tag->icon) ? '' : '<i class="g-icon">' . $this->printHtml($tag->icon) . '</i>'; ?>
                                                 <?= $this->printHtml($tag->getL11n()); ?>
                                             </span>
                                         </a>
@@ -235,7 +235,7 @@ echo $this->data['nav']->render(); ?>
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
-                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= empty($tag->icon) ? '' : '<i class="g-icon">' . $this->printHtml($tag->icon) . '</i>'; ?>
                                                 <?= $this->printHtml($tag->getL11n()); ?>
                                             </span>
                                         </a>
@@ -320,7 +320,7 @@ echo $this->data['nav']->render(); ?>
                                         <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
-                                                <?= empty($tag->icon) ? '' : '<i class="' . $this->printHtml($tag->icon) . '"></i>'; ?>
+                                                <?= empty($tag->icon) ? '' : '<i class="g-icon">' . $this->printHtml($tag->icon) . '</i>'; ?>
                                                 <?= $this->printHtml($tag->getL11n()); ?>
                                             </span>
                                         </a>
