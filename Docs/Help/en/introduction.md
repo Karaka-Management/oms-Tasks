@@ -1,6 +1,6 @@
 # Introduction
 
-The **Tasks** module can create tasks/todos, for other people and for oneself. 
+The **Tasks** module can create tasks/todos, for other people and for oneself.
 
 ## Target Group
 
@@ -8,7 +8,7 @@ The target groups for this module is everyone who would like to keep track of to
 
 # Setup
 
-The module can be installed through the integrated module downloader and installer or by uploading the module into the `Modules/` directory and executing the installation through the module installer. 
+The module can be installed through the integrated module downloader and installer or by uploading the module into the `Modules/` directory and executing the installation through the module installer.
 
 The module is depending on the **Editor** module which provides most of the writing features.
 
@@ -16,7 +16,7 @@ The module is depending on the **Editor** module which provides most of the writ
 
 ## Due & Priority
 
-Tasks can get created with a due and priority 
+Tasks can get created with a due and priority
 
 ## Sharing Tasks
 
@@ -28,7 +28,7 @@ The integrated analysis tool allows to investigate how long it takes to finish t
 
 ## Markdown
 
-The module makes use of an extended markdown version for easy writing and modifications. 
+The module makes use of an extended markdown version for easy writing and modifications.
 
 ### Extendability
 

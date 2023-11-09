@@ -36,3 +36,11 @@ The status of a task can be one of the following:
 * Suspended = task is on hold
 * Canceled = task got canceled/aborted
 * Done = task is completed
+
+## Files
+
+If you add files from your local hard drive they get uploaded and attached to the task. If you upload a file a new directory gets created in the media module. In Modules>Tasks  you can find a directory which has the name of the task ID and in this directory all uploaded files can be found.
+
+## Tags
+
+You can add tags to categorize tasks and make specific task types easier to find.
