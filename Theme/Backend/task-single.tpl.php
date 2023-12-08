@@ -167,7 +167,7 @@ echo $this->data['nav']->render(); ?>
             <?php if ($task->isEditable) : ?>
                 <template id="taskElementContentTpl">
                     <div class="taskElement-content">
-                        <!-- todo: bind js after adding template -->
+                        <!-- @todo bind js after adding template -->
                         <?= $this->getData('editor')->render('task-element-edit'); ?>
                         <?= $this->getData('editor')->getData('text')->render(
                                 'task-element-edit',

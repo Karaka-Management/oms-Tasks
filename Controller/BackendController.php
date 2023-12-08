@@ -128,7 +128,7 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         // given
-        // @todo: this should also include forwarded tasks
+        // @todo this should also include forwarded tasks
         /** @var \Modules\Tasks\Models\Task[] $given */
         $given = TaskMapper::getAll()
             ->with('createdBy')

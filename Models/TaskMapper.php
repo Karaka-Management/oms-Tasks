@@ -335,6 +335,22 @@ final class TaskMapper extends DataMapperFactory
             ->orWhere(self::TABLE . '_d1.task_created_by', '=', $user)
             ->groupBy(self::PRIMARYFIELD);
 
+        // @todo Improving query performance by using raw queries and result arrays for large responses like this
+        $sql = <<<SQL
+        SELECT DISTINCT task.*, account.*
+        FROM task
+        INNER JOIN task_element ON task.task_id = task_element.task_element_task
+        INNER JOIN task_account ON task_element.task_element_id = task_account.task_account_task_element
+        INNER JOIN account ON task.task_created_by = account.account_id
+        WHERE
+            task.task_status != 1
+            AND (
+                task_account.task_account_account = $user
+                OR task.task_created_by = $user
+            )
+        LIMIT 25;
+        SQL;
+
         return self::getAll()->query($query);
     }
 
