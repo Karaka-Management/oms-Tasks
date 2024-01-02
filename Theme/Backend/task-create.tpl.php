@@ -53,7 +53,7 @@ echo $this->data['nav']->render(); ?>
 
                     <div class="form-group">
                         <label for="iTitle"><?= $this->getHtml('Title'); ?></label>
-                        <input type="text" id="iTitle" name="title" placeholder="&#xf040; <?= $this->getHtml('Title'); ?>" required>
+                        <input type="text" id="iTitle" name="title" placeholder="<?= $this->getHtml('Title'); ?>" required>
                     </div>
 
                     <div class="form-group">
@@ -80,7 +80,7 @@ echo $this->data['nav']->render(); ?>
                     <div class="form-group">
                         <label for="iMedia"><?= $this->getHtml('Media'); ?></label>
                         <div class="ipt-wrap wf-100">
-                            <div class="ipt-first"><input type="text" id="iMedia" name="mediaFile" placeholder="&#xf15b; File"></div>
+                            <div class="ipt-first"><input type="text" id="iMedia" name="mediaFile" placeholder="File"></div>
                             <div class="ipt-second"><button><?= $this->getHtml('Select'); ?></button></div>
                         </div>
                     </div>

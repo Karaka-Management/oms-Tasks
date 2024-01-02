@@ -17,7 +17,7 @@ namespace Modules\Tasks\Models;
 use phpOMS\Stdlib\Base\Enum;
 
 /**
- * Permision state enum.
+ * Permission category enum.
  *
  * @package Modules\Tasks\Models
  * @license OMS License 2.0

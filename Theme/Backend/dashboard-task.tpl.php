@@ -22,7 +22,7 @@ $tasksList = $this->data['tasks'] ?? [];
     <div class="portlet">
         <div class="portlet-head"><?= $this->getHtml('Tasks', 'Tasks'); ?></div>
         <div class="slider">
-        <table class="default">
+        <table class="default sticky">
             <thead>
                 <td><?= $this->getHtml('Status', 'Tasks'); ?>
                 <td><?= $this->getHtml('Due/Priority', 'Tasks'); ?>

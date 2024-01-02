@@ -128,7 +128,7 @@ final class ApiController extends Controller
     }
 
     /**
-     * Method to create remeinder from request.
+     * Method to create reminder from request.
      *
      * @param RequestAbstract $request Request
      *
@@ -149,7 +149,7 @@ final class ApiController extends Controller
             $unseen->reminderBy = new NullAccount($request->header->account);
             $unseen->reminderAt = new \DateTime('now');
 
-            $remidner[] = $unseen;
+            $reminder[] = $unseen;
         }
 
         return $reminder;
@@ -360,10 +360,10 @@ final class ApiController extends Controller
         $task->descriptionRaw = $request->getDataString('plain') ?? '';
         $task->setCreatedBy(new NullAccount($request->header->account));
         $task->setStatus(TaskStatus::OPEN);
-        $task->setType(TaskType::SINGLE);
+        $task->setType($request->getDataInt('type') ?? TaskType::SINGLE);
         $task->redirect = $request->getDataString('redirect') ?? '';
 
-        if (!$request->hasData('priority')) {
+        if ($request->hasData('due')) {
             $task->due = $request->getDataDateTime('due');
         } else {
             $task->setPriority((int) $request->getData('priority'));

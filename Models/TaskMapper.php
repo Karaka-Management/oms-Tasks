@@ -329,6 +329,7 @@ final class TaskMapper extends DataMapperFactory
         $query = new Builder(self::$db, true);
         $query->innerJoin(TaskElementMapper::TABLE)
                 ->on(self::TABLE . '_d1.task_id', '=', TaskElementMapper::TABLE . '.task_element_task')
+                ->on(self::TABLE . '_d1.task_type', '=', TaskType::SINGLE)
             ->innerJoin(AccountRelationMapper::TABLE)
                 ->on(TaskElementMapper::TABLE . '.task_element_id', '=', AccountRelationMapper::TABLE . '.task_account_task_element')
             ->where(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
@@ -345,8 +346,8 @@ final class TaskMapper extends DataMapperFactory
         WHERE
             task.task_status != 1
             AND (
-                task_account.task_account_account = $user
-                OR task.task_created_by = $user
+                task_account.task_account_account = {$user}
+                OR task.task_created_by = {$user}
             )
         LIMIT 25;
         SQL;

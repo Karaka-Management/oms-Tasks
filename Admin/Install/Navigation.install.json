@@ -72,7 +72,8 @@
                 "from": "Tasks",
                 "permission": { "permission": 2, "category": null, "element": null },
                 "parent": 1001101001,
-                "children": []
+                "children": [],
+                "status": 3
             }
         ]
     }

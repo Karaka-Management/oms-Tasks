@@ -29,8 +29,8 @@ echo $this->data['nav']->render(); ?>
 <div class="tabview tab-2">
     <div class="box">
         <ul class="tab-links">
-            <li><label for="c-tab-1"><?= $this->getHtml('Overview'); ?></label></li>
-            <li><label for="c-tab-2"><?= $this->getHtml('Unread'); ?></label></li>
+            <li><label for="c-tab-1"><?= $this->getHtml('Overview'); ?></label>
+            <li><label for="c-tab-2"><?= $this->getHtml('Unread'); ?></label>
         </ul>
     </div>
     <div class="tab-content">
@@ -75,7 +75,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -95,7 +95,7 @@ echo $this->data['nav']->render(); ?>
                                                     $task->createdBy->name1,
                                                     $task->createdBy->name2,
                                                     $task->createdBy->name3,
-                                                    $task->createdBy->login ?? ''
+                                                    $task->createdBy->login ?? '',
                                                 ])
                                             ); ?>
                                         </a>
@@ -149,7 +149,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -169,7 +169,7 @@ echo $this->data['nav']->render(); ?>
                                                     $task->createdBy->name1,
                                                     $task->createdBy->name2,
                                                     $task->createdBy->name3,
-                                                    $task->createdBy->login ?? ''
+                                                    $task->createdBy->login ?? '',
                                                 ])
                                             ); ?>
                                         </a>
@@ -228,7 +228,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -248,7 +248,7 @@ echo $this->data['nav']->render(); ?>
                                                     $task->createdBy->name1,
                                                     $task->createdBy->name2,
                                                     $task->createdBy->name3,
-                                                    $task->createdBy->login ?? ''
+                                                    $task->createdBy->login ?? '',
                                                 ])
                                             ); ?>
                                         </a>
@@ -313,7 +313,7 @@ echo $this->data['nav']->render(); ?>
                                             <?= $this->getHtml('P' . $task->getPriority()); ?>
                                         <?php endif; ?>
                                         </a>
-                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">link</i>' : ''; ?>
+                                    <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
@@ -333,7 +333,7 @@ echo $this->data['nav']->render(); ?>
                                                     $task->createdBy->name1,
                                                     $task->createdBy->name2,
                                                     $task->createdBy->name3,
-                                                    $task->createdBy->login ?? ''
+                                                    $task->createdBy->login ?? '',
                                                 ])
                                             ); ?>
                                         </a>

@@ -24,6 +24,7 @@ use Modules\Tasks\Models\TaskMapper;
 use Modules\Tasks\Models\TaskSeen;
 use Modules\Tasks\Models\TaskSeenMapper;
 use Modules\Tasks\Models\TaskStatus;
+use Modules\Tasks\Models\TaskType;
 use Modules\Tasks\Views\TaskView;
 use phpOMS\Account\PermissionType;
 use phpOMS\Asset\AssetType;
@@ -48,7 +49,7 @@ use phpOMS\Views\View;
 final class BackendController extends Controller implements DashboardElementInterface
 {
     /**
-     * Routing end-point for application behaviour.
+     * Routing end-point for application behavior.
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
@@ -73,22 +74,21 @@ final class BackendController extends Controller implements DashboardElementInte
         $mapperQuery = TaskMapper::getAnyRelatedToUser($request->header->account)
             ->with('tags')
             ->with('tags/title')
+            ->with('createdBy')
             ->where('status', TaskStatus::OPEN, '!=')
+            ->where('type', TaskType::SINGLE)
             ->where('tags/title/language', $response->header->l11n->language)
             ->sort('createdAt', OrderType::DESC)
             ->limit(25);
 
         if ($request->getData('ptype') === 'p') {
-            $view->data['tasks'] = $mapperQuery->with('createdBy')
-                ->where('id', $request->getDataInt('id') ?? 0, '<')
+            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '<')
                 ->execute();
         } elseif ($request->getData('ptype') === 'n') {
-            $view->data['tasks'] = $mapperQuery->with('createdBy')
-                ->where('id', $request->getDataInt('id') ?? 0, '>')
+            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '>')
                 ->execute();
         } else {
-            $view->data['tasks'] = $mapperQuery->with('createdBy')
-                ->where('id', 0, '>')
+            $view->data['tasks'] = $mapperQuery->where('id', 0, '>')
                 ->execute();
         }
 
@@ -97,6 +97,7 @@ final class BackendController extends Controller implements DashboardElementInte
             $view->data['task_media'][$task->id] = TaskMapper::has()
                 ->with('media')
                 ->where('id', $task->id)
+                ->where('type', TaskType::SINGLE)
                 ->execute();
         }
 
@@ -113,6 +114,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('tags')
             ->with('tags/title')
             ->where('tags/title/language', $response->header->l11n->language)
+            ->where('type', TaskType::SINGLE)
             ->where('status', TaskStatus::OPEN)
             ->sort('createdAt', OrderType::DESC)
             ->query($openQuery)
@@ -135,6 +137,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('tags')
             ->with('tags/title')
             ->where('tags/title/language', $response->header->l11n->language)
+            ->where('type', TaskType::SINGLE)
             ->where('status', TaskStatus::OPEN)
             ->where('createdBy', $response->header->account, '=')
             ->sort('createdAt', OrderType::DESC)
@@ -146,6 +149,7 @@ final class BackendController extends Controller implements DashboardElementInte
             $view->data['task_media'][$task->id] = TaskMapper::has()
                 ->with('media')
                 ->where('id', $task->id)
+                ->where('type', TaskType::SINGLE)
                 ->execute();
         }
 
@@ -170,6 +174,7 @@ final class BackendController extends Controller implements DashboardElementInte
             $view->data['task_media'][$task->id] = TaskMapper::has()
                 ->with('media')
                 ->where('id', $task->id)
+                ->where('type', TaskType::SINGLE)
                 ->execute();
         }
 
@@ -197,6 +202,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->sort('taskElements/createdAt', OrderType::DESC)
             ->limit(5)
             ->where('id', 0, '>')
+            ->where('type', TaskType::SINGLE)
             ->where('tags/title/language', $response->header->l11n->language)
             ->execute();
 
@@ -206,7 +212,7 @@ final class BackendController extends Controller implements DashboardElementInte
     }
 
     /**
-     * Routing end-point for application behaviour.
+     * Routing end-point for application behavior.
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
@@ -326,7 +332,7 @@ final class BackendController extends Controller implements DashboardElementInte
     }
 
     /**
-     * Routing end-point for application behaviour.
+     * Routing end-point for application behavior.
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response
@@ -354,7 +360,7 @@ final class BackendController extends Controller implements DashboardElementInte
     }
 
     /**
-     * Routing end-point for application behaviour.
+     * Routing end-point for application behavior.
      *
      * @param RequestAbstract  $request  Request
      * @param ResponseAbstract $response Response

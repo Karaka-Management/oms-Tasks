@@ -104,9 +104,9 @@ class TaskAttributeValue implements \JsonSerializable
     /**
      * Localization
      *
-     * @var null|BaseStringL11n
+     * @var string|BaseStringL11n
      */
-    public ?BaseStringL11n $l11n = null;
+    public string | BaseStringL11n $l11n = '';
 
     /**
      * Set l11n

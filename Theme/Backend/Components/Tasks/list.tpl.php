@@ -21,7 +21,7 @@ use phpOMS\Uri\UriFactory;
 <div id="news-dashboard" class="col-xs-12 col-md-6" draggable="true">
     <div class="portlet">
         <div class="portlet-head"><?= $this->getHtml('News', 'News'); ?></div>
-        <table class="default">
+        <table class="default sticky">
             <thead>
                 <td><?= $this->getHtml('Status', 'Tasks'); ?>
                 <td><?= $this->getHtml('Due/Priority', 'Tasks'); ?>
