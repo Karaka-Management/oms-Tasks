@@ -129,6 +129,11 @@
                 "type": "TINYINT(1)",
                 "null": false
             },
+            "task_attr_type_repeatable": {
+                "name": "task_attr_type_repeatable",
+                "type": "TINYINT(1)",
+                "null": false
+            },
             "task_attr_type_required": {
                 "description": "Every task must have this attribute type if set to true.",
                 "name": "task_attr_type_required",
