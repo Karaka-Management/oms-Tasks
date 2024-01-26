@@ -43,7 +43,7 @@ class GroupRelation extends RelationAbstract
      *
      * @since 1.0.0
      */
-    public function __construct(Group $group = null, int $duty = DutyType::TO)
+    public function __construct(?Group $group = null, int $duty = DutyType::TO)
     {
         $this->relation = $group ?? new NullGroup();
         $this->duty     = $duty;

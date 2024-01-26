@@ -51,8 +51,8 @@ final class AccountRelationMapper extends DataMapperFactory
      */
     public const OWNS_ONE = [
         'relation' => [
-            'mapper'     => AccountMapper::class,
-            'external'   => 'task_account_account',
+            'mapper'   => AccountMapper::class,
+            'external' => 'task_account_account',
         ],
     ];
 

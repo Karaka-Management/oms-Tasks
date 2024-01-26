@@ -56,14 +56,14 @@ class TaskViewTest extends \PHPUnit\Framework\TestCase
 
             $profile->account  = AccountMapper::get()->where('id', 1)->execute();
             $profile->image    = $media;
-            $profile->birthday =  new \DateTime('now');
+            $profile->birthday = new \DateTime('now');
 
             $id = ProfileMapper::create()->execute($profile);
             self::assertGreaterThan(0, $profile->id);
             self::assertEquals($id, $profile->id);
         } else {
             $profile->image    = $media;
-            $profile->birthday =  new \DateTime('now');
+            $profile->birthday = new \DateTime('now');
 
             ProfileMapper::update()->with('image')->execute($profile);
         }

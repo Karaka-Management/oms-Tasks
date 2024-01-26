@@ -4,7 +4,7 @@
  *
  * PHP Version 8.1
  *
- * @package   Modules\Tasks\Models
+ * @package   Modules\Tasks\Models\Attribute
  * @copyright Dennis Eichhorn
  * @license   OMS License 2.0
  * @version   1.0.0
@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-namespace Modules\Tasks\Models;
+namespace Modules\Tasks\Models\Attribute;
 
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 use phpOMS\Localization\BaseStringL11n;
@@ -20,7 +20,7 @@ use phpOMS\Localization\BaseStringL11n;
 /**
  * Task mapper class.
  *
- * @package Modules\Tasks\Models
+ * @package Modules\Tasks\Models\Attribute
  * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
@@ -37,10 +37,10 @@ final class TaskAttributeValueL11nMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const COLUMNS = [
-        'task_attr_value_l11n_id'     => ['name' => 'task_attr_value_l11n_id',    'type' => 'int',    'internal' => 'id'],
-        'task_attr_value_l11n_title'  => ['name' => 'task_attr_value_l11n_title', 'type' => 'string', 'internal' => 'content', 'autocomplete' => true],
-        'task_attr_value_l11n_value'  => ['name' => 'task_attr_value_l11n_value',  'type' => 'int',    'internal' => 'ref'],
-        'task_attr_value_l11n_lang'   => ['name' => 'task_attr_value_l11n_lang',  'type' => 'string', 'internal' => 'language'],
+        'task_attr_value_l11n_id'    => ['name' => 'task_attr_value_l11n_id',    'type' => 'int',    'internal' => 'id'],
+        'task_attr_value_l11n_title' => ['name' => 'task_attr_value_l11n_title', 'type' => 'string', 'internal' => 'content', 'autocomplete' => true],
+        'task_attr_value_l11n_value' => ['name' => 'task_attr_value_l11n_value',  'type' => 'int',    'internal' => 'ref'],
+        'task_attr_value_l11n_lang'  => ['name' => 'task_attr_value_l11n_lang',  'type' => 'string', 'internal' => 'language'],
     ];
 
     /**

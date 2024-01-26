@@ -51,6 +51,7 @@ return ['Tasks' => [
     'Status'             => 'Status',
     'Tag'                => 'Tag',
     'Task'               => 'Task',
+    'Tasks'              => 'Tasks',
     'Title'              => 'Title',
     'To'                 => 'To',
     'Unread'             => 'Unread',

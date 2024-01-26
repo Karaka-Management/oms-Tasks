@@ -1,3 +1,8 @@
+<?php declare(strict_types=1);
+
+use Modules\Tasks\Models\TaskStatus;
+
+?>
 <div class="ipt-wrap">
     <div class="ipt-first">
         <span class="input">
@@ -7,7 +12,7 @@
                     data-src="api/admin/find/accgrp?search={!#i<?= $this->id; ?>}">
                 <template><!-- Template for the selected element --></template>
             </div>
-            <div id="<?= $this->id; ?>-popup" class="popup" data-active="true" data-selected="<?= $task->getStatus(); ?>">
+            <div id="<?= $this->id; ?>-popup" class="popup" data-active="true" data-selected="<?= $task->status; ?>">
                 <template class="rowTemplate"><!-- Template for remote data or data manually to be added --></template>
                 <tr><td data-value="<?= TaskStatus::OPEN; ?>"><?= $this->getHtml('S1'); ?>
                 <tr><td data-value="<?= TaskStatus::WORKING; ?>"><?= $this->getHtml('S2'); ?>

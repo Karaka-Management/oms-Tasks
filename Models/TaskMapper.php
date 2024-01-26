@@ -18,6 +18,7 @@ use Modules\Admin\Models\AccountMapper;
 use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
 use Modules\Tag\Models\TagMapper;
+use Modules\Tasks\Models\Attribute\TaskAttributeMapper;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 use phpOMS\DataStorage\Database\Mapper\ReadMapper;
 use phpOMS\DataStorage\Database\Query\Builder;
@@ -43,24 +44,25 @@ final class TaskMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const COLUMNS = [
-        'task_id'                => ['name' => 'task_id',         'type' => 'int',      'internal' => 'id'],
-        'task_title'             => ['name' => 'task_title',      'type' => 'string',   'internal' => 'title'],
-        'task_desc'              => ['name' => 'task_desc',       'type' => 'string',   'internal' => 'description'],
-        'task_desc_raw'          => ['name' => 'task_desc_raw',   'type' => 'string',   'internal' => 'descriptionRaw'],
-        'task_type'              => ['name' => 'task_type',       'type' => 'int',      'internal' => 'type'],
-        'task_status'            => ['name' => 'task_status',     'type' => 'int',      'internal' => 'status'],
-        'task_completion'        => ['name' => 'task_completion',     'type' => 'int',      'internal' => 'completion'],
-        'task_closable'          => ['name' => 'task_closable',   'type' => 'bool',     'internal' => 'isClosable'],
-        'task_editable'          => ['name' => 'task_editable',   'type' => 'bool',     'internal' => 'isEditable'],
-        'task_priority'          => ['name' => 'task_priority',   'type' => 'int',      'internal' => 'priority'],
-        'task_due'               => ['name' => 'task_due',        'type' => 'DateTime', 'internal' => 'due'],
-        'task_done'              => ['name' => 'task_done',       'type' => 'DateTime', 'internal' => 'done'],
-        'task_schedule'          => ['name' => 'task_schedule',   'type' => 'int',      'internal' => 'schedule'],
-        'task_start'             => ['name' => 'task_start',      'type' => 'DateTime', 'internal' => 'start'],
-        'task_redirect'          => ['name' => 'task_redirect',      'type' => 'string',   'internal' => 'redirect'],
-        'task_trigger'           => ['name' => 'task_trigger',      'type' => 'string',   'internal' => 'trigger'],
-        'task_created_by'        => ['name' => 'task_created_by', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
-        'task_created_at'        => ['name' => 'task_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
+        'task_id'         => ['name' => 'task_id',         'type' => 'int',      'internal' => 'id'],
+        'task_title'      => ['name' => 'task_title',      'type' => 'string',   'internal' => 'title'],
+        'task_desc'       => ['name' => 'task_desc',       'type' => 'string',   'internal' => 'description'],
+        'task_desc_raw'   => ['name' => 'task_desc_raw',   'type' => 'string',   'internal' => 'descriptionRaw'],
+        'task_type'       => ['name' => 'task_type',       'type' => 'int',      'internal' => 'type'],
+        'task_status'     => ['name' => 'task_status',     'type' => 'int',      'internal' => 'status'],
+        'task_completion' => ['name' => 'task_completion',     'type' => 'int',      'internal' => 'completion'],
+        'task_closable'   => ['name' => 'task_closable',   'type' => 'bool',     'internal' => 'isClosable'],
+        'task_editable'   => ['name' => 'task_editable',   'type' => 'bool',     'internal' => 'isEditable'],
+        'task_priority'   => ['name' => 'task_priority',   'type' => 'int',      'internal' => 'priority'],
+        'task_due'        => ['name' => 'task_due',        'type' => 'DateTime', 'internal' => 'due'],
+        'task_done'       => ['name' => 'task_done',       'type' => 'DateTime', 'internal' => 'done'],
+        'task_schedule'   => ['name' => 'task_schedule',   'type' => 'int',      'internal' => 'schedule'],
+        'task_start'      => ['name' => 'task_start',      'type' => 'DateTime', 'internal' => 'start'],
+        'task_redirect'   => ['name' => 'task_redirect',      'type' => 'string',   'internal' => 'redirect'],
+        'task_trigger'    => ['name' => 'task_trigger',      'type' => 'string',   'internal' => 'trigger'],
+        'task_created_by' => ['name' => 'task_created_by', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
+        'task_for'        => ['name' => 'task_for', 'type' => 'int',      'internal' => 'for'],
+        'task_created_at' => ['name' => 'task_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
     ];
 
     /**
@@ -71,18 +73,18 @@ final class TaskMapper extends DataMapperFactory
      */
     public const HAS_MANY = [
         'taskElements' => [
-            'mapper'       => TaskElementMapper::class,
-            'table'        => 'task_element',
-            'self'         => 'task_element_task',
-            'external'     => null,
+            'mapper'   => TaskElementMapper::class,
+            'table'    => 'task_element',
+            'self'     => 'task_element_task',
+            'external' => null,
         ],
-        'media'        => [
+        'files' => [
             'mapper'   => MediaMapper::class,
             'table'    => 'task_media',
             'external' => 'task_media_dst',
             'self'     => 'task_media_src',
         ],
-        'tags'         => [
+        'tags' => [
             'mapper'   => TagMapper::class,
             'table'    => 'task_tag',
             'external' => 'task_tag_dst',
@@ -104,8 +106,8 @@ final class TaskMapper extends DataMapperFactory
      */
     public const BELONGS_TO = [
         'createdBy' => [
-            'mapper'     => AccountMapper::class,
-            'external'   => 'task_created_by',
+            'mapper'   => AccountMapper::class,
+            'external' => 'task_created_by',
         ],
     ];
 
@@ -117,8 +119,12 @@ final class TaskMapper extends DataMapperFactory
      */
     public const OWNS_ONE = [
         'schedule' => [
-            'mapper'     => ScheduleMapper::class,
-            'external'   => 'task_schedule',
+            'mapper'   => ScheduleMapper::class,
+            'external' => 'task_schedule',
+        ],
+        'for' => [
+            'mapper'   => AccountMapper::class,
+            'external' => 'task_for',
         ],
     ];
 

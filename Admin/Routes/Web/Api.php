@@ -58,7 +58,7 @@ return [
             ],
         ],
     ],
-    '^.*/task/element.*$' => [
+    '^.*/task/element(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementCreate',
             'verb'       => RouteVerb::PUT,

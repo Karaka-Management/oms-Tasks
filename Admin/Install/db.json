@@ -97,6 +97,14 @@
                 "foreignTable": "account",
                 "foreignKey": "account_id"
             },
+            "task_for": {
+                "name": "task_for",
+                "type": "INT",
+                "null": true,
+                "default": null,
+                "foreignTable": "account",
+                "foreignKey": "account_id"
+            },
             "task_created_at": {
                 "name": "task_created_at",
                 "type": "DATETIME",
@@ -119,6 +127,11 @@
                 "type": "VARCHAR(255)",
                 "null": false
             },
+            "task_attr_type_datatype": {
+                "name": "task_attr_type_datatype",
+                "type": "INT(11)",
+                "null": false
+            },
             "task_attr_type_fields": {
                 "name": "task_attr_type_fields",
                 "type": "INT(11)",
@@ -131,6 +144,11 @@
             },
             "task_attr_type_repeatable": {
                 "name": "task_attr_type_repeatable",
+                "type": "TINYINT(1)",
+                "null": false
+            },
+            "task_attr_type_internal": {
+                "name": "task_attr_type_internal",
                 "type": "TINYINT(1)",
                 "null": false
             },
@@ -222,6 +240,22 @@
                 "name": "task_attr_value_unit",
                 "type": "VARCHAR(255)",
                 "null": false
+            },
+            "task_attr_value_deptype": {
+                "name": "task_attr_value_deptype",
+                "type": "INT(11)",
+                "null": true,
+                "default": null,
+                "foreignTable": "task_attr_type",
+                "foreignKey": "task_attr_type_id"
+            },
+            "task_attr_value_depvalue": {
+                "name": "task_attr_value_depvalue",
+                "type": "INT(11)",
+                "null": true,
+                "default": null,
+                "foreignTable": "task_attr_value",
+                "foreignKey": "task_attr_value_id"
             }
         }
     },
@@ -384,6 +418,11 @@
             "task_element_priority": {
                 "name": "task_element_priority",
                 "type": "TINYINT",
+                "null": false
+            },
+            "task_element_duration": {
+                "name": "task_element_duration",
+                "type": "INT",
                 "null": false
             },
             "task_element_due": {

@@ -17,7 +17,7 @@ use phpOMS\Account\PermissionType;
 use phpOMS\Router\RouteVerb;
 
 return [
-    '^:tag .*$' => [
+    '^:tag (\?.*$|$)' => [
         [
             'dest'       => '\Modules\Tasks\Controller\SearchController:searchTag',
             'verb'       => RouteVerb::ANY,

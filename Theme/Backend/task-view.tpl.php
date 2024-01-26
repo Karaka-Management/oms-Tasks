@@ -21,10 +21,10 @@ use phpOMS\Uri\UriFactory;
 /** @var Modules\Tasks\Views\TaskView $this */
 /** @var Modules\Tasks\Models\Task $task */
 $task      = $this->data['task'];
-$taskMedia = $task->getMedia();
+$taskMedia = $task->files;
 $elements  = $task->invertTaskElements();
 $cElements = \count($elements);
-$color     = $this->getStatus($task->getStatus());
+$color     = $this->getStatus($task->status);
 
 echo $this->data['nav']->render(); ?>
 
@@ -49,8 +49,8 @@ echo $this->data['nav']->render(); ?>
                 </template>
                 <template id="contentTpl">
                     <div class="task-content">
-                        <?= $this->getData('editor')->render('task-edit'); ?>
-                        <?= $this->getData('editor')->getData('text')->render(
+                        <?= $this->data['editor']->render('task-edit'); ?>
+                        <?= $this->data['editor']->getData('text')->render(
                             'task-edit',
                             'plain',
                             'taskEdit',
@@ -71,8 +71,8 @@ echo $this->data['nav']->render(); ?>
                     <form style="display: inline-block;" id="taskReminder" action="<?= UriFactory::build('{/api}task/reminder?{?}&csrf={$CSRF}'); ?>" method="POST">
                         <i class="g-icon btn submit">notifications</i>
                     </form>
-                    <span id="task-status-badge" class="nobreak tag task-status-<?= $task->getStatus(); ?>">
-                        <?= $this->getHtml('S' . $task->getStatus()); ?>
+                    <span id="task-status-badge" class="nobreak tag task-status-<?= $task->status; ?>">
+                        <?= $this->getHtml('S' . $task->status); ?>
                     </span>
                 </span>
             </div>
@@ -85,8 +85,7 @@ echo $this->data['nav']->render(); ?>
                     data-tpl-text-path="/0/response/description"
                     data-value=""><?= $task->description; ?></article>
                 <?php
-                    $tags = $task->getTags();
-                    foreach ($tags as $tag) : ?>
+                    foreach ($task->tags as $tag) : ?>
                     <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
                         <?= empty($tag->icon) ? '' : ''; ?><?= $this->printHtml($tag->getL11n()); ?>
                     </span>
@@ -95,7 +94,7 @@ echo $this->data['nav']->render(); ?>
                     <div>
                         <?php foreach ($taskMedia as $media) : ?>
                             <span>
-                                <a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a>
+                                <a class="content" href="<?= UriFactory::build('{/base}/media/view?id=' . $media->id);?>"><?= $media->name; ?></a>
                             </span>
                         <?php endforeach; ?>
                     </div>
@@ -105,10 +104,10 @@ echo $this->data['nav']->render(); ?>
                 <div class="row col-xs plain-grid">
                     <div class="col-xs">
                         <div>
-                            <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                            <?php if ($task->priority === TaskPriority::NONE) : ?>
                                 <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($task->due->format('Y/m/d H:i')); ?>
                             <?php else : ?>
-                                <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $task->getPriority()); ?>
+                                <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $task->priority); ?>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -168,8 +167,8 @@ echo $this->data['nav']->render(); ?>
                 <template id="taskElementContentTpl">
                     <div class="taskElement-content">
                         <!-- @todo bind js after adding template -->
-                        <?= $this->getData('editor')->render('task-element-edit'); ?>
-                        <?= $this->getData('editor')->getData('text')->render(
+                        <?= $this->data['editor']->render('task-element-edit'); ?>
+                        <?= $this->data['editor']->getData('text')->render(
                                 'task-element-edit',
                                 'plain',
                                 'taskElementEdit',
@@ -182,40 +181,40 @@ echo $this->data['nav']->render(); ?>
             <?php $c = 0; $previous = null;
             foreach ($elements as $key => $element) : ++$c; ?>
                 <?php if ($c === 1
-                    || ($previous !== null && $element->getStatus() !== $previous->getStatus())
+                    || ($previous !== null && $element->status !== $previous->status)
                 ) : ?>
                     <section class="portlet">
                         <div class="portlet-body">
                             <?= \sprintf($this->getHtml('status_change'),
-                                '<a href="' . UriFactory::build('profile/single?{?}&for=' . $element->createdBy->id) . '">' . $this->printHtml(
+                                '<a href="' . UriFactory::build('profile/view?{?}&for=' . $element->createdBy->id) . '">' . $this->printHtml(
                                     $this->renderUserName(
                                         '%3$s %2$s %1$s',
                                         [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
                                     ) . '</a>',
                                 $element->createdAt->format('Y-m-d H:i')
                             ); ?>
-                            <span class="tag task-status-<?= $element->getStatus(); ?>">
-                                <?= $this->getHtml('S' . $element->getStatus()); ?>
+                            <span class="tag task-status-<?= $element->status; ?>">
+                                <?= $this->getHtml('S' . $element->status); ?>
                             </span>
                         </div>
                     </section>
                 <?php endif; ?>
 
                 <?php if (($c === 1)
-                    || ($previous !== null && $element->getPriority() !== $previous->getPriority())
+                    || ($previous !== null && $element->priority !== $previous->priority)
                 ) : ?>
                     <section class="portlet">
                         <div class="portlet-body">
                             <?= \sprintf($this->getHtml('priority_change'),
-                                '<a href="' . UriFactory::build('profile/single?{?}&for=' . $element->createdBy->id) . '">' . $this->printHtml(
+                                '<a href="' . UriFactory::build('profile/view?{?}&for=' . $element->createdBy->id) . '">' . $this->printHtml(
                                     $this->renderUserName(
                                         '%3$s %2$s %1$s',
                                         [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
                                     ) . '</a>',
                                 $element->createdAt->format('Y-m-d H:i')
                             ); ?>
-                            <span class="tag task-priority-<?= $element->getPriority(); ?>">
-                                <?= $this->getHtml('P' . $element->getPriority()); ?>
+                            <span class="tag task-priority-<?= $element->priority; ?>">
+                                <?= $this->getHtml('P' . $element->priority); ?>
                             </span>
                         </div>
                     </section>
@@ -246,7 +245,7 @@ echo $this->data['nav']->render(); ?>
                     </div>
 
                     <?php
-                    $elementMedia = $element->getMedia();
+                    $elementMedia = $element->files;
                     if ($element->description !== '') : ?>
                         <div class="portlet-body">
                             <article class="taskElement-content" data-tpl-text="{/base}/api/task/element?id={$id}"
@@ -258,7 +257,7 @@ echo $this->data['nav']->render(); ?>
                             <?php if (!empty($elementMedia)) : ?>
                                 <div>
                                     <?php foreach ($elementMedia as $media) : ?>
-                                        <span><a class="content" href="<?= UriFactory::build('{/base}/media/single?id=' . $media->id);?>"><?= $media->name; ?></a></span>
+                                        <span><a class="content" href="<?= UriFactory::build('{/base}/media/view?id=' . $media->id);?>"><?= $media->name; ?></a></span>
                                     <?php endforeach; ?>
                                 </div>
                             <?php endif; ?>
@@ -269,21 +268,21 @@ echo $this->data['nav']->render(); ?>
                                 && $this->request->header->account === $element->createdBy->id
                         ) : ?>
                     <div class="portlet-foot row middle-xs">
-                        <?php if ($element->getStatus() !== TaskStatus::CANCELED
-                            || $element->getStatus() !== TaskStatus::DONE
-                            || $element->getStatus() !== TaskStatus::SUSPENDED
+                        <?php if ($element->status !== TaskStatus::CANCELED
+                            || $element->status !== TaskStatus::DONE
+                            || $element->status !== TaskStatus::SUSPENDED
                             || $c != $cElements
                         ) : ?>
                             <div>
                                 <?php
-                                    if ($element->getPriority() === TaskPriority::NONE
+                                    if ($element->priority === TaskPriority::NONE
                                         && ($previous !== null
                                             && $previous->due->format('Y/m/d H:i') !== $element->due->format('Y/m/d H:i')
                                         )
                                     ) : ?>
                                     <?= $this->getHtml('Due'); ?>: <?= $this->printHtml($element->due->format('Y/m/d H:i')); ?>
-                                <?php elseif ($previous !== null && $previous->getPriority() !== $element->getPriority()) : ?>
-                                    <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $element->getPriority()); ?>
+                                <?php elseif ($previous !== null && $previous->priority !== $element->priority) : ?>
+                                    <?= $this->getHtml('Priority'); ?>: <?= $this->getHtml('P' . $element->priority); ?>
                                 <?php endif; ?>
                             </div>
                         <?php endif; ?>
@@ -310,14 +309,14 @@ echo $this->data['nav']->render(); ?>
                     ) : ?>
                     <section class="portlet wf-100">
                         <div class="portlet-body">
-                            <a href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $element->createdBy->id); ?>"><?= $this->printHtml(
+                            <a href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $element->createdBy->id); ?>"><?= $this->printHtml(
                                 $this->renderUserName(
                                     '%3$s %2$s %1$s',
                                     [$element->createdBy->name1, $element->createdBy->name2, $element->createdBy->name3, $element->createdBy->login])
                                 ); ?></a> <?= $this->getHtml('forwarded_to'); ?>
                             <?php foreach ($tos as $to) : ?>
                                 <?php if ($to instanceof AccountRelation) : ?>
-                                    <a href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $to->getRelation()->id); ?>"><?= $this->renderUserName(
+                                    <a href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $to->getRelation()->id); ?>"><?= $this->renderUserName(
                                         '%3$s %2$s %1$s',
                                         [$to->getRelation()->name1, $to->getRelation()->name2, $to->getRelation()->name3, $to->getRelation()->login]
                                     ); ?></a>
@@ -344,11 +343,11 @@ echo $this->data['nav']->render(); ?>
                 <div class="portlet-head"><?= $this->getHtml('Message'); ?></div>
                 <div class="portlet-body">
                     <div class="form-group">
-                        <?= $this->getData('editor')->render('task-editor'); ?>
+                        <?= $this->data['editor']->render('task-editor'); ?>
                     </div>
 
                     <div class="form-group">
-                        <?= $this->getData('editor')->getData('text')->render(
+                        <?= $this->data['editor']->getData('text')->render(
                             'task-editor',
                             'plain',
                             'taskElementCreate',
@@ -360,11 +359,11 @@ echo $this->data['nav']->render(); ?>
                     <div class="form-group">
                         <label for="iStatus"><?= $this->getHtml('Status'); ?></label>
                         <select id="iStatus" name="status">
-                            <option value="<?= TaskStatus::OPEN; ?>"<?= $task->getStatus() === TaskStatus::OPEN ? ' selected' : '';?>><?= $this->getHtml('S1'); ?>
-                            <option value="<?= TaskStatus::WORKING; ?>"<?= $task->getStatus() === TaskStatus::WORKING ? ' selected' : '';?>><?= $this->getHtml('S2'); ?>
-                            <option value="<?= TaskStatus::SUSPENDED; ?>"<?= $task->getStatus() === TaskStatus::SUSPENDED ? ' selected' : '';?>><?= $this->getHtml('S3'); ?>
-                            <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->getStatus() === TaskStatus::CANCELED ? ' selected' : '';?>><?= $this->getHtml('S4'); ?>
-                            <option value="<?= TaskStatus::DONE; ?>"<?= $task->getStatus() === TaskStatus::DONE ? ' selected' : '';?>><?= $this->getHtml('S5'); ?>
+                            <option value="<?= TaskStatus::OPEN; ?>"<?= $task->status === TaskStatus::OPEN ? ' selected' : '';?>><?= $this->getHtml('S1'); ?>
+                            <option value="<?= TaskStatus::WORKING; ?>"<?= $task->status === TaskStatus::WORKING ? ' selected' : '';?>><?= $this->getHtml('S2'); ?>
+                            <option value="<?= TaskStatus::SUSPENDED; ?>"<?= $task->status === TaskStatus::SUSPENDED ? ' selected' : '';?>><?= $this->getHtml('S3'); ?>
+                            <option value="<?= TaskStatus::CANCELED; ?>"<?= $task->status === TaskStatus::CANCELED ? ' selected' : '';?>><?= $this->getHtml('S4'); ?>
+                            <option value="<?= TaskStatus::DONE; ?>"<?= $task->status === TaskStatus::DONE ? ' selected' : '';?>><?= $this->getHtml('S5'); ?>
                         </select>
                     </div>
 
@@ -373,7 +372,8 @@ echo $this->data['nav']->render(); ?>
                         <?= $this->getData('accGrpSelector')->render('iReceiver', 'to', true); ?>
                     </div>
 
-                    <div class="more-container">
+                    <div class="form-group wf-100">
+                    <div class="more-container wf-100">
                         <input id="more-customer-sales" type="checkbox" name="more-container">
                         <label for="more-customer-sales">
                             <span>Advanced</span>
@@ -383,12 +383,12 @@ echo $this->data['nav']->render(); ?>
                             <div class="form-group">
                                 <label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
                                 <select id="iPriority" name="priority">
-                                        <option value="<?= TaskPriority::NONE; ?>"<?= $task->getPriority() === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
-                                        <option value="<?= TaskPriority::VLOW; ?>"<?= $task->getPriority() === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
-                                        <option value="<?= TaskPriority::LOW; ?>"<?= $task->getPriority() === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
-                                        <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->getPriority() === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
-                                        <option value="<?= TaskPriority::HIGH; ?>"<?= $task->getPriority() === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
-                                        <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->getPriority() === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
+                                        <option value="<?= TaskPriority::NONE; ?>"<?= $task->priority === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
+                                        <option value="<?= TaskPriority::VLOW; ?>"<?= $task->priority === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
+                                        <option value="<?= TaskPriority::LOW; ?>"<?= $task->priority === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
+                                        <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->priority === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
+                                        <option value="<?= TaskPriority::HIGH; ?>"<?= $task->priority === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
+                                        <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->priority === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
                                     </select>
                             </div>
 
@@ -404,6 +404,7 @@ echo $this->data['nav']->render(); ?>
                             <label for="iCompletion"><?= $this->getHtml('Completion'); ?></label>
                             <input id="iCompletion" name="completion" type="number" min="0" max="100">
                         </div>
+                    </div>
                     </div>
 
                     <div class="form-group">

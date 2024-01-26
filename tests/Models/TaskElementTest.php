@@ -16,7 +16,6 @@ namespace Modules\Tasks\tests\Models;
 
 use Modules\Admin\Models\NullAccount;
 use Modules\Admin\Models\NullGroup;
-use Modules\Media\Models\Media;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskPriority;
 use Modules\Tasks\Models\TaskStatus;
@@ -46,13 +45,13 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(0, $this->element->createdBy->id);
         self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $this->element->createdAt->format('Y-m-d'));
         self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $this->element->due->format('Y-m-d'));
-        self::assertEquals(TaskStatus::OPEN, $this->element->getStatus());
+        self::assertEquals(TaskStatus::OPEN, $this->element->status);
         self::assertEquals('', $this->element->description);
         self::assertEquals('', $this->element->descriptionRaw);
         self::assertEquals([], $this->element->getTo());
         self::assertEquals([], $this->element->getCC());
         self::assertEquals(0, $this->element->task);
-        self::assertEquals(TaskPriority::NONE, $this->element->getPriority());
+        self::assertEquals(TaskPriority::NONE, $this->element->priority);
     }
 
     /**
@@ -73,36 +72,6 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->element->due = ($date = new \DateTime('2000-05-07'));
         self::assertEquals($date->format('Y-m-d'), $this->element->due->format('Y-m-d'));
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\TaskElement
-     * @group module
-     */
-    public function testStatusInputOutput() : void
-    {
-        $this->element->setStatus(TaskStatus::DONE);
-        self::assertEquals(TaskStatus::DONE, $this->element->getStatus());
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\TaskElement
-     * @group module
-     */
-    public function testPriorityInputOutput() : void
-    {
-        $this->element->setPriority(TaskPriority::MEDIUM);
-        self::assertEquals(TaskPriority::MEDIUM, $this->element->getPriority());
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\TaskElement
-     * @group module
-     */
-    public function testMediaInputOutput() : void
-    {
-        $this->element->addMedia(new Media());
-        self::assertCount(1, $this->element->getMedia());
     }
 
     /**
@@ -231,32 +200,12 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
      * @covers Modules\Tasks\Models\TaskElement
      * @group module
      */
-    public function testInvalidStatus() : void
-    {
-        $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
-        $this->element->setStatus(9999);
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\TaskElement
-     * @group module
-     */
-    public function testInvalidPriority() : void
-    {
-        $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
-        $this->element->setPriority(9999);
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\TaskElement
-     * @group module
-     */
     public function testSerialize() : void
     {
-        $this->element->task               = 2;
-        $this->element->description        = 'Test';
-        $this->element->descriptionRaw     = 'TestRaw';
-        $this->element->setStatus(TaskStatus::DONE);
+        $this->element->task           = 2;
+        $this->element->description    = 'Test';
+        $this->element->descriptionRaw = 'TestRaw';
+        $this->element->status         = TaskStatus::DONE;
 
         $serialized = $this->element->jsonSerialize();
         unset($serialized['createdAt']);

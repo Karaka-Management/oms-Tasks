@@ -33,7 +33,7 @@
                         "type": 0,
                         "subtype": 1,
                         "name": "Tasks",
-                        "uri": "{/base}/task/single?{?}",
+                        "uri": "{/base}/task/view?{?}",
                         "target": "self",
                         "icon": null,
                         "order": 1,

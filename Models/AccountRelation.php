@@ -43,7 +43,7 @@ class AccountRelation extends RelationAbstract
      *
      * @since 1.0.0
      */
-    public function __construct(Account $account = null, int $duty = DutyType::TO)
+    public function __construct(?Account $account = null, int $duty = DutyType::TO)
     {
         $this->relation = $account ?? new NullAccount();
         $this->duty     = $duty;

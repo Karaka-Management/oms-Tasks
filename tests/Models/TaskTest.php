@@ -16,8 +16,6 @@ namespace Modules\Tasks\tests\Models;
 
 use Modules\Admin\Models\NullAccount;
 use Modules\Admin\Models\NullGroup;
-use Modules\Media\Models\Media;
-use Modules\Tag\Models\Tag;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskPriority;
@@ -57,16 +55,15 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals((new \DateTime('now'))->format('Y-m-d'), $this->task->start->format('Y-m-d'));
         self::assertNull($this->task->done);
         self::assertEquals((new \DateTime('now'))->modify('+1 day')->format('Y-m-d'), $this->task->due->format('Y-m-d'));
-        self::assertEquals(TaskStatus::OPEN, $this->task->getStatus());
+        self::assertEquals(TaskStatus::OPEN, $this->task->status);
         self::assertTrue($this->task->isClosable);
-        self::assertEquals(TaskPriority::NONE, $this->task->getPriority());
-        self::assertEquals(TaskType::SINGLE, $this->task->getType());
+        self::assertEquals(TaskPriority::NONE, $this->task->priority);
+        self::assertEquals(TaskType::SINGLE, $this->task->type);
         self::assertEquals([], $this->task->getTaskElements());
-        self::assertEquals([], $this->task->getMedia());
-        self::assertEquals([], $this->task->getTags());
+        self::assertEquals([], $this->task->files);
+        self::assertEquals([], $this->task->tags);
         self::assertEquals('', $this->task->description);
         self::assertEquals('', $this->task->descriptionRaw);
-        self::assertInstanceOf('\Modules\Tag\Models\NullTag', $this->task->getTag(0));
         self::assertInstanceOf('\Modules\Tasks\Models\NullTaskElement', $this->task->getTaskElement(1));
     }
 
@@ -124,30 +121,10 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      * @covers Modules\Tasks\Models\Task
      * @group module
      */
-    public function testStatusInputOutput() : void
-    {
-        $this->task->setStatus(TaskStatus::DONE);
-        self::assertEquals(TaskStatus::DONE, $this->task->getStatus());
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
     public function testClosableInputOutput() : void
     {
         $this->task->isClosable = false;
         self::assertFalse($this->task->isClosable);
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
-    public function testPriority() : void
-    {
-        $this->task->setPriority(TaskPriority::LOW);
-        self::assertEquals(TaskPriority::LOW, $this->task->getPriority());
     }
 
     /**
@@ -280,55 +257,6 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
      * @covers Modules\Tasks\Models\Task
      * @group module
      */
-    public function testTypeInputOutput() : void
-    {
-        $this->task->setType(TaskType::TEMPLATE);
-        self::assertEquals(TaskType::TEMPLATE, $this->task->getType());
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
-    public function testTagInputOutput() : void
-    {
-        $tag = new Tag();
-        $tag->setL11n('Tag');
-
-        $this->task->addTag($tag);
-        self::assertEquals($tag, $this->task->getTag(0));
-        self::assertCount(1, $this->task->getTags());
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
-    public function testTagRemove() : void
-    {
-        $tag = new Tag();
-        $tag->setL11n('Tag');
-
-        $this->task->addTag($tag);
-        self::assertTrue($this->task->removeTag(0));
-        self::assertCount(0, $this->task->getTags());
-        self::assertFalse($this->task->removeTag(0));
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
-    public function testMediaInputOutput() : void
-    {
-        $this->task->addMedia(new Media());
-        self::assertCount(1, $this->task->getMedia());
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
     public function testToArray() : void
     {
         $arr = [
@@ -337,9 +265,9 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
             'createdAt'   => $this->task->createdAt,
             'title'       => $this->task->title,
             'description' => $this->task->description,
-            'status'      => $this->task->getStatus(),
-            'type'        => $this->task->getType(),
-            'priority'    => $this->task->getPriority(),
+            'status'      => $this->task->status,
+            'type'        => $this->task->type,
+            'priority'    => $this->task->priority,
             'due'         => $this->task->due,
             'done'        => $this->task->done,
         ];
@@ -367,9 +295,9 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
             'createdAt'   => $this->task->createdAt,
             'title'       => $this->task->title,
             'description' => $this->task->description,
-            'status'      => $this->task->getStatus(),
-            'type'        => $this->task->getType(),
-            'priority'    => $this->task->getPriority(),
+            'status'      => $this->task->status,
+            'type'        => $this->task->type,
+            'priority'    => $this->task->priority,
             'due'         => $this->task->due,
             'done'        => $this->task->done,
         ];
@@ -383,25 +311,5 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
             }
         }
         self::assertTrue($isSubset);
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
-    public function testInvalidStatus() : void
-    {
-        $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
-        $this->task->setStatus(9999);
-    }
-
-    /**
-     * @covers Modules\Tasks\Models\Task
-     * @group module
-     */
-    public function testInvalidPriority() : void
-    {
-        $this->expectException(\phpOMS\Stdlib\Base\Exception\InvalidEnumValue::class);
-        $this->task->setPriority(9999);
     }
 }

@@ -31,7 +31,6 @@ use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Module\ModuleManager;
 use phpOMS\Router\WebRouter;
 use phpOMS\System\MimeType;
-use phpOMS\Uri\HttpUri;
 use phpOMS\Utils\TestUtils;
 
 /**
@@ -39,7 +38,7 @@ use phpOMS\Utils\TestUtils;
  */
 final class ControllerTest extends \PHPUnit\Framework\TestCase
 {
-    protected $app    = null;
+    protected $app = null;
 
     protected $module = null;
 
@@ -94,7 +93,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testCreateTask() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('title', 'Controller Test Title');
@@ -131,7 +130,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testApiTaskGet() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', '1');
@@ -148,7 +147,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testApiTaskSet() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', 1);
@@ -168,7 +167,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testCreateTaskElement() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));
@@ -206,7 +205,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testApiTaskElementGet() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', '1');
@@ -223,7 +222,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testApiTaskElementSet() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('id', 1);
@@ -242,7 +241,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testInvalidTaskCreate() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('plain', 'Controller Test Description');
@@ -259,7 +258,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     public function testInvalidTaskElementCreate() : void
     {
         $response = new HttpResponse();
-        $request  = new HttpRequest(new HttpUri(''));
+        $request  = new HttpRequest();
 
         $request->header->account = 1;
         $request->setData('due', (new \DateTime())->format('Y-m-d H:i:s'));

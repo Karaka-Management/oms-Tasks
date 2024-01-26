@@ -17,10 +17,7 @@ namespace Modules\Tasks\Models;
 use Modules\Admin\Models\Account;
 use Modules\Admin\Models\NullAccount;
 use Modules\Calendar\Models\Schedule;
-use Modules\Media\Models\Media;
-use Modules\Tag\Models\NullTag;
 use Modules\Tag\Models\Tag;
-use phpOMS\Stdlib\Base\Exception\InvalidEnumValue;
 
 /**
  * Task class.
@@ -125,14 +122,6 @@ class Task implements \JsonSerializable
     public int $completion = -1;
 
     /**
-     * Attributes.
-     *
-     * @var TaskAttribute[]
-     * @since 1.0.0
-     */
-    public array $attributes = [];
-
-    /**
      * Task can be closed by user.
      *
      * Setting it to false will only allow other modules to close this task
@@ -209,12 +198,15 @@ class Task implements \JsonSerializable
     public int $priority = TaskPriority::NONE;
 
     /**
-     * Media files
+     * Account this ticket is for
      *
-     * @var array
+     * This is not the person who is working on the ticket but the person who needs help.
+     * This can be different from the person who created it.
+     *
+     * @var null|Account
      * @since 1.0.0
      */
-    public array $media = [];
+    public ?Account $for = null;
 
     /**
      * Constructor.
@@ -269,32 +261,6 @@ class Task implements \JsonSerializable
         \reset($this->tags);
 
         return $key;
-    }
-
-    /**
-     * Get all media
-     *
-     * @return Media[]
-     *
-     * @since 1.0.0
-     */
-    public function getMedia() : array
-    {
-        return $this->media;
-    }
-
-    /**
-     * Add media
-     *
-     * @param Media $media Media to add
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function addMedia(Media $media) : void
-    {
-        $this->media[] = $media;
     }
 
     /**
@@ -405,70 +371,6 @@ class Task implements \JsonSerializable
     }
 
     /**
-     * Get status
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getStatus() : int
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set status
-     *
-     * @param int $status Task status
-     *
-     * @return void
-     *
-     * @throws InvalidEnumValue
-     *
-     * @since 1.0.0
-     */
-    public function setStatus(int $status) : void
-    {
-        if (!TaskStatus::isValidValue($status)) {
-            throw new InvalidEnumValue((string) $status);
-        }
-
-        $this->status = $status;
-    }
-
-    /**
-     * Get priority
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getPriority() : int
-    {
-        return $this->priority;
-    }
-
-    /**
-     * Set priority
-     *
-     * @param int $priority Task priority
-     *
-     * @return void
-     *
-     * @throws InvalidEnumValue
-     *
-     * @since 1.0.0
-     */
-    public function setPriority(int $priority) : void
-    {
-        if (!TaskPriority::isValidValue($priority)) {
-            throw new InvalidEnumValue((string) $priority);
-        }
-
-        $this->priority = $priority;
-    }
-
-    /**
      * Remove Element from list.
      *
      * @param int $id Task element
@@ -486,52 +388,6 @@ class Task implements \JsonSerializable
         }
 
         return false;
-    }
-
-    /**
-     * Remove Tag from list.
-     *
-     * @param int $id Tag
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function removeTag($id) : bool
-    {
-        if (isset($this->tags[$id])) {
-            unset($this->tags[$id]);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Get task elements.
-     *
-     * @return Tag[]
-     *
-     * @since 1.0.0
-     */
-    public function getTags() : array
-    {
-        return $this->tags;
-    }
-
-    /**
-     * Get task elements.
-     *
-     * @param int $id Element id
-     *
-     * @return Tag
-     *
-     * @since 1.0.0
-     */
-    public function getTag(int $id) : Tag
-    {
-        return $this->tags[$id] ?? new NullTag();
     }
 
     /**
@@ -573,99 +429,6 @@ class Task implements \JsonSerializable
     }
 
     /**
-     * Get task type.
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getType() : int
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set task type.
-     *
-     * @param int $type Task type
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function setType(int $type = TaskType::SINGLE) : void
-    {
-        $this->type = $type;
-    }
-
-    /**
-     * Add attribute to item
-     *
-     * @param TaskAttribute $attribute Note
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function addAttribute(TaskAttribute $attribute) : void
-    {
-        $this->attributes[] = $attribute;
-    }
-
-    /**
-     * Get attributes
-     *
-     * @return TaskAttribute[]
-     *
-     * @since 1.0.0
-     */
-    public function getAttributes() : array
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * Has attribute value
-     *
-     * @param string $attrName  Attribute name
-     * @param mixed  $attrValue Attribute value
-     *
-     * @return bool
-     *
-     * @since 1.0.0
-     */
-    public function hasAttributeValue(string $attrName, mixed $attrValue) : bool
-    {
-        foreach ($this->attributes as $attribute) {
-            if ($attribute->type->name === $attrName && $attribute->value->getValue() === $attrValue) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Get attribute
-     *
-     * @param string $attrName Attribute name
-     *
-     * @return null|TaskAttributeValue
-     *
-     * @since 1.0.0
-     */
-    public function getAttribute(string $attrName) : ?TaskAttributeValue
-    {
-        foreach ($this->attributes as $attribute) {
-            if ($attribute->type->name === $attrName) {
-                return $attribute->value;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function toArray() : array
@@ -693,4 +456,7 @@ class Task implements \JsonSerializable
     {
         return $this->toArray();
     }
+
+    use \Modules\Media\Models\MediaListTrait;
+    use \Modules\Attribute\Models\AttributeHolderTrait;
 }

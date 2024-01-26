@@ -55,7 +55,7 @@ echo $this->data['nav']->render(); ?>
                                 $c = 0;
                                 foreach ($open as $key => $task) : ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? '{/base}/task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/view?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -63,23 +63,23 @@ echo $this->data['nav']->render(); ?>
                                 <tr tabindex="0" data-href="<?= $url; ?>">
                                     <td data-label="<?= $this->getHtml('Status'); ?>">
                                         <a href="<?= $url; ?>">
-                                            <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">
-                                                <?= $this->getHtml('S' . $task->getStatus()); ?>
+                                            <span class="tag <?= $this->printHtml('task-status-' . $task->status); ?>">
+                                                <?= $this->getHtml('S' . $task->status); ?>
                                             </span>
                                         </a>
                                     <td data-label="<?= $this->getHtml('Due/Priority'); ?>">
                                         <a href="<?= $url; ?>">
-                                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                                        <?php if ($task->priority === TaskPriority::NONE) : ?>
                                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                                         <?php else : ?>
-                                            <?= $this->getHtml('P' . $task->getPriority()); ?>
+                                            <?= $this->getHtml('P' . $task->priority); ?>
                                         <?php endif; ?>
                                         </a>
                                     <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
-                                        <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                                        <?php foreach ($task->tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
                                                 <?= empty($tag->icon) ? '' : ''; ?>
@@ -88,7 +88,7 @@ echo $this->data['nav']->render(); ?>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $task->createdBy->id); ?>">
                                             <?= $this->printHtml($this->renderUserName(
                                                 '%3$s %2$s %1$s',
                                                 [
@@ -129,7 +129,7 @@ echo $this->data['nav']->render(); ?>
                                 $c = 0;
                                 foreach ($this->data['given'] as $key => $task) : ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? '{/base}/task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/view?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -137,23 +137,23 @@ echo $this->data['nav']->render(); ?>
                                 <tr tabindex="0" data-href="<?= $url; ?>">
                                     <td data-label="<?= $this->getHtml('Status'); ?>">
                                         <a href="<?= $url; ?>">
-                                            <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">
-                                                <?= $this->getHtml('S' . $task->getStatus()); ?>
+                                            <span class="tag <?= $this->printHtml('task-status-' . $task->status); ?>">
+                                                <?= $this->getHtml('S' . $task->status); ?>
                                             </span>
                                         </a>
                                     <td data-label="<?= $this->getHtml('Due/Priority'); ?>">
                                         <a href="<?= $url; ?>">
-                                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                                        <?php if ($task->priority === TaskPriority::NONE) : ?>
                                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                                         <?php else : ?>
-                                            <?= $this->getHtml('P' . $task->getPriority()); ?>
+                                            <?= $this->getHtml('P' . $task->priority); ?>
                                         <?php endif; ?>
                                         </a>
                                     <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
-                                        <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                                        <?php foreach ($task->tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
                                                 <?= empty($tag->icon) ? '' : ''; ?>
@@ -162,7 +162,7 @@ echo $this->data['nav']->render(); ?>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $task->createdBy->id); ?>">
                                             <?= $this->printHtml($this->renderUserName(
                                                 '%3$s %2$s %1$s',
                                                 [
@@ -208,7 +208,7 @@ echo $this->data['nav']->render(); ?>
 
                                     ++$c;
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? '{/base}/task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/view?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -216,23 +216,23 @@ echo $this->data['nav']->render(); ?>
                                 <tr tabindex="0" data-href="<?= $url; ?>">
                                     <td data-label="<?= $this->getHtml('Status'); ?>">
                                         <a href="<?= $url; ?>">
-                                            <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">
-                                                <?= $this->getHtml('S' . $task->getStatus()); ?>
+                                            <span class="tag <?= $this->printHtml('task-status-' . $task->status); ?>">
+                                                <?= $this->getHtml('S' . $task->status); ?>
                                             </span>
                                         </a>
                                     <td data-label="<?= $this->getHtml('Due/Priority'); ?>">
                                         <a href="<?= $url; ?>">
-                                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                                        <?php if ($task->priority === TaskPriority::NONE) : ?>
                                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                                         <?php else : ?>
-                                            <?= $this->getHtml('P' . $task->getPriority()); ?>
+                                            <?= $this->getHtml('P' . $task->priority); ?>
                                         <?php endif; ?>
                                         </a>
                                     <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
-                                        <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                                        <?php foreach ($task->tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
                                                 <?= empty($tag->icon) ? '' : ''; ?>
@@ -241,7 +241,7 @@ echo $this->data['nav']->render(); ?>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $task->createdBy->id); ?>">
                                             <?= $this->printHtml($this->renderUserName(
                                                 '%3$s %2$s %1$s',
                                                 [
@@ -293,7 +293,7 @@ echo $this->data['nav']->render(); ?>
                                     }
 
                                     $url = UriFactory::build(empty($task->redirect)
-                                        ? '{/base}/task/single?{?}&id=' . $task->id
+                                        ? '{/base}/task/view?{?}&id=' . $task->id
                                         : ('{/app}/' . $task->redirect),
                                         ['$id' => $task->id]
                                     );
@@ -301,23 +301,23 @@ echo $this->data['nav']->render(); ?>
                                 <tr tabindex="0" data-href="<?= $url; ?>">
                                     <td data-label="<?= $this->getHtml('Status'); ?>">
                                         <a href="<?= $url; ?>">
-                                            <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">
-                                                <?= $this->getHtml('S' . $task->getStatus()); ?>
+                                            <span class="tag <?= $this->printHtml('task-status-' . $task->status); ?>">
+                                                <?= $this->getHtml('S' . $task->status); ?>
                                             </span>
                                         </a>
                                     <td data-label="<?= $this->getHtml('Due/Priority'); ?>">
                                         <a href="<?= $url; ?>">
-                                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                                        <?php if ($task->priority === TaskPriority::NONE) : ?>
                                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                                         <?php else : ?>
-                                            <?= $this->getHtml('P' . $task->getPriority()); ?>
+                                            <?= $this->getHtml('P' . $task->priority); ?>
                                         <?php endif; ?>
                                         </a>
                                     <td><?= ($this->data['task_media'][$task->id] ?? false) === true ? '<i class="g-icon">attachment</i>' : ''; ?>
                                     <td data-label="<?= $this->getHtml('Title'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                                     <td data-label="<?= $this->getHtml('Tag'); ?>">
-                                        <?php $tags = $task->getTags(); foreach ($tags as $tag) : ?>
+                                        <?php foreach ($task->tags as $tag) : ?>
                                         <a href="<?= $url; ?>">
                                             <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
                                                 <?= empty($tag->icon) ? '' : ''; ?>
@@ -326,7 +326,7 @@ echo $this->data['nav']->render(); ?>
                                         </a>
                                         <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/single?{?}&for=' . $task->createdBy->id); ?>">
+                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $task->createdBy->id); ?>">
                                             <?= $this->printHtml($this->renderUserName(
                                                 '%3$s %2$s %1$s',
                                                 [

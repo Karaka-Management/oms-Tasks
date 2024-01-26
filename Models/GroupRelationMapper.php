@@ -51,8 +51,8 @@ final class GroupRelationMapper extends DataMapperFactory
      */
     public const OWNS_ONE = [
         'relation' => [
-            'mapper'     => GroupMapper::class,
-            'external'   => 'task_group_group',
+            'mapper'   => GroupMapper::class,
+            'external' => 'task_group_group',
         ],
     ];
 

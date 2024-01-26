@@ -4,7 +4,7 @@
  *
  * PHP Version 8.1
  *
- * @package   Modules\Tasks\Models
+ * @package   Modules\Tasks\Models\Attribute
  * @copyright Dennis Eichhorn
  * @license   OMS License 2.0
  * @version   1.0.0
@@ -12,19 +12,20 @@
  */
 declare(strict_types=1);
 
-namespace Modules\Tasks\Models;
+namespace Modules\Tasks\Models\Attribute;
 
+use Modules\Attribute\Models\Attribute;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
  * Task mapper class.
  *
- * @package Modules\Tasks\Models
+ * @package Modules\Tasks\Models\Attribute
  * @license OMS License 2.0
  * @link    https://jingga.app
  * @since   1.0.0
  *
- * @template T of TaskAttribute
+ * @template T of Attribute
  * @extends DataMapperFactory<T>
  */
 final class TaskAttributeMapper extends DataMapperFactory
@@ -37,7 +38,7 @@ final class TaskAttributeMapper extends DataMapperFactory
      */
     public const COLUMNS = [
         'task_attr_id'    => ['name' => 'task_attr_id',    'type' => 'int', 'internal' => 'id'],
-        'task_attr_task'  => ['name' => 'task_attr_task',  'type' => 'int', 'internal' => 'task'],
+        'task_attr_item'  => ['name' => 'task_attr_item',  'type' => 'int', 'internal' => 'ref'],
         'task_attr_type'  => ['name' => 'task_attr_type',  'type' => 'int', 'internal' => 'type'],
         'task_attr_value' => ['name' => 'task_attr_value', 'type' => 'int', 'internal' => 'value'],
     ];
@@ -58,6 +59,14 @@ final class TaskAttributeMapper extends DataMapperFactory
             'external' => 'task_attr_value',
         ],
     ];
+
+    /**
+     * Model to use by the mapper.
+     *
+     * @var class-string<T>
+     * @since 1.0.0
+     */
+    public const MODEL = Attribute::class;
 
     /**
      * Primary table.

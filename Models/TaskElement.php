@@ -17,8 +17,6 @@ namespace Modules\Tasks\Models;
 use Modules\Admin\Models\Account;
 use Modules\Admin\Models\Group;
 use Modules\Admin\Models\NullAccount;
-use Modules\Media\Models\Media;
-use phpOMS\Stdlib\Base\Exception\InvalidEnumValue;
 
 /**
  * Task element class.
@@ -103,14 +101,6 @@ class TaskElement implements \JsonSerializable
     public int $priority = TaskPriority::NONE;
 
     /**
-     * Media.
-     *
-     * @var Media[]
-     * @since 1.0.0
-     */
-    public array $media = [];
-
-    /**
      * Accounts who received this task element.
      *
      * @var AccountRelation[]
@@ -126,6 +116,8 @@ class TaskElement implements \JsonSerializable
      */
     public array $grpRelation = [];
 
+    public int $duration = 0;
+
     /**
      * Constructor.
      *
@@ -137,64 +129,6 @@ class TaskElement implements \JsonSerializable
         $this->due->modify('+1 day');
         $this->createdAt = new \DateTimeImmutable('now');
         $this->createdBy = new NullAccount();
-    }
-
-    /**
-     * Get all media
-     *
-     * @return Media[]
-     *
-     * @since 1.0.0
-     */
-    public function getMedia() : array
-    {
-        return $this->media;
-    }
-
-    /**
-     * Add media
-     *
-     * @param Media $media Media to add
-     *
-     * @return void
-     *
-     * @since 1.0.0
-     */
-    public function addMedia(Media $media) : void
-    {
-        $this->media[] = $media;
-    }
-
-    /**
-     * Get priority
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getPriority() : int
-    {
-        return $this->priority;
-    }
-
-    /**
-     * Set priority
-     *
-     * @param int $priority Task priority
-     *
-     * @return void
-     *
-     * @throws InvalidEnumValue
-     *
-     * @since 1.0.0
-     */
-    public function setPriority(int $priority) : void
-    {
-        if (!TaskPriority::isValidValue($priority)) {
-            throw new InvalidEnumValue((string) $priority);
-        }
-
-        $this->priority = $priority;
     }
 
     /**
@@ -470,38 +404,6 @@ class TaskElement implements \JsonSerializable
     }
 
     /**
-     * Get status
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getStatus() : int
-    {
-        return $this->status;
-    }
-
-    /**
-     * Set Status
-     *
-     * @param int $status Task element status
-     *
-     * @return void
-     *
-     * @throws InvalidEnumValue
-     *
-     * @since 1.0.0
-     */
-    public function setStatus(int $status) : void
-    {
-        if (!TaskStatus::isValidValue($status)) {
-            throw new InvalidEnumValue((string) $status);
-        }
-
-        $this->status = $status;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function toArray() : array
@@ -527,4 +429,6 @@ class TaskElement implements \JsonSerializable
     {
         return $this->toArray();
     }
+
+    use \Modules\Media\Models\MediaListTrait;
 }

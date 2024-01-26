@@ -33,20 +33,20 @@ $tasksList = $this->data['tasks'] ?? [];
             $c = 0;
             foreach ($tasksList as $key => $task) : ++$c;
                 $url = UriFactory::build(empty($task->redirect)
-                    ? '{/base}/task/single?{?}&id=' . $task->id
+                    ? '{/base}/task/view?{?}&id=' . $task->id
                     : ($task->redirect)
                 );
             ?>
                 <tr data-href="<?= $url; ?>">
                     <td><a href="<?= $url; ?>">
-                        <span class="tag <?= $this->printHtml('task-status-' . $task->getStatus()); ?>">
-                            <?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?>
+                        <span class="tag <?= $this->printHtml('task-status-' . $task->status); ?>">
+                            <?= $this->getHtml('S' . $task->status, 'Tasks'); ?>
                         </span></a>
                     <td><a href="<?= $url; ?>">
-                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                        <?php if ($task->priority === TaskPriority::NONE) : ?>
                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                         <?php else : ?>
-                            <?= $this->getHtml('P' . $task->getPriority()); ?>
+                            <?= $this->getHtml('P' . $task->priority); ?>
                         <?php endif; ?>
                         </a>
                     <td><a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>

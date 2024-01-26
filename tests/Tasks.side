@@ -175,7 +175,7 @@
         ["css=tr:nth-child(1) > td:nth-child(2) > a", "css:finder"],
         ["xpath=//a[contains(text(),'2019-06-15 13:29')]", "xpath:link"],
         ["xpath=//table[@id='taskList']/tbody/tr/td[2]/a", "xpath:idRelative"],
-        ["xpath=(//a[contains(@href, 'task/single?id=40')])[2]", "xpath:href"],
+        ["xpath=(//a[contains(@href, 'task/view?id=40')])[2]", "xpath:href"],
         ["xpath=//td[2]/a", "xpath:position"],
         ["xpath=//a[contains(.,'2019-06-15 13:29')]", "xpath:innerText"]
       ],

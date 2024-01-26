@@ -22,28 +22,15 @@ use Modules\Media\Models\NullMedia;
 use Modules\Media\Models\PathSettings;
 use Modules\Media\Models\Reference;
 use Modules\Media\Models\ReferenceMapper;
-use Modules\Tag\Models\NullTag;
-use Modules\Tasks\Models\NullTaskAttributeType;
-use Modules\Tasks\Models\NullTaskAttributeValue;
 use Modules\Tasks\Models\Task;
-use Modules\Tasks\Models\TaskAttribute;
-use Modules\Tasks\Models\TaskAttributeMapper;
-use Modules\Tasks\Models\TaskAttributeType;
-use Modules\Tasks\Models\TaskAttributeTypeL11nMapper;
-use Modules\Tasks\Models\TaskAttributeTypeMapper;
-use Modules\Tasks\Models\TaskAttributeValue;
-use Modules\Tasks\Models\TaskAttributeValueL11nMapper;
-use Modules\Tasks\Models\TaskAttributeValueMapper;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
+use Modules\Tasks\Models\TaskPriority;
 use Modules\Tasks\Models\TaskSeen;
 use Modules\Tasks\Models\TaskSeenMapper;
 use Modules\Tasks\Models\TaskStatus;
 use Modules\Tasks\Models\TaskType;
-use phpOMS\Localization\BaseStringL11n;
-use phpOMS\Localization\ISO639x1Enum;
-use phpOMS\Message\Http\HttpResponse;
 use phpOMS\Message\Http\RequestStatusCode;
 use phpOMS\Message\RequestAbstract;
 use phpOMS\Message\ResponseAbstract;
@@ -358,45 +345,28 @@ final class ApiController extends Controller
         $task->title          = $request->getDataString('title') ?? '';
         $task->description    = Markdown::parse($request->getDataString('plain') ?? '');
         $task->descriptionRaw = $request->getDataString('plain') ?? '';
-        $task->setCreatedBy(new NullAccount($request->header->account));
-        $task->setStatus(TaskStatus::OPEN);
-        $task->setType($request->getDataInt('type') ?? TaskType::SINGLE);
-        $task->redirect = $request->getDataString('redirect') ?? '';
+        $task->createdBy      = new NullAccount($request->header->account);
+        $task->for            = $request->hasData('for') ? new NullAccount((int) $request->getData('for')) : null;
+        $task->status         = TaskStatus::OPEN;
+        $task->type           = TaskType::tryFromValue($request->getDataInt('type')) ?? TaskType::SINGLE;
+        $task->redirect       = $request->getDataString('redirect') ?? '';
 
         if ($request->hasData('due')) {
             $task->due = $request->getDataDateTime('due');
         } else {
-            $task->setPriority((int) $request->getData('priority'));
+            $task->priority = (int) $request->getData('priority');
         }
 
-        if (!empty($tags = $request->getDataJson('tags'))) {
-            foreach ($tags as $tag) {
-                if (!isset($tag['id'])) {
-                    $request->setData('title', $tag['title'], true);
-                    $request->setData('color', $tag['color'], true);
-                    $request->setData('icon', $tag['icon'] ?? null, true);
-                    $request->setData('language', $tag['language'], true);
-
-                    $internalResponse = new HttpResponse();
-                    $this->app->moduleManager->get('Tag')->apiTagCreate($request, $internalResponse);
-
-                    if (!\is_array($data = $internalResponse->getDataArray($request->uri->__toString()))) {
-                        continue;
-                    }
-
-                    $task->addTag($data['response']);
-                } else {
-                    $task->addTag(new NullTag((int) $tag['id']));
-                }
-            }
+        if ($request->hasData('tags')) {
+            $task->tags = $this->app->moduleManager->get('Tag', 'Api')->createTagsFromRequest($request);
         }
 
         $element = new TaskElement();
         $element->addTo(new NullAccount($request->getDataInt('forward') ?? $request->header->account));
-        $element->createdBy = $task->getCreatedBy();
+        $element->createdBy = $task->createdBy;
         $element->due       = $task->due;
-        $element->setPriority($task->getPriority());
-        $element->setStatus(TaskStatus::OPEN);
+        $element->priority  = $task->priority;
+        $element->status    = TaskStatus::OPEN;
 
         $task->addElement($element);
 
@@ -467,10 +437,10 @@ final class ApiController extends Controller
         $task->description    = Markdown::parse($request->getDataString('plain') ?? $task->descriptionRaw);
         $task->descriptionRaw = $request->getDataString('plain') ?? $task->descriptionRaw;
         $task->due            = $request->hasData('due') ? new \DateTime($request->getDataString('due') ?? 'now') : $task->due;
-        $task->setStatus($request->getDataInt('status') ?? $task->getStatus());
-        $task->setType($request->getDataInt('type') ?? $task->getType());
-        $task->setPriority($request->getDataInt('priority') ?? $task->getPriority());
-        $task->completion = $request->getDataInt('completion') ?? $task->completion;
+        $task->status         = TaskStatus::tryFromValue($request->getDataInt('status')) ?? $task->status;
+        $task->type           = TaskType::tryFromValue($request->getDataInt('type')) ?? $task->type;
+        $task->priority       = TaskPriority::tryFromValue($request->getDataInt('priority')) ?? $task->priority;
+        $task->completion     = $request->getDataInt('completion') ?? $task->completion;
 
         return $task;
     }
@@ -526,14 +496,14 @@ final class ApiController extends Controller
 
         $task->due        = $element->due;
         $task->completion = $request->getDataInt('completion') ?? $task->completion;
-        $task->setPriority($element->getPriority());
-        $task->setStatus($element->getStatus());
+        $task->priority   = $element->priority;
+        $task->status     = $element->status;
 
-        if ($task->getStatus() === TaskStatus::DONE) {
+        if ($task->status === TaskStatus::DONE) {
             $task->completion = 100;
         }
 
-        $this->createModel($request->header->account, $element, TaskElementMapper::class, 'taskelement', $request->getOrigin());
+        $this->createModel($request->header->account, $element, TaskElementMapper::class, 'task_element', $request->getOrigin());
 
         if (!empty($request->files)
             || !empty($request->getDataJson('media'))
@@ -685,14 +655,15 @@ final class ApiController extends Controller
      */
     public function createTaskElementFromRequest(RequestAbstract $request, Task $task) : TaskElement
     {
-        $element            = new TaskElement();
-        $element->createdBy = new NullAccount($request->header->account);
-        $element->due       = $request->getDataDateTime('due') ?? $task->due;
-        $element->setPriority($request->getDataInt('priority') ?? $task->getPriority());
-        $element->setStatus((int) ($request->getData('status')));
+        $element                 = new TaskElement();
+        $element->createdBy      = new NullAccount($request->header->account);
+        $element->due            = $request->getDataDateTime('due') ?? $task->due;
+        $element->priority       = TaskPriority::tryFromValue($request->getDataInt('priority')) ?? $task->priority;
+        $element->status         = TaskStatus::tryFromValue($request->getDataInt('status')) ?? TaskStatus::OPEN;
         $element->task           = $task->id;
         $element->description    = Markdown::parse($request->getDataString('plain') ?? '');
         $element->descriptionRaw = $request->getDataString('plain') ?? '';
+        $element->duration       = $request->getDataInt('duration') ?? 0;
 
         $tos = $request->getData('to') ?? $request->header->account;
         if (!\is_array($tos)) {
@@ -755,18 +726,18 @@ final class ApiController extends Controller
 
         /** @var TaskElement $new */
         $new = $this->updateTaskElementFromRequest($request, clone $old);
-        $this->updateModel($request->header->account, $old, $new, TaskElementMapper::class, 'taskelement', $request->getOrigin());
+        $this->updateModel($request->header->account, $old, $new, TaskElementMapper::class, 'task_element', $request->getOrigin());
 
-        if ($old->getStatus() !== $new->getStatus()
-            || $old->getPriority() !== $new->getPriority()
+        if ($old->status !== $new->status
+            || $old->priority !== $new->priority
             || $old->due !== $new->due
         ) {
             /** @var Task $task */
             $task = TaskMapper::get()->where('id', $new->task)->execute();
 
-            $task->setStatus($new->getStatus());
-            $task->setPriority($new->getPriority());
-            $task->due = $new->due;
+            $task->status   = $new->status;
+            $task->priority = $new->priority;
+            $task->due      = $new->due;
 
             $this->updateModel($request->header->account, $task, $task, TaskMapper::class, 'task', $request->getOrigin());
 
@@ -789,8 +760,8 @@ final class ApiController extends Controller
      */
     private function updateTaskElementFromRequest(RequestAbstract $request, TaskElement $element) : TaskElement
     {
-        $element->due = $request->getDataDateTime('due') ?? $element->due;
-        $element->setStatus($request->getDataInt('status') ?? $element->getStatus());
+        $element->due            = $request->getDataDateTime('due') ?? $element->due;
+        $element->status         = TaskStatus::tryFromValue($request->getDataInt('status')) ?? $element->status;
         $element->description    = Markdown::parse($request->getDataString('plain') ?? $element->descriptionRaw);
         $element->descriptionRaw = $request->getDataString('plain') ?? $element->descriptionRaw;
 
@@ -813,378 +784,5 @@ final class ApiController extends Controller
         }
 
         return $element;
-    }
-
-    /**
-     * Api method to create task attribute
-     *
-     * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
-     * @param array            $data     Generic data
-     *
-     * @return void
-     *
-     * @api
-     *
-     * @since 1.0.0
-     */
-    public function apiTaskAttributeCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
-    {
-        if (!empty($val = $this->validateTaskAttributeCreate($request))) {
-            $response->header->status = RequestStatusCode::R_400;
-            $this->createInvalidCreateResponse($request, $response, $val);
-
-            return;
-        }
-
-        $attribute = $this->createTaskAttributeFromRequest($request);
-        $this->createModel($request->header->account, $attribute, TaskAttributeMapper::class, 'attribute', $request->getOrigin());
-        $this->createStandardCreateResponse($request, $response, $attribute);
-    }
-
-    /**
-     * Method to create task attribute from request.
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return TaskAttribute
-     *
-     * @since 1.0.0
-     */
-    private function createTaskAttributeFromRequest(RequestAbstract $request) : TaskAttribute
-    {
-        $attribute       = new TaskAttribute();
-        $attribute->task = (int) $request->getData('task');
-        $attribute->type = new NullTaskAttributeType((int) $request->getData('type'));
-
-        if ($request->hasData('value_id')) {
-            $attribute->value = new NullTaskAttributeValue((int) $request->getData('value_id'));
-        } else {
-            $newRequest = clone $request;
-            $newRequest->setData('value', $request->getData('value'), true);
-
-            $value = $this->createTaskAttributeValueFromRequest($request);
-
-            $attribute->value = $value;
-        }
-
-        return $attribute;
-    }
-
-    /**
-     * Validate task attribute create request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array<string, bool>
-     *
-     * @since 1.0.0
-     */
-    private function validateTaskAttributeCreate(RequestAbstract $request) : array
-    {
-        $val = [];
-        if (($val['type'] = !$request->hasData('type'))
-            || ($val['value'] = (!$request->hasData('value') && !$request->hasData('custom')))
-            || ($val['task'] = !$request->hasData('task'))
-        ) {
-            return $val;
-        }
-
-        return [];
-    }
-
-    /**
-     * Api method to create task attribute l11n
-     *
-     * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
-     * @param array            $data     Generic data
-     *
-     * @return void
-     *
-     * @api
-     *
-     * @since 1.0.0
-     */
-    public function apiTaskAttributeTypeL11nCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
-    {
-        if (!empty($val = $this->validateTaskAttributeTypeL11nCreate($request))) {
-            $response->header->status = RequestStatusCode::R_400;
-            $this->createInvalidCreateResponse($request, $response, $val);
-
-            return;
-        }
-
-        $attrL11n = $this->createTaskAttributeTypeL11nFromRequest($request);
-        $this->createModel($request->header->account, $attrL11n, TaskAttributeTypeL11nMapper::class, 'attr_type_l11n', $request->getOrigin());
-        $this->createStandardCreateResponse($request, $response, $attrL11n);
-    }
-
-    /**
-     * Method to create task attribute l11n from request.
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return BaseStringL11n
-     *
-     * @since 1.0.0
-     */
-    private function createTaskAttributeTypeL11nFromRequest(RequestAbstract $request) : BaseStringL11n
-    {
-        $attrL11n      = new BaseStringL11n();
-        $attrL11n->ref = $request->getDataInt('type') ?? 0;
-        $attrL11n->setLanguage(
-            $request->getDataString('language') ?? $request->header->l11n->language
-        );
-        $attrL11n->content = $request->getDataString('title') ?? '';
-
-        return $attrL11n;
-    }
-
-    /**
-     * Validate task attribute l11n create request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array<string, bool>
-     *
-     * @since 1.0.0
-     */
-    private function validateTaskAttributeTypeL11nCreate(RequestAbstract $request) : array
-    {
-        $val = [];
-        if (($val['title'] = !$request->hasData('title'))
-            || ($val['type'] = !$request->hasData('type'))
-        ) {
-            return $val;
-        }
-
-        return [];
-    }
-
-    /**
-     * Api method to create task attribute type
-     *
-     * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
-     * @param array            $data     Generic data
-     *
-     * @return void
-     *
-     * @api
-     *
-     * @since 1.0.0
-     */
-    public function apiTaskAttributeTypeCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
-    {
-        if (!empty($val = $this->validateTaskAttributeTypeCreate($request))) {
-            $response->header->status = RequestStatusCode::R_400;
-            $this->createInvalidCreateResponse($request, $response, $val);
-
-            return;
-        }
-
-        $attrType = $this->createTaskAttributeTypeFromRequest($request);
-        $this->createModel($request->header->account, $attrType, TaskAttributeTypeMapper::class, 'attr_type', $request->getOrigin());
-        $this->createStandardCreateResponse($request, $response, $attrType);
-    }
-
-    /**
-     * Method to create task attribute from request.
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return TaskAttributeType
-     *
-     * @since 1.0.0
-     */
-    private function createTaskAttributeTypeFromRequest(RequestAbstract $request) : TaskAttributeType
-    {
-        $attrType = new TaskAttributeType($request->getDataString('name') ?? '');
-        $attrType->setL11n($request->getDataString('title') ?? '', $request->getDataString('language') ?? ISO639x1Enum::_EN);
-        $attrType->setFields($request->getDataInt('fields') ?? 0);
-        $attrType->custom            = $request->getDataBool('custom') ?? false;
-        $attrType->isRequired        = $request->getDataBool('is_required') ?? false;
-        $attrType->validationPattern = $request->getDataString('validation_pattern') ?? '';
-
-        return $attrType;
-    }
-
-    /**
-     * Validate task attribute create request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array<string, bool>
-     *
-     * @since 1.0.0
-     */
-    private function validateTaskAttributeTypeCreate(RequestAbstract $request) : array
-    {
-        $val = [];
-        if (($val['title'] = !$request->hasData('title'))
-            || ($val['name'] = !$request->hasData('name'))
-        ) {
-            return $val;
-        }
-
-        return [];
-    }
-
-    /**
-     * Api method to create task attribute value
-     *
-     * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
-     * @param array            $data     Generic data
-     *
-     * @return void
-     *
-     * @api
-     *
-     * @since 1.0.0
-     */
-    public function apiTaskAttributeValueCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
-    {
-        if (!empty($val = $this->validateTaskAttributeValueCreate($request))) {
-            $response->header->status = RequestStatusCode::R_400;
-            $this->createInvalidCreateResponse($request, $response, $val);
-
-            return;
-        }
-
-        $attrValue = $this->createTaskAttributeValueFromRequest($request);
-        $this->createModel($request->header->account, $attrValue, TaskAttributeValueMapper::class, 'attr_value', $request->getOrigin());
-
-        if ($attrValue->isDefault) {
-            $this->createModelRelation(
-                $request->header->account,
-                (int) $request->getData('attributetype'),
-                $attrValue->id,
-                TaskAttributeTypeMapper::class, 'defaults', '', $request->getOrigin()
-            );
-        }
-
-        $this->createStandardCreateResponse($request, $response, $attrValue);
-    }
-
-    /**
-     * Method to create task attribute value from request.
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return TaskAttributeValue
-     *
-     * @since 1.0.0
-     */
-    private function createTaskAttributeValueFromRequest(RequestAbstract $request) : TaskAttributeValue
-    {
-        /** @var TaskAttributeType $type */
-        $type = TaskAttributeTypeMapper::get()
-            ->where('id', $request->getDataInt('type') ?? 0)
-            ->execute();
-
-        $attrValue            = new TaskAttributeValue();
-        $attrValue->isDefault = $request->getDataBool('default') ?? false;
-        $attrValue->setValue($request->getDataString('value'), $type->datatype);
-
-        if ($request->hasData('title')) {
-            $attrValue->setL11n(
-                $request->getDataString('title') ?? '',
-                $request->getDataString('language') ?? ISO639x1Enum::_EN
-            );
-        }
-
-        return $attrValue;
-    }
-
-    /**
-     * Validate task attribute value create request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array<string, bool>
-     *
-     * @since 1.0.0
-     */
-    private function validateTaskAttributeValueCreate(RequestAbstract $request) : array
-    {
-        $val = [];
-        if (($val['attributetype'] = !$request->hasData('attributetype'))
-            || ($val['value'] = !$request->hasData('value'))
-        ) {
-            return $val;
-        }
-
-        return [];
-    }
-
-    /**
-     * Api method to create task attribute l11n
-     *
-     * @param RequestAbstract  $request  Request
-     * @param ResponseAbstract $response Response
-     * @param array            $data     Generic data
-     *
-     * @return void
-     *
-     * @api
-     *
-     * @since 1.0.0
-     */
-    public function apiTaskAttributeValueL11nCreate(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
-    {
-        if (!empty($val = $this->validateTaskAttributeValueL11nCreate($request))) {
-            $response->header->status = RequestStatusCode::R_400;
-            $this->createInvalidCreateResponse($request, $response, $val);
-
-            return;
-        }
-
-        $attrL11n = $this->createTaskAttributeValueL11nFromRequest($request);
-        $this->createModel($request->header->account, $attrL11n, TaskAttributeValueL11nMapper::class, 'attr_value_l11n', $request->getOrigin());
-        $this->createStandardCreateResponse($request, $response, $attrL11n);
-    }
-
-    /**
-     * Method to create task attribute l11n from request.
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return BaseStringL11n
-     *
-     * @since 1.0.0
-     */
-    private function createTaskAttributeValueL11nFromRequest(RequestAbstract $request) : BaseStringL11n
-    {
-        $attrL11n      = new BaseStringL11n();
-        $attrL11n->ref = $request->getDataInt('value') ?? 0;
-        $attrL11n->setLanguage(
-            $request->getDataString('language') ?? $request->header->l11n->language
-        );
-        $attrL11n->content = $request->getDataString('title') ?? '';
-
-        return $attrL11n;
-    }
-
-    /**
-     * Validate task attribute l11n create request
-     *
-     * @param RequestAbstract $request Request
-     *
-     * @return array<string, bool>
-     *
-     * @since 1.0.0
-     */
-    private function validateTaskAttributeValueL11nCreate(RequestAbstract $request) : array
-    {
-        $val = [];
-        if (($val['title'] = !$request->hasData('title'))
-            || ($val['value'] = !$request->hasData('value'))
-        ) {
-            return $val;
-        }
-
-        return [];
     }
 }

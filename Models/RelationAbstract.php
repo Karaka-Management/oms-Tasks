@@ -52,18 +52,6 @@ abstract class RelationAbstract implements \JsonSerializable
     public int $element = 0;
 
     /**
-     * Get id.
-     *
-     * @return int
-     *
-     * @since 1.0.0
-     */
-    public function getId() : int
-    {
-        return $this->id;
-    }
-
-    /**
      * Set the duty (TO or CC)
      *
      * @param int $duty Is TO or CC

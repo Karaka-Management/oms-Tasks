@@ -31,21 +31,21 @@ use phpOMS\Uri\UriFactory;
             <?php
             $c = 0;
             foreach ($this->tasks as $key => $task) : ++$c;
-            $url = UriFactory::build(empty($task->redirect) ? 'task/single?{?}&id=' . $task->id : ($task->redirect));
+            $url = UriFactory::build(empty($task->redirect) ? 'task/view?{?}&id=' . $task->id : ($task->redirect));
 
-            $color                                                         = 'darkred';
-            if ($task->getStatus() === TaskStatus::DONE) { $color          = 'green'; }
-            elseif ($task->getStatus() === TaskStatus::OPEN) { $color      = 'darkblue'; }
-            elseif ($task->getStatus() === TaskStatus::WORKING) { $color   = 'purple'; }
-            elseif ($task->getStatus() === TaskStatus::CANCELED) { $color  = 'red'; }
-            elseif ($task->getStatus() === TaskStatus::SUSPENDED) { $color = 'yellow'; } ?>
+            $color = 'darkred';
+            if ($task->status === TaskStatus::DONE) { $color = 'green'; }
+            elseif ($task->status === TaskStatus::OPEN) { $color = 'darkblue'; }
+            elseif ($task->status === TaskStatus::WORKING) { $color = 'purple'; }
+            elseif ($task->status === TaskStatus::CANCELED) { $color = 'red'; }
+            elseif ($task->status === TaskStatus::SUSPENDED) { $color = 'yellow'; } ?>
                 <tr data-href="<?= $url; ?>">
-                    <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml($color); ?>"><?= $this->getHtml('S' . $task->getStatus(), 'Tasks'); ?></span></a>
+                    <td><a href="<?= $url; ?>"><span class="tag <?= $this->printHtml($color); ?>"><?= $this->getHtml('S' . $task->status, 'Tasks'); ?></span></a>
                     <td><a href="<?= $url; ?>">
-                        <?php if ($task->getPriority() === TaskPriority::NONE) : ?>
+                        <?php if ($task->priority === TaskPriority::NONE) : ?>
                             <?= $this->printHtml($task->due->format('Y-m-d H:i')); ?>
                         <?php else : ?>
-                            <?= $this->getHtml('P' . $task->getPriority()); ?>
+                            <?= $this->getHtml('P' . $task->priority); ?>
                         <?php endif; ?>
                         </a>
                     <td><a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>

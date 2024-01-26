@@ -56,23 +56,23 @@ final class TaskElementMapper extends DataMapperFactory
      * @since 1.0.0
      */
     public const HAS_MANY = [
-        'media' => [
+        'files' => [
             'mapper'   => MediaMapper::class,
             'table'    => 'task_element_media',
             'external' => 'task_element_media_dst',
             'self'     => 'task_element_media_src',
         ],
-        'accRelation'          => [
-            'mapper'       => AccountRelationMapper::class,
-            'table'        => 'task_account',
-            'self'         => 'task_account_task_element',
-            'external'     => null,
+        'accRelation' => [
+            'mapper'   => AccountRelationMapper::class,
+            'table'    => 'task_account',
+            'self'     => 'task_account_task_element',
+            'external' => null,
         ],
-        'grpRelation'          => [
-            'mapper'       => GroupRelationMapper::class,
-            'table'        => 'task_group',
-            'self'         => 'task_group_task_element',
-            'external'     => null,
+        'grpRelation' => [
+            'mapper'   => GroupRelationMapper::class,
+            'table'    => 'task_group',
+            'self'     => 'task_group_task_element',
+            'external' => null,
         ],
     ];
 
@@ -84,8 +84,8 @@ final class TaskElementMapper extends DataMapperFactory
      */
     public const BELONGS_TO = [
         'createdBy' => [
-            'mapper'     => AccountMapper::class,
-            'external'   => 'task_element_created_by',
+            'mapper'   => AccountMapper::class,
+            'external' => 'task_element_created_by',
         ],
     ];
 

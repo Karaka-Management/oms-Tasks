@@ -95,7 +95,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->data['task_media'] = [];
         foreach ($view->data['tasks'] as $task) {
             $view->data['task_media'][$task->id] = TaskMapper::has()
-                ->with('media')
+                ->with('files')
                 ->where('id', $task->id)
                 ->where('type', TaskType::SINGLE)
                 ->execute();
@@ -124,7 +124,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         foreach ($view->data['open'] as $task) {
             $view->data['task_media'][$task->id] = TaskMapper::has()
-                ->with('media')
+                ->with('files')
                 ->where('id', $task->id)
                 ->execute();
         }
@@ -147,7 +147,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         foreach ($view->data['given'] as $task) {
             $view->data['task_media'][$task->id] = TaskMapper::has()
-                ->with('media')
+                ->with('files')
                 ->where('id', $task->id)
                 ->where('type', TaskType::SINGLE)
                 ->execute();
@@ -172,7 +172,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         foreach ($view->data['unread'] as $task) {
             $view->data['task_media'][$task->id] = TaskMapper::has()
-                ->with('media')
+                ->with('files')
                 ->where('id', $task->id)
                 ->where('type', TaskType::SINGLE)
                 ->execute();
@@ -253,7 +253,7 @@ final class BackendController extends Controller implements DashboardElementInte
         /** @var \Modules\Tasks\Models\Task $task */
         $task = TaskMapper::get()
             ->with('createdBy')
-            ->with('media')
+            ->with('files')
             ->with('tags')
             ->with('tags/title')
             ->with('taskElements')
@@ -318,7 +318,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         $view->data['reminder'] = $reminderStatus;
 
-        $view->setTemplate('/Modules/Tasks/Theme/Backend/task-single');
+        $view->setTemplate('/Modules/Tasks/Theme/Backend/task-view');
         $view->data['task'] = $task;
         $view->data['nav']  = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
