@@ -212,7 +212,7 @@ final class ApiController extends Controller
                     $task->id,
                     $media->id,
                     TaskMapper::class,
-                    'media',
+                    'files',
                     '',
                     $request->getOrigin()
                 );
@@ -273,7 +273,7 @@ final class ApiController extends Controller
                     $task->id,
                     $media->id,
                     TaskMapper::class,
-                    'media',
+                    'files',
                     '',
                     $request->getOrigin()
                 );
@@ -555,7 +555,7 @@ final class ApiController extends Controller
                     $element->id,
                     $media->id,
                     TaskElementMapper::class,
-                    'media',
+                    'files',
                     '',
                     $request->getOrigin()
                 );
@@ -609,7 +609,7 @@ final class ApiController extends Controller
                     $element->id,
                     $media->id,
                     TaskElementMapper::class,
-                    'media',
+                    'files',
                     '',
                     $request->getOrigin()
                 );

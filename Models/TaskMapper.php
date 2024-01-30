@@ -19,6 +19,7 @@ use Modules\Calendar\Models\ScheduleMapper;
 use Modules\Media\Models\MediaMapper;
 use Modules\Tag\Models\TagMapper;
 use Modules\Tasks\Models\Attribute\TaskAttributeMapper;
+use phpOMS\DataStorage\Database\Mapper\DataMapperAbstract;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 use phpOMS\DataStorage\Database\Mapper\ReadMapper;
 use phpOMS\DataStorage\Database\Query\Builder;
