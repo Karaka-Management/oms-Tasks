@@ -376,28 +376,27 @@ echo $this->data['nav']->render(); ?>
                     <div class="more-container wf-100">
                         <input id="more-customer-sales" type="checkbox" name="more-container">
                         <label for="more-customer-sales">
-                            <span>Advanced</span>
+                            <span><?= $this->getHtml('Advanced'); ?></span>
                             <i class="g-icon expand">chevron_right</i>
                         </label>
-                        <div>
-                            <div class="form-group">
-                                <label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
-                                <select id="iPriority" name="priority">
-                                        <option value="<?= TaskPriority::NONE; ?>"<?= $task->priority === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
-                                        <option value="<?= TaskPriority::VLOW; ?>"<?= $task->priority === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
-                                        <option value="<?= TaskPriority::LOW; ?>"<?= $task->priority === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
-                                        <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->priority === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
-                                        <option value="<?= TaskPriority::HIGH; ?>"<?= $task->priority === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
-                                        <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->priority === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
-                                    </select>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="iDue"><?= $this->getHtml('Due'); ?></label>
-                                <input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
-                                        empty($elements) ? $task->due->format('Y-m-d\TH:i:s') : \end($elements)->due->format('Y-m-d\TH:i:s')
-                                    ); ?>">
-                            </div>
+                        <div class="form-group">
+                            <label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
+                            <select id="iPriority" name="priority">
+                                <option value="<?= TaskPriority::NONE; ?>"<?= $task->priority === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>
+                                <option value="<?= TaskPriority::VLOW; ?>"<?= $task->priority === TaskPriority::VLOW ? ' selected' : '';?>><?= $this->getHtml('P1'); ?>
+                                <option value="<?= TaskPriority::LOW; ?>"<?= $task->priority === TaskPriority::LOW ? ' selected' : '';?>><?= $this->getHtml('P2'); ?>
+                                <option value="<?= TaskPriority::MEDIUM; ?>"<?= $task->priority === TaskPriority::MEDIUM ? ' selected' : '';?>><?= $this->getHtml('P3'); ?>
+                                <option value="<?= TaskPriority::HIGH; ?>"<?= $task->priority === TaskPriority::HIGH ? ' selected' : '';?>><?= $this->getHtml('P4'); ?>
+                                <option value="<?= TaskPriority::VHIGH; ?>"<?= $task->priority === TaskPriority::VHIGH ? ' selected' : '';?>><?= $this->getHtml('P5'); ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="iDue"><?= $this->getHtml('Due'); ?></label>
+                            <input type="datetime-local" id="iDue" name="due" value="<?= $this->printHtml(
+                                    empty($elements) ? $task->due->format('Y-m-d\TH:i:s') : \end($elements)->due->format('Y-m-d\TH:i:s')
+                                ); ?>">
                         </div>
 
                         <div class="form-group">

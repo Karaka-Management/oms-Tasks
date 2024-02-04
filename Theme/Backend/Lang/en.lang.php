@@ -21,6 +21,7 @@ return ['Tasks' => [
     'Completion'         => 'Completion',
     'Created'            => 'Created',
     'Creator'            => 'Creator',
+    'Advanced'            => 'Advanced',
     'Due'                => 'Due',
     'Due/Priority'       => 'Due/Priority',
     'For'                => 'For',
