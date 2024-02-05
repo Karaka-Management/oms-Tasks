@@ -161,24 +161,18 @@ echo $this->data['nav']->render(); ?>
                                             </span>
                                         </a>
                                         <?php endforeach; ?>
-                                    <td data-label="<?= $this->getHtml('Creator'); ?>">
-                                        <a class="content" href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $task->createdBy->id); ?>">
-                                            <?= $this->printHtml($this->renderUserName(
-                                                '%3$s %2$s %1$s',
-                                                [
-                                                    $task->createdBy->name1,
-                                                    $task->createdBy->name2,
-                                                    $task->createdBy->name3,
-                                                    $task->createdBy->login ?? '',
-                                                ])
-                                            ); ?>
-                                        </a>
+                                    <td><?php $responsibles = $task->getResponsible();
+                                            foreach ($responsibles as $responsible) : ?>
+                                            <a class="content" href="<?= UriFactory::build('{/base}/profile/view?for=' . $responsible->id); ?>">
+                                                <?= $this->printHtml($responsible->name1); ?> <?= $this->printHtml($responsible->name2); ?>
+                                            </a>
+                                        <?php endforeach; ?>
                                     <td data-label="<?= $this->getHtml('Created'); ?>">
                                         <a href="<?= $url; ?>"><?= $this->printHtml($task->createdAt->format('Y-m-d H:i')); ?></a>
                                     <?php endforeach; if ($c == 0) : ?>
                                         <tr><td colspan="7" class="empty"><?= $this->getHtml('Empty', '0', '0'); ?>
                                     <?php endif; ?>
-                        </table>
+                            </table>
                         </div>
                     </div>
                 </div>

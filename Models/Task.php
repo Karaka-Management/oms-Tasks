@@ -428,6 +428,31 @@ class Task implements \JsonSerializable
         return $this->taskElements[$id] ?? new NullTaskElement();
     }
 
+    public function getResponsible() : array
+    {
+        $responsible = [];
+        foreach ($this->taskElements as $element) {
+            if (empty($element->accRelation)) {
+                continue;
+            }
+
+            $first = true;
+
+            foreach ($element->accRelation as $accRel) {
+                if ($accRel->duty === DutyType::TO) {
+                    if ($first) {
+                        $responsible = [];
+                    }
+
+                    $responsible[] = $accRel->relation;
+                    $first = false;
+                }
+            }
+        }
+
+        return $responsible;
+    }
+
     /**
      * {@inheritdoc}
      */
