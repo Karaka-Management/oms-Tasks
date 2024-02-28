@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Modules\Tasks\Controller;
 
 use Modules\Admin\Models\AccountMapper;
+use Modules\Admin\Models\GroupMapper;
 use Modules\Admin\Models\NullAccount;
 use Modules\Media\Models\CollectionMapper;
 use Modules\Media\Models\MediaMapper;
@@ -22,6 +23,13 @@ use Modules\Media\Models\NullMedia;
 use Modules\Media\Models\PathSettings;
 use Modules\Media\Models\Reference;
 use Modules\Media\Models\ReferenceMapper;
+use Modules\Notification\Models\Notification;
+use Modules\Notification\Models\NotificationMapper;
+use Modules\Notification\Models\NotificationStatus;
+use Modules\Notification\Models\NotificationType;
+use Modules\Profile\Models\ProfileMapper;
+use Modules\Tasks\Models\DutyType;
+use Modules\Tasks\Models\PermissionCategory;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
 use Modules\Tasks\Models\TaskElementMapper;
@@ -168,6 +176,8 @@ final class ApiController extends Controller
         $task = $this->createTaskFromRequest($request);
         $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
 
+        $this->createNotifications(\reset($task->taskElements), NotificationType::CREATE, $request);
+
         if (!empty($request->files)
             || !empty($request->getDataJson('media'))
         ) {
@@ -175,6 +185,97 @@ final class ApiController extends Controller
         }
 
         $this->createStandardCreateResponse($request, $response, $task);
+    }
+
+    private function createNotifications(TaskElement $ele, int $type, RequestAbstract $request) : void
+    {
+        $accChecked = [];
+        $grpChecked = [];
+
+        $task = TaskMapper::get()
+            ->with('taskElements')
+            ->with('taskElements/accRelation')
+            ->with('taskElements/grpRelation')
+            ->where('id', $ele->task)
+            ->execute();
+
+        // Don't notify on template generations
+        if ($task->type !== TaskType::SINGLE) {
+            return;
+        }
+
+        // We have to check all previous elements as well because other accounts/groups are probably defined in a
+        // previous task element.
+        foreach ($task->taskElements as $element) {
+            // Account relations
+            foreach ($element->accRelation as $rel) {
+                if (\in_array($rel->relation->id, $accChecked)) {
+                    continue;
+                }
+
+                $profile = ProfileMapper::count()
+                    ->where('account', $rel->relation->id)
+                    ->execute();
+
+                if ($profile < 1) {
+                    continue;
+                }
+
+                $notification = new Notification();
+                $notification->module = self::NAME;
+                $notification->title = $task->title;
+                $notification->createdBy = $element->createdBy;
+                $notification->createdFor = $rel->relation;
+                $notification->type = $type;
+                $notification->category = PermissionCategory::TASK;
+                $notification->element = $task->id;
+                $notification->redirect = '{/base}/task/view?{?}&id=' . $element->task;
+
+                $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
+                $accChecked[] = $rel->relation->id;
+            }
+
+            // Group relations
+            foreach ($element->grpRelation as $rel) {
+                if (\in_array($rel->relation->id, $grpChecked)) {
+                    continue;
+                }
+
+                $group = GroupMapper::get()
+                    ->with('accounts')
+                    ->where('id', $rel->relation->id)
+                    ->execute();
+
+                foreach ($group->accounts as $account) {
+                    if (\in_array($account->id, $accChecked)) {
+                        continue;
+                    }
+
+                    $profile = ProfileMapper::count()
+                        ->where('account', $account->id)
+                        ->execute();
+
+                    if ($profile < 1) {
+                        continue;
+                    }
+
+                    $notification = new Notification();
+                    $notification->module = self::NAME;
+                    $notification->title = $task->title;
+                    $notification->createdBy = $element->createdBy;
+                    $notification->createdFor = $account;
+                    $notification->type = $type;
+                    $notification->category = PermissionCategory::TASK;
+                    $notification->element = $task->id;
+                    $notification->redirect = '{/base}/task/view?{?}&id=' . $element->task;
+
+                    $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
+                    $accChecked[] = $account->id;
+                }
+
+                $grpChecked[] = $rel->relation->id;
+            }
+        }
     }
 
     /**
@@ -491,6 +592,8 @@ final class ApiController extends Controller
         /** @var \Modules\Tasks\Models\Task $task */
         $task    = TaskMapper::get()->where('id', (int) ($request->getData('task')))->execute();
         $element = $this->createTaskElementFromRequest($request, $task);
+
+        $this->createNotifications($element, NotificationType::CHILDREN, $request);
 
         $task->due        = $element->due;
         $task->completion = $request->getDataInt('completion') ?? $task->completion;

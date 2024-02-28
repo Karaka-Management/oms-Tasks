@@ -29,6 +29,17 @@ return [
             ],
         ],
     ],
+    '^.*/task/list(\?.*$|$)' => [
+        [
+            'dest'       => '\Modules\Tasks\Controller\BackendController:viewTaskList',
+            'verb'       => RouteVerb::GET,
+            'permission' => [
+                'module' => BackendController::NAME,
+                'type'   => PermissionType::READ,
+                'state'  => PermissionCategory::TASK,
+            ],
+        ],
+    ],
     '^.*/task/view(\?.*$|$)' => [
         [
             'dest'       => '\Modules\Tasks\Controller\BackendController:viewTaskView',

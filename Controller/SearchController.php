@@ -60,7 +60,7 @@ final class SearchController extends Controller
             ->where('tags/title/language', $response->header->l11n->language)
             ->sort('createdAt', OrderType::DESC)
             ->sort('taskElements/createdAt', OrderType::ASC)
-            ->limit(25)
+            ->limit(8)
             //->limit(1, 'taskElements')
             ->execute();
 

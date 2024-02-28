@@ -66,40 +66,10 @@ final class BackendController extends Controller implements DashboardElementInte
 
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->data['Content']->head;
-        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=' . self::VERSION);
 
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-dashboard');
         $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
-
-        $mapperQuery = TaskMapper::getAnyRelatedToUser($request->header->account)
-            ->with('tags')
-            ->with('tags/title')
-            ->with('createdBy')
-            ->where('status', TaskStatus::OPEN, '!=')
-            ->where('type', TaskType::SINGLE)
-            ->where('tags/title/language', $response->header->l11n->language)
-            ->sort('createdAt', OrderType::DESC)
-            ->limit(25);
-
-        if ($request->getData('ptype') === 'p') {
-            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '<')
-                ->execute();
-        } elseif ($request->getData('ptype') === 'n') {
-            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '>')
-                ->execute();
-        } else {
-            $view->data['tasks'] = $mapperQuery->where('id', 0, '>')
-                ->execute();
-        }
-
-        $view->data['task_media'] = [];
-        foreach ($view->data['tasks'] as $task) {
-            $view->data['task_media'][$task->id] = TaskMapper::has()
-                ->with('files')
-                ->where('id', $task->id)
-                ->where('type', TaskType::SINGLE)
-                ->execute();
-        }
 
         $openQuery = new Builder($this->app->dbPool->get(), true);
         $openQuery->innerJoin(TaskElementMapper::TABLE)
@@ -157,29 +127,84 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
-        $unread = TaskSeenMapper::getAll()
-            ->where('task', \array_keys($open), 'in')
-            ->where('seenBy', $request->header->account)
-            ->execute();
+        $view->data['unread'] = TaskMapper::getUnread($request->header->account);
 
-        $unseen = [];
-        foreach ($unread as $read) {
-            if ($read->isRemindered && ($read->reminderAt?->getTimestamp() ?? 0) > $request->header->getRequestTime()) {
-                continue;
-            }
+        return $view;
+    }
 
-            $unseen[$read->task] = true;
+    /**
+     * Routing end-point for application behavior.
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param array            $data     Generic data
+     *
+     * @return RenderableInterface Returns a renderable object
+     *
+     * @since 1.0.0
+     * @codeCoverageIgnore
+     */
+    public function viewTaskList(RequestAbstract $request, ResponseAbstract $response, array $data = []) : RenderableInterface
+    {
+        $isModerator = false;
+        if (!$this->app->accountManager->get($request->header->account)
+            ->hasPermission(PermissionType::READ, $this->app->unitId, module: 'Tasks')
+        ) {
+            $isModerator = true;
         }
 
-        $view->data['unread'] = $unseen;
+        $view = new View($this->app->l11nManager, $request, $response);
 
-        foreach ($view->data['unread'] as $task) {
+        /** @var \phpOMS\Model\Html\Head $head */
+        $head = $response->data['Content']->head;
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=' . self::VERSION);
+
+        $view->setTemplate('/Modules/Tasks/Theme/Backend/task-list');
+        $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
+
+        if ($isModerator) {
+            $mapperQuery = TaskMapper::getAll()
+                ->with('tags')
+                ->with('tags/title')
+                ->with('createdBy')
+                ->where('status', TaskStatus::OPEN, '!=')
+                ->where('type', TaskType::SINGLE)
+                ->sort('createdAt', OrderType::DESC)
+                ->limit(25);
+        } else {
+            $mapperQuery = TaskMapper::getAnyRelatedToUser($request->header->account)
+                ->with('tags')
+                ->with('tags/title')
+                ->with('createdBy')
+                ->where('status', TaskStatus::OPEN, '!=')
+                ->where('type', TaskType::SINGLE)
+                ->where('tags/title/language', $response->header->l11n->language)
+                ->sort('createdAt', OrderType::DESC)
+                ->limit(25);
+        }
+
+        if ($request->getData('ptype') === 'p') {
+            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '<')
+                ->execute();
+        } elseif ($request->getData('ptype') === 'n') {
+            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '>')
+                ->execute();
+        } else {
+            $view->data['tasks'] = $mapperQuery->where('id', 0, '>')
+                ->execute();
+        }
+
+        $view->data['task_media'] = [];
+        foreach ($view->data['tasks'] as $task) {
             $view->data['task_media'][$task->id] = TaskMapper::has()
                 ->with('files')
                 ->where('id', $task->id)
                 ->where('type', TaskType::SINGLE)
                 ->execute();
         }
+
+        /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
+        $view->data['unread'] = TaskMapper::getUnread($request->header->account);
 
         return $view;
     }
@@ -192,7 +217,7 @@ final class BackendController extends Controller implements DashboardElementInte
     {
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->data['Content']->head;
-        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=' . self::VERSION);
 
         $view = new View($this->app->l11nManager, $request, $response);
         $view->setTemplate('/Modules/Tasks/Theme/Backend/dashboard-task');
@@ -251,7 +276,7 @@ final class BackendController extends Controller implements DashboardElementInte
 
         /** @var \phpOMS\Model\Html\Head $head */
         $head = $response->data['Content']->head;
-        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=1.0.0');
+        $head->addAsset(AssetType::CSS, 'Modules/Tasks/Theme/Backend/css/styles.css?v=' . self::VERSION);
 
         /** @var \Modules\Tasks\Models\Task $task */
         $task = TaskMapper::get()
@@ -394,6 +419,6 @@ final class BackendController extends Controller implements DashboardElementInte
      */
     public function openNav(int $account) : int
     {
-        return TaskMapper::countUnread($account);
+        return \count(TaskMapper::getUnread($account));
     }
 }

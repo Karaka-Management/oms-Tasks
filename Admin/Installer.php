@@ -74,7 +74,7 @@ final class Installer extends InstallerAbstract
         $taskAttrType = [];
 
         /** @var \Modules\Tasks\Controller\ApiAttributeController $module */
-        $module = $app->moduleManager->getModuleInstance('Tasks', 'ApiAttribute');
+        $module = $app->moduleManager->get('Tasks', 'ApiAttribute');
 
         /** @var array $attribute */
         foreach ($attributes as $attribute) {
@@ -142,7 +142,7 @@ final class Installer extends InstallerAbstract
         $taskAttrValue = [];
 
          /** @var \Modules\Tasks\Controller\ApiAttributeController $module */
-         $module = $app->moduleManager->getModuleInstance('Tasks', 'ApiAttribute');
+         $module = $app->moduleManager->get('Tasks', 'ApiAttribute');
 
         foreach ($attributes as $attribute) {
             $taskAttrValue[$attribute['name']] = [];

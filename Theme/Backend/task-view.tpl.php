@@ -31,7 +31,7 @@ echo $this->data['nav']->render(); ?>
 <div class="row">
     <div class="col-md-6 col-xs-12">
         <?php if (!empty($this->data['reminder'])) : ?>
-        <section class="portlet highlight-4">
+        <section class="portlet hl-4">
             <div class="portlet-body"><?= $this->getHtml('ReminderedBy'); ?> <?= \reset($this->data['reminder'])->reminderBy->name1; ?></div>
         </section>
         <?php endif; ?>
@@ -114,8 +114,8 @@ echo $this->data['nav']->render(); ?>
                     <div class="col-xs-0 end-xs plain-grid">
                         <?php if ($task->isEditable && $this->request->header->account === $task->createdBy->id) : ?>
                             <div class="col-xs end-xs plain-grid">
-                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
-                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
+                                <button class="save vh"><?= $this->getHtml('Save', '0', '0'); ?></button>
+                                <button class="cancel vh"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
                                 <button class="update"><?= $this->getHtml('Edit', '0', '0'); ?></button>
                             </div>
                         <?php endif; ?>
@@ -156,8 +156,8 @@ echo $this->data['nav']->render(); ?>
 
                         <div class="col-xs end-xs plain-grid">
                             <input type="hidden" value="" name="id">
-                            <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
-                            <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
+                            <button class="save vh"><?= $this->getHtml('Save', '0', '0'); ?></button>
+                            <button class="cancel vh"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
                             <button class="update"><?= $this->getHtml('Edit', '0', '0'); ?></button>
                         </div>
                     </div>
@@ -292,8 +292,8 @@ echo $this->data['nav']->render(); ?>
                         ) : ?>
                             <div class="col-xs end-xs plain-grid">
                                 <input type="hidden" value="<?= $element->id; ?>" name="id">
-                                <button class="save hidden"><?= $this->getHtml('Save', '0', '0'); ?></button>
-                                <button class="cancel hidden"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
+                                <button class="save vh"><?= $this->getHtml('Save', '0', '0'); ?></button>
+                                <button class="cancel vh"><?= $this->getHtml('Cancel', '0', '0'); ?></button>
                                 <button class="update"><?= $this->getHtml('Edit', '0', '0'); ?></button>
                             </div>
                         <?php endif; ?>

@@ -38,7 +38,7 @@ final class TaskAttributeMapper extends DataMapperFactory
      */
     public const COLUMNS = [
         'task_attr_id'    => ['name' => 'task_attr_id',    'type' => 'int', 'internal' => 'id'],
-        'task_attr_item'  => ['name' => 'task_attr_item',  'type' => 'int', 'internal' => 'ref'],
+        'task_attr_task'  => ['name' => 'task_attr_task',  'type' => 'int', 'internal' => 'ref'],
         'task_attr_type'  => ['name' => 'task_attr_type',  'type' => 'int', 'internal' => 'type'],
         'task_attr_value' => ['name' => 'task_attr_value', 'type' => 'int', 'internal' => 'value'],
     ];

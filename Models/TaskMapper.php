@@ -93,7 +93,7 @@ final class TaskMapper extends DataMapperFactory
         'attributes' => [
             'mapper'   => TaskAttributeMapper::class,
             'table'    => 'task_attr',
-            'self'     => 'task_attr_item',
+            'self'     => 'task_attr_task',
             'external' => null,
         ],
     ];
@@ -395,38 +395,40 @@ final class TaskMapper extends DataMapperFactory
      *
      * @param int $user User
      *
-     * @return int
+     * @return array
      *
      * @since 1.0.0
      */
-    public static function countUnread(int $user) : int
+    public static function getUnread(int $user) : array
     {
         try {
             $query = new Builder(self::$db);
 
-            $query->count('DISTINCT ' . self::TABLE . '.' . self::PRIMARYFIELD)
+            $query->select(self::TABLE . '.' . self::PRIMARYFIELD)
                 ->from(self::TABLE)
                 ->innerJoin(TaskElementMapper::TABLE)
                     ->on(self::TABLE . '.' . self::PRIMARYFIELD, '=', TaskElementMapper::TABLE . '.task_element_task')
                 ->innerJoin(AccountRelationMapper::TABLE)
                     ->on(TaskElementMapper::TABLE . '.' . TaskElementMapper::PRIMARYFIELD, '=', AccountRelationMapper::TABLE . '.task_account_task_element')
+                ->leftJoin(TaskSeenMapper::TABLE)
+                    ->on(TaskMapper::TABLE . '.' . TaskMapper::PRIMARYFIELD, '=', TaskSeenMapper::TABLE . '.task_seen_task')
                 ->where(self::TABLE . '.task_status', '=', TaskStatus::OPEN)
-                ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user);
+                ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
+                ->andWhere(TaskSeenMapper::TABLE . '.task_seen_task', '=', null);
 
             $sth = self::$db->con->prepare($query->toSql());
             $sth->execute();
 
-            $fetched = $sth->fetchAll();
-
+            $fetched = $sth->fetchAll(\PDO::FETCH_COLUMN);
             if ($fetched === false) {
-                return -1;
+                return [];
             }
 
-            $count = $fetched[0][0] ?? 0;
+            $result = $fetched;
         } catch (\Exception $_) {
-            return -1;
+            return [];
         }
 
-        return $count;
+        return $result;
     }
 }

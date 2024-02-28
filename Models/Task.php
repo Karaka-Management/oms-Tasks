@@ -482,6 +482,56 @@ class Task implements \JsonSerializable
         return $this->toArray();
     }
 
+    public static function fromTemplate(self $task) : self
+    {
+        $now = new \DateTimeImmutable('now');
+
+        $task->id   = 0;
+        $task->type = TaskType::SINGLE;
+
+        if ($task->due !== null) {
+            $task->due->setTimestamp(
+                $task->due->getTimestamp()
+                + ($now->getTimestamp() - $task->createdAt->getTimestamp())
+            );
+        }
+
+        $task->createdAt = $now;
+
+        // We need to create a new relation since the old one references the template
+        foreach ($task->attributes as $attribute) {
+            $attribute->id = 0;
+            $attribute->ref = 0;
+        }
+
+        foreach ($task->taskElements as $element) {
+            $element->id = 0;
+            $element->task = 0;
+
+            if ($element->due !== null) {
+                $element->due->setTimestamp(
+                    $element->due->getTimestamp()
+                    + ($now->getTimestamp() - $element->createdAt->getTimestamp())
+                );
+            }
+
+            $element->createdAt = $now;
+
+            // We need to create a new relation since the old one references the template
+            foreach ($element->accRelation as $relation) {
+                $relation->id = 0;
+                $relation->element = 0;
+            }
+
+            foreach ($element->grpRelation as $relation) {
+                $relation->id = 0;
+                $relation->element = 0;
+            }
+        }
+
+        return $task;
+    }
+
     use \Modules\Media\Models\MediaListTrait;
     use \Modules\Attribute\Models\AttributeHolderTrait;
 }

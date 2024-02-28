@@ -18,7 +18,7 @@
                 "pid": "/task",
                 "type": 3,
                 "subtype": 1,
-                "name": "List",
+                "name": "Dashboard",
                 "uri": "{/base}/task/dashboard?{?}",
                 "target": "self",
                 "icon": null,
@@ -26,26 +26,25 @@
                 "from": "Tasks",
                 "permission": { "permission": 2, "category": null, "element": null },
                 "parent": 1001101001,
-                "children": [
-                    {
-                        "id": 1001102101,
-                        "pid": "/task",
-                        "type": 0,
-                        "subtype": 1,
-                        "name": "Tasks",
-                        "uri": "{/base}/task/view?{?}",
-                        "target": "self",
-                        "icon": null,
-                        "order": 1,
-                        "from": "Tasks",
-                        "permission": { "permission": 2, "category": null, "element": null },
-                        "parent": 1001102001,
-                        "children": []
-                    }
-                ]
+                "children": []
             },
             {
                 "id": 1001103001,
+                "pid": "/task",
+                "type": 3,
+                "subtype": 1,
+                "name": "List",
+                "uri": "{/base}/task/list?{?}",
+                "target": "self",
+                "icon": null,
+                "order": 5,
+                "from": "Tasks",
+                "permission": { "permission": 2, "category": null, "element": null },
+                "parent": 1001101001,
+                "children": []
+            },
+            {
+                "id": 1001104001,
                 "pid": "/task",
                 "type": 3,
                 "subtype": 1,
@@ -60,7 +59,7 @@
                 "children": []
             },
             {
-                "id": 1001104001,
+                "id": 1001105001,
                 "pid": "/task",
                 "type": 3,
                 "subtype": 1,
