@@ -43,6 +43,76 @@ final class SearchController extends Controller
      *
      * @since 1.0.0
      */
+    public function searchTag(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
+    {
+        $search = $request->getDataString('search') ?? '';
+
+        $searchIdStartPos = \stripos($search, ':');
+        $patternStartPos  = $searchIdStartPos === false
+            ? -1
+            : \stripos($search, ' ', $searchIdStartPos);
+
+        $pattern = \substr($search, $patternStartPos + 1);
+
+        /** @var \Modules\Tasks\Models\Task[] $tasks */
+        $tasks = TaskMapper::getAll()
+            ->with('tags')
+            ->with('tags/title')
+            ->with('taskElements')
+            ->where('tags/title/language', $response->header->l11n->language)
+            ->where('tags/title/content', $pattern)
+            ->sort('createdAt', OrderType::DESC)
+            ->sort('taskElements/createdAt', OrderType::ASC)
+            ->limit(8)
+            //->limit(1, 'taskElements')
+            ->execute();
+
+        $results = [];
+        $count = 0;
+
+        foreach ($tasks as $task) {
+            if ($count >= 8) {
+                break;
+            }
+
+            // @performance Check if this can be combined with the above getAll()
+            //      https://github.com/Karaka-Management/oms-Tasks/issues/41
+            if (!TaskMapper::hasReadingPermission($request->header->account, $task->id)) {
+                continue;
+            }
+
+            ++$count;
+
+            $results[] = [
+                'title'     => $task->title,
+                'summary'   => \substr(\trim($task->description), 0, 500),
+                'link'      => '{/base}/task/view?id=' . $task->id,
+                'account'   => '',
+                'createdAt' => $task->createdAt,
+                'image' => '',
+                'tags'  => $task->tags,
+                'type'  => 'list_links',
+                'module'  => 'Tasks',
+            ];
+        }
+
+        $response->header->set('Content-Type', MimeType::M_JSON . '; charset=utf-8', true);
+        $response->add($request->uri->__toString(), $results);
+    }
+
+    /**
+     * Api method to search for tags
+     *
+     * @param RequestAbstract  $request  Request
+     * @param ResponseAbstract $response Response
+     * @param array            $data     Generic data
+     *
+     * @return void
+     *
+     * @api
+     *
+     * @since 1.0.0
+     */
     public function searchGeneral(RequestAbstract $request, ResponseAbstract $response, array $data = []) : void
     {
         // @performance Guaranteed <= 1 hasMany selects should behave like a join instead of creating sub-queries

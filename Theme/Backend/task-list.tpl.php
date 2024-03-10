@@ -77,7 +77,7 @@ echo $this->data['nav']->render(); ?>
                             <?php foreach ($task->tags as $tag) : ?>
                             <a href="<?= $url; ?>">
                                 <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
-                                    <?= empty($tag->icon) ? '' : ''; ?>
+                                    <?= empty($tag->icon) ? '' : '<i class="g-icon">' . $this->printHtml($tag->icon) . '</i>'; ?>
                                     <?= $this->printHtml($tag->getL11n()); ?>
                                 </span>
                             </a>
