@@ -25,10 +25,8 @@ use Modules\Media\Models\Reference;
 use Modules\Media\Models\ReferenceMapper;
 use Modules\Notification\Models\Notification;
 use Modules\Notification\Models\NotificationMapper;
-use Modules\Notification\Models\NotificationStatus;
 use Modules\Notification\Models\NotificationType;
 use Modules\Profile\Models\ProfileMapper;
-use Modules\Tasks\Models\DutyType;
 use Modules\Tasks\Models\PermissionCategory;
 use Modules\Tasks\Models\Task;
 use Modules\Tasks\Models\TaskElement;
@@ -133,7 +131,7 @@ final class ApiController extends Controller
      */
     public function createTaskReminderFromRequest(RequestAbstract $request) : array
     {
-        /** @var AccountRelation[] $responsible */
+        /** @var \Modules\Tasks\Models\AccountRelation[] $responsible */
         $responsible = TaskMapper::getResponsible((int) $request->getData('id'));
 
         $reminder = [];
@@ -176,7 +174,10 @@ final class ApiController extends Controller
         $task = $this->createTaskFromRequest($request);
         $this->createModel($request->header->account, $task, TaskMapper::class, 'task', $request->getOrigin());
 
-        $this->createNotifications(\reset($task->taskElements), NotificationType::CREATE, $request);
+        $first = \reset($task->taskElements);
+        if ($first !== false) {
+            $this->createNotifications($first, NotificationType::CREATE, $request);
+        }
 
         if (!empty($request->files)
             || !empty($request->getDataJson('media'))
@@ -187,6 +188,19 @@ final class ApiController extends Controller
         $this->createStandardCreateResponse($request, $response, $task);
     }
 
+    /**
+     * Create notifications for users.
+     *
+     * This is usually called when creating a task or adding a new child element.
+     *
+     * @param TaskElement     $ele     Task element
+     * @param int             $type    Notification type (e.g. new, new child element, ...)
+     * @param RequestAbstract $request Request that caused this notification to get created
+     *
+     * @return void
+     *
+     * @since 1.0.0
+     */
     private function createNotifications(TaskElement $ele, int $type, RequestAbstract $request) : void
     {
         $accChecked = [];
@@ -221,15 +235,15 @@ final class ApiController extends Controller
                     continue;
                 }
 
-                $notification = new Notification();
-                $notification->module = self::NAME;
-                $notification->title = $task->title;
-                $notification->createdBy = $element->createdBy;
+                $notification             = new Notification();
+                $notification->module     = self::NAME;
+                $notification->title      = $task->title;
+                $notification->createdBy  = $element->createdBy;
                 $notification->createdFor = $rel->relation;
-                $notification->type = $type;
-                $notification->category = PermissionCategory::TASK;
-                $notification->element = $task->id;
-                $notification->redirect = '{/base}/task/view?{?}&id=' . $element->task;
+                $notification->type       = $type;
+                $notification->category   = PermissionCategory::TASK;
+                $notification->element    = $task->id;
+                $notification->redirect   = '{/base}/task/view?{?}&id=' . $element->task;
 
                 $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
                 $accChecked[] = $rel->relation->id;
@@ -259,15 +273,15 @@ final class ApiController extends Controller
                         continue;
                     }
 
-                    $notification = new Notification();
-                    $notification->module = self::NAME;
-                    $notification->title = $task->title;
-                    $notification->createdBy = $element->createdBy;
+                    $notification             = new Notification();
+                    $notification->module     = self::NAME;
+                    $notification->title      = $task->title;
+                    $notification->createdBy  = $element->createdBy;
                     $notification->createdFor = $account;
-                    $notification->type = $type;
-                    $notification->category = PermissionCategory::TASK;
-                    $notification->element = $task->id;
-                    $notification->redirect = '{/base}/task/view?{?}&id=' . $element->task;
+                    $notification->type       = $type;
+                    $notification->category   = PermissionCategory::TASK;
+                    $notification->element    = $task->id;
+                    $notification->redirect   = '{/base}/task/view?{?}&id=' . $element->task;
 
                     $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
                     $accChecked[] = $account->id;

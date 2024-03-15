@@ -428,6 +428,13 @@ class Task implements \JsonSerializable
         return $this->taskElements[$id] ?? new NullTaskElement();
     }
 
+    /**
+     * Get accounts that are responsible for this task
+     *
+     * @return Account[]
+     *
+     * @since 1.0.0
+     */
     public function getResponsible() : array
     {
         $responsible = [];
@@ -445,7 +452,7 @@ class Task implements \JsonSerializable
                     }
 
                     $responsible[] = $accRel->relation;
-                    $first = false;
+                    $first         = false;
                 }
             }
         }
@@ -482,6 +489,17 @@ class Task implements \JsonSerializable
         return $this->toArray();
     }
 
+    /**
+     * Create a new task from a task template.
+     *
+     * A task template is a normal task with the type of TEMPLATE.
+     *
+     * @param self $task Task to "clone"
+     *
+     * @return self
+     *
+     * @since 1.0.0
+     */
     public static function fromTemplate(self $task) : self
     {
         $now = new \DateTimeImmutable('now');
@@ -500,12 +518,12 @@ class Task implements \JsonSerializable
 
         // We need to create a new relation since the old one references the template
         foreach ($task->attributes as $attribute) {
-            $attribute->id = 0;
+            $attribute->id  = 0;
             $attribute->ref = 0;
         }
 
         foreach ($task->taskElements as $element) {
-            $element->id = 0;
+            $element->id   = 0;
             $element->task = 0;
 
             if ($element->due !== null) {
@@ -519,12 +537,12 @@ class Task implements \JsonSerializable
 
             // We need to create a new relation since the old one references the template
             foreach ($element->accRelation as $relation) {
-                $relation->id = 0;
+                $relation->id      = 0;
                 $relation->element = 0;
             }
 
             foreach ($element->grpRelation as $relation) {
-                $relation->id = 0;
+                $relation->id      = 0;
                 $relation->element = 0;
             }
         }

@@ -411,7 +411,7 @@ final class TaskMapper extends DataMapperFactory
                 ->innerJoin(AccountRelationMapper::TABLE)
                     ->on(TaskElementMapper::TABLE . '.' . TaskElementMapper::PRIMARYFIELD, '=', AccountRelationMapper::TABLE . '.task_account_task_element')
                 ->leftJoin(TaskSeenMapper::TABLE)
-                    ->on(TaskMapper::TABLE . '.' . TaskMapper::PRIMARYFIELD, '=', TaskSeenMapper::TABLE . '.task_seen_task')
+                    ->on(self::TABLE . '.' . self::PRIMARYFIELD, '=', TaskSeenMapper::TABLE . '.task_seen_task')
                 ->where(self::TABLE . '.task_status', '=', TaskStatus::OPEN)
                 ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
                 ->andWhere(TaskSeenMapper::TABLE . '.task_seen_task', '=', null);

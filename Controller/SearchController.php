@@ -68,7 +68,7 @@ final class SearchController extends Controller
             ->execute();
 
         $results = [];
-        $count = 0;
+        $count   = 0;
 
         foreach ($tasks as $task) {
             if ($count >= 8) {
@@ -89,10 +89,10 @@ final class SearchController extends Controller
                 'link'      => '{/base}/task/view?id=' . $task->id,
                 'account'   => '',
                 'createdAt' => $task->createdAt,
-                'image' => '',
-                'tags'  => $task->tags,
-                'type'  => 'list_links',
-                'module'  => 'Tasks',
+                'image'     => '',
+                'tags'      => $task->tags,
+                'type'      => 'list_links',
+                'module'    => 'Tasks',
             ];
         }
 
@@ -135,7 +135,7 @@ final class SearchController extends Controller
             ->execute();
 
         $results = [];
-        $count = 0;
+        $count   = 0;
 
         foreach ($tasks as $task) {
             if ($count >= 8) {
@@ -156,10 +156,10 @@ final class SearchController extends Controller
                 'link'      => '{/base}/task/view?id=' . $task->id,
                 'account'   => '',
                 'createdAt' => $task->createdAt,
-                'image' => '',
-                'tags'  => $task->tags,
-                'type'  => 'list_links',
-                'module'  => 'Tasks',
+                'image'     => '',
+                'tags'      => $task->tags,
+                'type'      => 'list_links',
+                'module'    => 'Tasks',
             ];
         }
 

@@ -126,7 +126,6 @@ final class BackendController extends Controller implements DashboardElementInte
                 ->execute();
         }
 
-        /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
         $view->data['unread'] = TaskMapper::getUnread($request->header->account);
 
         return $view;
@@ -195,6 +194,8 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         $view->data['task_media'] = [];
+
+        /** @var \Modules\Tasks\Models\Task $task */
         foreach ($view->data['tasks'] as $task) {
             $view->data['task_media'][$task->id] = TaskMapper::has()
                 ->with('files')
@@ -203,7 +204,6 @@ final class BackendController extends Controller implements DashboardElementInte
                 ->execute();
         }
 
-        /** @var \Modules\Tasks\Models\TaskSeen[] $unread */
         $view->data['unread'] = TaskMapper::getUnread($request->header->account);
 
         return $view;
@@ -321,7 +321,7 @@ final class BackendController extends Controller implements DashboardElementInte
                 // Shows all reminders
                 if ($unseen->reminderBy !== null
                     && ($unseen->reminderAt?->getTimestamp() ?? 0) < $request->header->getRequestTime()
-                    && ($unseen->reminderAt?->getTimestamp() ?? 0) > ($unseen->seenAt?->getTimestamp() ?? 0) - 300
+                    && ($unseen->reminderAt?->getTimestamp() ?? 0) > $unseen->seenAt->getTimestamp() - 300
                 ) {
                     $reminderStatus[] = $unseen;
 
