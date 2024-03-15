@@ -229,7 +229,7 @@ final class ApiController extends Controller
 
                 $profile = ProfileMapper::count()
                     ->where('account', $rel->relation->id)
-                    ->execute();
+                    ->executeCount();
 
                 if ($profile < 1) {
                     continue;
@@ -267,7 +267,7 @@ final class ApiController extends Controller
 
                     $profile = ProfileMapper::count()
                         ->where('account', $account->id)
-                        ->execute();
+                        ->executeCount();
 
                     if ($profile < 1) {
                         continue;
