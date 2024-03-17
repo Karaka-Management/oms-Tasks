@@ -52,6 +52,7 @@ return ['Tasks' => [
     'Status'             => 'Status',
     'Tag'                => 'Stichwort',
     'Task'               => 'Aufgabe',
+    'Tasks'              => 'Aufgaben',
     'Title'              => 'Titel',
     'To'                 => 'Zu',
     'Unread'             => 'Ungelesen',
