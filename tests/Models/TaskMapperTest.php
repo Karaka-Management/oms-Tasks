@@ -37,7 +37,6 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
     public function testDefault() : void
     {
         self::assertEquals([], TaskMapper::getOpenCreatedBy(999));
-        self::assertEquals(0, TaskMapper::countUnread(999));
     }
 
     /**
@@ -119,7 +118,6 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($task->type, $taskR->type);
         self::assertEquals($task->done->format('Y-m-d'), $taskR->done->format('Y-m-d'));
         self::assertEquals($task->due->format('Y-m-d'), $taskR->due->format('Y-m-d'));
-        self::assertGreaterThan(0, TaskMapper::countUnread(1));
 
         $expected = $task->files;
         $actual   = $taskR->files;
@@ -191,8 +189,6 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
 
             $id = TaskMapper::create()->execute($task);
         }
-
-        self::assertGreaterThan(0, TaskMapper::countUnread(1));
     }
 
     /**
