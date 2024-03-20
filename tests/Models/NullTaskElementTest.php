@@ -22,7 +22,7 @@ use Modules\Tasks\Models\NullTaskElement;
 final class NullTaskElementTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Tasks\Models\NullTaskElement
+     * @covers \Modules\Tasks\Models\NullTaskElement
      * @group module
      */
     public function testNull() : void
@@ -31,7 +31,7 @@ final class NullTaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\NullTaskElement
+     * @covers \Modules\Tasks\Models\NullTaskElement
      * @group module
      */
     public function testId() : void
@@ -41,7 +41,7 @@ final class NullTaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\NullTaskElement
+     * @covers \Modules\Tasks\Models\NullTaskElement
      * @group module
      */
     public function testJsonSerialize() : void

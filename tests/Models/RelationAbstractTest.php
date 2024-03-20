@@ -38,7 +38,7 @@ final class RelationAbstractTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\RelationAbstract
+     * @covers \Modules\Tasks\Models\RelationAbstract
      * @group module
      */
     public function testDefault() : void
@@ -48,7 +48,7 @@ final class RelationAbstractTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\RelationAbstract
+     * @covers \Modules\Tasks\Models\RelationAbstract
      * @group module
      */
     public function testDutyInputOutput() : void

@@ -24,7 +24,7 @@ use Modules\Tasks\Models\GroupRelation;
 final class GroupRelationTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Tasks\Models\GroupRelation
+     * @covers \Modules\Tasks\Models\GroupRelation
      * @group module
      */
     public function testDefault() : void
@@ -36,7 +36,7 @@ final class GroupRelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\GroupRelation
+     * @covers \Modules\Tasks\Models\GroupRelation
      * @group module
      */
     public function testSetGet() : void

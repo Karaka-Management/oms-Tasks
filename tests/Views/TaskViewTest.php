@@ -27,7 +27,7 @@ use Modules\Tasks\Views\TaskView;
 class TaskViewTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Tasks\Views\TaskView
+     * @covers \Modules\Tasks\Views\TaskView
      * @group module
      */
     public function testDefault() : void
@@ -38,7 +38,7 @@ class TaskViewTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Views\TaskView
+     * @covers \Modules\Tasks\Views\TaskView
      * @group module
      */
     public function testAccountImageUrl() : void

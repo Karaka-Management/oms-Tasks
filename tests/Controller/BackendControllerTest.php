@@ -79,7 +79,7 @@ final class BackendControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\BackendController
+     * @covers \Modules\Tasks\Controller\BackendController
      * @group module
      */
     public function testNavigation() : void

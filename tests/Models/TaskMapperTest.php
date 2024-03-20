@@ -31,7 +31,7 @@ use phpOMS\Utils\RnG\Text;
 final class TaskMapperTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Tasks\Models\TaskMapper
+     * @covers \Modules\Tasks\Models\TaskMapper
      * @group module
      */
     public function testDefault() : void
@@ -40,7 +40,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskMapper
+     * @covers \Modules\Tasks\Models\TaskMapper
      * @group module
      */
     public function testCRUD() : void
@@ -142,7 +142,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskMapper
+     * @covers \Modules\Tasks\Models\TaskMapper
      * @group module
      */
     public function testNewest() : void

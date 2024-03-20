@@ -24,7 +24,7 @@ use Modules\Tasks\Models\DutyType;
 final class AccountRelationTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @covers Modules\Tasks\Models\AccountRelation
+     * @covers \Modules\Tasks\Models\AccountRelation
      * @group module
      */
     public function testDefault() : void
@@ -36,7 +36,7 @@ final class AccountRelationTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\AccountRelation
+     * @covers \Modules\Tasks\Models\AccountRelation
      * @group module
      */
     public function testSetGet() : void

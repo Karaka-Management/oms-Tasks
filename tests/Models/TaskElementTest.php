@@ -36,7 +36,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testDefault() : void
@@ -55,7 +55,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testCreatedByInputOutput() : void
@@ -65,7 +65,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testDueInputOutput() : void
@@ -75,7 +75,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testDescriptionInputOutput() : void
@@ -85,7 +85,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testDescriptionRawInputOutput() : void
@@ -95,7 +95,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testTaskInputOutput() : void
@@ -105,7 +105,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testAccountToInputOutput() : void
@@ -119,7 +119,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testGroupToInputOutput() : void
@@ -133,7 +133,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testAccountCCInputOutput() : void
@@ -147,7 +147,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testGroupCCInputOutput() : void
@@ -161,7 +161,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testInvalidAccountTo() : void
@@ -170,7 +170,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testInvalidAccountCC() : void
@@ -179,7 +179,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testInvalidGroupTo() : void
@@ -188,7 +188,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testInvalidGroupCC() : void
@@ -197,7 +197,7 @@ final class TaskElementTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\TaskElement
+     * @covers \Modules\Tasks\Models\TaskElement
      * @group module
      */
     public function testSerialize() : void

@@ -38,7 +38,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testDefault() : void
@@ -68,7 +68,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testCreatedByInputOutput() : void
@@ -78,7 +78,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testStartInputOutput() : void
@@ -88,7 +88,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testTitleInputOutput() : void
@@ -98,7 +98,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testDoneInputOutput() : void
@@ -108,7 +108,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testDueInputOutput() : void
@@ -118,7 +118,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testClosableInputOutput() : void
@@ -128,7 +128,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testElementInputOutput() : void
@@ -164,7 +164,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testElementRemoval() : void
@@ -190,7 +190,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testInvertElements() : void
@@ -214,7 +214,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testInvalidElementRemoval() : void
@@ -224,7 +224,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testDescriptionInputOutput() : void
@@ -234,7 +234,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testDescriptionRawInputOutput() : void
@@ -244,7 +244,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testEditableInputOutput() : void
@@ -254,7 +254,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testToArray() : void
@@ -284,7 +284,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Models\Task
+     * @covers \Modules\Tasks\Models\Task
      * @group module
      */
     public function testToJson() : void

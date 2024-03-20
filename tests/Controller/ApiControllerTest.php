@@ -87,7 +87,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testCreateTask() : void
@@ -124,7 +124,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testApiTaskGet() : void
@@ -141,7 +141,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testApiTaskSet() : void
@@ -161,7 +161,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testCreateTaskElement() : void
@@ -199,7 +199,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testApiTaskElementGet() : void
@@ -216,7 +216,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testApiTaskElementSet() : void
@@ -235,7 +235,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testInvalidTaskCreate() : void
@@ -252,7 +252,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers Modules\Tasks\Controller\ApiController
+     * @covers \Modules\Tasks\Controller\ApiController
      * @group module
      */
     public function testInvalidTaskElementCreate() : void
