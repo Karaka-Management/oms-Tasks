@@ -20,6 +20,7 @@ use Modules\Tasks\Models\RelationAbstract;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\RelationAbstract::class)]
 final class RelationAbstractTest extends \PHPUnit\Framework\TestCase
 {
     private RelationAbstract $rel;
@@ -37,20 +38,14 @@ final class RelationAbstractTest extends \PHPUnit\Framework\TestCase
         };
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\RelationAbstract
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         self::assertEquals(0, $this->rel->id);
         self::assertEquals(DutyType::TO, $this->rel->getDuty());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\RelationAbstract
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDutyInputOutput() : void
     {
         $this->rel->setDuty(DutyType::CC);

@@ -21,12 +21,10 @@ use Modules\Tasks\Models\GroupRelation;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\GroupRelation::class)]
 final class GroupRelationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\GroupRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         $obj = new GroupRelation();
@@ -35,10 +33,7 @@ final class GroupRelationTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(DutyType::TO, $obj->getDuty());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\GroupRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testSetGet() : void
     {
         $obj = new GroupRelation($g = new NullGroup(1), DutyType::CC);

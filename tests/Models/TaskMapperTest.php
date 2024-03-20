@@ -28,21 +28,16 @@ use phpOMS\Utils\RnG\Text;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\TaskMapper::class)]
 final class TaskMapperTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\TaskMapper
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         self::assertEquals([], TaskMapper::getOpenCreatedBy(999));
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\TaskMapper
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testCRUD() : void
     {
         $task = new Task();
@@ -141,10 +136,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         self::assertCount(2, \end($actual)->getCC());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\TaskMapper
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNewest() : void
     {
         $newest = TaskMapper::getAll()->sort('id', OrderType::DESC)->limit(1)->execute();
@@ -152,11 +144,9 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         self::assertCount(1, $newest);
     }
 
-    /**
-     * @group volume
-     * @group module
-     * @coversNothing
-     */
+    #[\PHPUnit\Framework\Attributes\Group('volume')]
+    #[\PHPUnit\Framework\Attributes\Group('module')]
+    #[\PHPUnit\Framework\Attributes\CoversNothing]
     public function testCreatedByMeForMe() : void
     {
         $text = new Text();
@@ -191,11 +181,9 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group volume
-     * @group module
-     * @coversNothing
-     */
+    #[\PHPUnit\Framework\Attributes\Group('volume')]
+    #[\PHPUnit\Framework\Attributes\Group('module')]
+    #[\PHPUnit\Framework\Attributes\CoversNothing]
     public function testCreatedByMeForOther() : void
     {
         $text = new Text();
@@ -230,11 +218,9 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group volume
-     * @group module
-     * @coversNothing
-     */
+    #[\PHPUnit\Framework\Attributes\Group('volume')]
+    #[\PHPUnit\Framework\Attributes\Group('module')]
+    #[\PHPUnit\Framework\Attributes\CoversNothing]
     public function testCreatedByOtherForMe() : void
     {
         $text = new Text();

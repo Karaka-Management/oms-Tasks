@@ -19,31 +19,23 @@ use Modules\Tasks\Models\NullTaskElement;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\NullTaskElement::class)]
 final class NullTaskElementTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\NullTaskElement
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Tasks\Models\TaskElement', new NullTaskElement());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullTaskElement
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullTaskElement(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullTaskElement
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullTaskElement(2);

@@ -19,31 +19,23 @@ use Modules\Tasks\Models\NullGroupRelation;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\NullGroupRelation::class)]
 final class NullGroupRelationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\NullGroupRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Tasks\Models\GroupRelation', new NullGroupRelation());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullGroupRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullGroupRelation(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullGroupRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullGroupRelation(2);

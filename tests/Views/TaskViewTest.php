@@ -24,12 +24,10 @@ use Modules\Tasks\Views\TaskView;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Views\TaskView::class)]
 class TaskViewTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Views\TaskView
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         $view = new TaskView();
@@ -37,10 +35,7 @@ class TaskViewTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('', $view->getAccountImage(999));
     }
 
-    /**
-     * @covers \Modules\Tasks\Views\TaskView
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testAccountImageUrl() : void
     {
         $media              = new Media();

@@ -21,12 +21,10 @@ use Modules\Tasks\Models\DutyType;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\AccountRelation::class)]
 final class AccountRelationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\AccountRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         $obj = new AccountRelation();
@@ -35,10 +33,7 @@ final class AccountRelationTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(DutyType::TO, $obj->getDuty());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\AccountRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testSetGet() : void
     {
         $obj = new AccountRelation($a = new NullAccount(1), DutyType::CC);

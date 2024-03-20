@@ -19,31 +19,23 @@ use Modules\Tasks\Models\NullAccountRelation;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\NullAccountRelation::class)]
 final class NullAccountRelationTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\NullAccountRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Tasks\Models\AccountRelation', new NullAccountRelation());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullAccountRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullAccountRelation(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullAccountRelation
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullAccountRelation(2);

@@ -25,6 +25,7 @@ use Modules\Tasks\Models\TaskType;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\Task::class)]
 final class TaskTest extends \PHPUnit\Framework\TestCase
 {
     private Task $task;
@@ -37,10 +38,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         $this->task = new Task();
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDefault() : void
     {
         self::assertEquals(0, $this->task->id);
@@ -67,70 +65,49 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertInstanceOf('\Modules\Tasks\Models\NullTaskElement', $this->task->getTaskElement(1));
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testCreatedByInputOutput() : void
     {
         $this->task->setCreatedBy(new NullAccount(1));
         self::assertEquals(1, $this->task->getCreatedBy()->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testStartInputOutput() : void
     {
         $this->task->start = ($date = new \DateTime('2005-05-05'));
         self::assertEquals($date->format('Y-m-d'), $this->task->start->format('Y-m-d'));
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testTitleInputOutput() : void
     {
         $this->task->title = 'Title';
         self::assertEquals('Title', $this->task->title);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDoneInputOutput() : void
     {
         $this->task->done = ($date = new \DateTime('2000-05-06'));
         self::assertEquals($date->format('Y-m-d'), $this->task->done->format('Y-m-d'));
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDueInputOutput() : void
     {
         $this->task->due = ($date = new \DateTime('2000-05-07'));
         self::assertEquals($date->format('Y-m-d'), $this->task->due->format('Y-m-d'));
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testClosableInputOutput() : void
     {
         $this->task->isClosable = false;
         self::assertFalse($this->task->isClosable);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testElementInputOutput() : void
     {
         $taskElement1 = new TaskElement();
@@ -163,10 +140,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(0, $this->task->getTaskElement(0)->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testElementRemoval() : void
     {
         $taskElement1 = new TaskElement();
@@ -189,10 +163,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($success);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testInvertElements() : void
     {
         $taskElement1 = new TaskElement();
@@ -213,50 +184,35 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertEquals([$taskElement2, $taskElement1], $this->task->invertTaskElements());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testInvalidElementRemoval() : void
     {
         $success = $this->task->removeElement(99);
         self::assertFalse($success);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDescriptionInputOutput() : void
     {
         $this->task->description = 'Description';
         self::assertEquals('Description', $this->task->description);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testDescriptionRawInputOutput() : void
     {
         $this->task->descriptionRaw = 'DescriptionRaw';
         self::assertEquals('DescriptionRaw', $this->task->descriptionRaw);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testEditableInputOutput() : void
     {
         $this->task->isEditable = false;
         self::assertFalse($this->task->isEditable);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testToArray() : void
     {
         $arr = [
@@ -283,10 +239,7 @@ final class TaskTest extends \PHPUnit\Framework\TestCase
         self::assertTrue($isSubset);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\Task
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testToJson() : void
     {
         $arr = [

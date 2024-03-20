@@ -36,7 +36,8 @@ use phpOMS\Utils\TestUtils;
 /**
  * @internal
  */
-final class ControllerTest extends \PHPUnit\Framework\TestCase
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Controller\ApiController::class)]
+final class ApiControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected $app = null;
 
@@ -86,10 +87,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         TestUtils::setMember($this->module, 'app', $this->app);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testCreateTask() : void
     {
         $response = new HttpResponse();
@@ -123,10 +121,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertGreaterThan(0, $response->getDataArray('')['response']->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testApiTaskGet() : void
     {
         $response = new HttpResponse();
@@ -140,10 +135,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(1, $response->getDataArray('')['response']->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testApiTaskSet() : void
     {
         $response = new HttpResponse();
@@ -160,10 +152,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('New Title', $response->getDataArray('')['response']->title);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testCreateTaskElement() : void
     {
         $response = new HttpResponse();
@@ -198,10 +187,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertGreaterThan(0, $response->getDataArray('')['response']->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testApiTaskElementGet() : void
     {
         $response = new HttpResponse();
@@ -215,10 +201,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(1, $response->getDataArray('')['response']->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testApiTaskElementSet() : void
     {
         $response = new HttpResponse();
@@ -234,10 +217,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals('This is a changed description', $response->getDataArray('')['response']->descriptionRaw);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testInvalidTaskCreate() : void
     {
         $response = new HttpResponse();
@@ -251,10 +231,7 @@ final class ControllerTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(RequestStatusCode::R_400, $response->header->status);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\ApiController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testInvalidTaskElementCreate() : void
     {
         $response = new HttpResponse();

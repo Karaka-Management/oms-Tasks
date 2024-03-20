@@ -19,31 +19,23 @@ use Modules\Tasks\Models\NullTaskSeen;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Models\NullTaskSeen::class)]
 final class NullTaskSeenTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @covers \Modules\Tasks\Models\NullTaskSeen
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNull() : void
     {
         self::assertInstanceOf('\Modules\Tasks\Models\TaskSeen', new NullTaskSeen());
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullTaskSeen
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testId() : void
     {
         $null = new NullTaskSeen(2);
         self::assertEquals(2, $null->id);
     }
 
-    /**
-     * @covers \Modules\Tasks\Models\NullTaskSeen
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testJsonSerialize() : void
     {
         $null = new NullTaskSeen(2);

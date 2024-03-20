@@ -29,6 +29,7 @@ use phpOMS\Utils\TestUtils;
 /**
  * @internal
  */
+#[\PHPUnit\Framework\Attributes\CoversClass(\Modules\Tasks\Controller\BackendController::class)]
 final class BackendControllerTest extends \PHPUnit\Framework\TestCase
 {
     protected $app = null;
@@ -78,10 +79,7 @@ final class BackendControllerTest extends \PHPUnit\Framework\TestCase
         TestUtils::setMember($this->module, 'app', $this->app);
     }
 
-    /**
-     * @covers \Modules\Tasks\Controller\BackendController
-     * @group module
-     */
+    #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNavigation() : void
     {
         self::assertEquals(0, $this->module->openNav(999));
