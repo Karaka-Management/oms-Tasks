@@ -353,7 +353,7 @@ echo $this->data['nav']->render(); ?>
                             'plain',
                             'taskElementCreate',
                             '', '',
-                            '/content', '{/api}task?id={?id}'
+                            '/content', '{/api}task?id={?id}&csrf={$CSRF}'
                             ); ?>
                     </div>
 
@@ -410,7 +410,7 @@ echo $this->data['nav']->render(); ?>
                     <div class="form-group">
                         <label for="iMedia"><?= $this->getHtml('Media'); ?></label>
                         <div class="ipt-wrap wf-100">
-                            <div class="ipt-first"><input type="text" id="iMedia" placeholder="File"></div>
+                            <div class="ipt-first"><input type="text" id="iMedia"></div>
                             <div class="ipt-second"><button><?= $this->getHtml('Select'); ?></button></div>
                         </div>
                     </div>

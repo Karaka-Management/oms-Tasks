@@ -22,8 +22,6 @@ $tasks = $this->data['tasks'] ?? [];
 $previous = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \reset($tasks)->id . '&ptype=p';
 $next     = empty($tasks) ? 'task/dashboard' : 'task/dashboard?{?}&id=' . \end($tasks)->id . '&ptype=n';
 
-$open = $this->data['open'];
-
 echo $this->data['nav']->render(); ?>
 
 <div class="row">
@@ -44,10 +42,6 @@ echo $this->data['nav']->render(); ?>
                 <?php
                     $c = 0;
                     foreach ($tasks as $key => $task) :
-                        if ($open !== null && isset($open[$task->id])) {
-                            continue;
-                        }
-
                         ++$c;
                         $url = UriFactory::build(empty($task->redirect)
                             ? '{/base}/task/view?{?}&id=' . $task->id

@@ -22,6 +22,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskCreate',
             'verb'       => RouteVerb::PUT,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
@@ -31,6 +32,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskSet',
             'verb'       => RouteVerb::SET,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::MODIFY,
@@ -40,6 +42,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskGet',
             'verb'       => RouteVerb::GET,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::READ,
@@ -51,6 +54,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskReminderCreate',
             'verb'       => RouteVerb::PUT,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
@@ -62,6 +66,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementCreate',
             'verb'       => RouteVerb::PUT,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::CREATE,
@@ -71,6 +76,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementSet',
             'verb'       => RouteVerb::SET,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::MODIFY,
@@ -80,6 +86,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\ApiController:apiTaskElementGet',
             'verb'       => RouteVerb::GET,
+            'csrf'       => true,
             'permission' => [
                 'module' => ApiController::NAME,
                 'type'   => PermissionType::READ,

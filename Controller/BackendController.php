@@ -184,13 +184,13 @@ final class BackendController extends Controller implements DashboardElementInte
 
         if ($request->getData('ptype') === 'p') {
             $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '<')
-                ->executeGetAll();
+                ->executeGetArray();
         } elseif ($request->getData('ptype') === 'n') {
             $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '>')
-                ->executeGetAll();
+                ->executeGetArray();
         } else {
             $view->data['tasks'] = $mapperQuery->where('id', 0, '>')
-                ->executeGetAll();
+                ->executeGetArray();
         }
 
         $view->data['task_media'] = [];
