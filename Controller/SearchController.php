@@ -65,7 +65,7 @@ final class SearchController extends Controller
             ->sort('taskElements/createdAt', OrderType::ASC)
             ->limit(8)
             //->limit(1, 'taskElements')
-            ->execute();
+            ->executeGetArray();
 
         $results = [];
         $count   = 0;
@@ -132,7 +132,7 @@ final class SearchController extends Controller
             ->sort('taskElements/createdAt', OrderType::ASC)
             ->limit(8)
             //->limit(1, 'taskElements')
-            ->execute();
+            ->executeGetArray();
 
         $results = [];
         $count   = 0;

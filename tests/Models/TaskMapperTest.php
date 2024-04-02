@@ -139,7 +139,7 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
     #[\PHPUnit\Framework\Attributes\Group('module')]
     public function testNewest() : void
     {
-        $newest = TaskMapper::getAll()->sort('id', OrderType::DESC)->limit(1)->execute();
+        $newest = TaskMapper::getAll()->sort('id', OrderType::DESC)->limit(1)->executeGetArray();
 
         self::assertCount(1, $newest);
     }

@@ -88,7 +88,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->where('status', TaskStatus::OPEN)
             ->sort('createdAt', OrderType::DESC)
             ->query($openQuery)
-            ->execute();
+            ->executeGetArray();
 
         $view->data['open'] = $open;
 
@@ -114,7 +114,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->where('status', TaskStatus::OPEN)
             ->where('createdBy', $response->header->account, '=')
             ->sort('createdAt', OrderType::DESC)
-            ->execute();
+            ->executeGetArray();
 
         $view->data['given'] = $given;
 
@@ -183,10 +183,10 @@ final class BackendController extends Controller implements DashboardElementInte
         }
 
         if ($request->getData('ptype') === 'p') {
-            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '<')
+            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('offset') ?? 0, '<')
                 ->executeGetArray();
         } elseif ($request->getData('ptype') === 'n') {
-            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('id') ?? 0, '>')
+            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('offset') ?? 0, '>')
                 ->executeGetArray();
         } else {
             $view->data['tasks'] = $mapperQuery->where('id', 0, '>')
@@ -315,7 +315,7 @@ final class BackendController extends Controller implements DashboardElementInte
                 ->with('reminderBy')
                 ->where('task', $task->id)
                 ->where('seenBy', $request->header->account)
-                ->execute();
+                ->executeGetArray();
 
             foreach ($taskSeen as $unseen) {
                 // Shows all reminders
