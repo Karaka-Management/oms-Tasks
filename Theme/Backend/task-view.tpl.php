@@ -93,6 +93,7 @@ echo $this->data['nav']->render(); ?>
                                 data-tpl-value-path="/0/response/descriptionRaw"
                                 data-tpl-text-path="/0/response/description"
                                 data-value=""><?= $task->description; ?></article>
+                            <div class="tag-list">
                             <?php
                                 foreach ($task->tags as $tag) : ?>
                                 <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
@@ -100,6 +101,7 @@ echo $this->data['nav']->render(); ?>
                                     <?= $this->printHtml($tag->getL11n()); ?>
                                 </span>
                             <?php endforeach; ?>
+                            </div>
                             <?php if (!empty($taskMedia)) : ?>
                                 <div>
                                     <?php foreach ($taskMedia as $media) : ?>

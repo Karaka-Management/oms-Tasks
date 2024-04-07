@@ -68,6 +68,7 @@ echo $this->data['nav']->render(); ?>
                         <td data-label="<?= $this->getHtml('Title'); ?>">
                             <a href="<?= $url; ?>"><?= $this->printHtml($task->title); ?></a>
                         <td data-label="<?= $this->getHtml('Tag'); ?>">
+                            <div class="tag-list">
                             <?php foreach ($task->tags as $tag) : ?>
                             <a href="<?= $url; ?>">
                                 <span class="tag" style="background: <?= $this->printHtml($tag->color); ?>">
@@ -76,6 +77,7 @@ echo $this->data['nav']->render(); ?>
                                 </span>
                             </a>
                             <?php endforeach; ?>
+                            </div>
                         <td data-label="<?= $this->getHtml('Creator'); ?>">
                             <a class="content" href="<?= UriFactory::build('{/base}/profile/view?{?}&for=' . $task->createdBy->id); ?>">
                                 <?= $this->printHtml($this->renderUserName(
