@@ -208,6 +208,8 @@ class Task implements \JsonSerializable
      */
     public ?Account $for = null;
 
+    public ?int $unit = null;
+
     /**
      * Constructor.
      *

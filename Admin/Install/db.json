@@ -109,6 +109,14 @@
                 "name": "task_created_at",
                 "type": "DATETIME",
                 "null": false
+            },
+            "task_unit": {
+                "name": "task_unit",
+                "type": "INT",
+                "null": true,
+                "default": null,
+                "foreignTable": "unit",
+                "foreignKey": "unit_id"
             }
         }
     },

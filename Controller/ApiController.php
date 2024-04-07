@@ -463,6 +463,7 @@ final class ApiController extends Controller
         $task->status         = TaskStatus::OPEN;
         $task->type           = TaskType::tryFromValue($request->getDataInt('type')) ?? TaskType::SINGLE;
         $task->redirect       = $request->getDataString('redirect') ?? '';
+        $task->unit           = $request->getDataInt('unit');
 
         if ($request->hasData('due')) {
             $task->due = $request->getDataDateTime('due');

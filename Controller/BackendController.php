@@ -18,6 +18,7 @@ use Modules\Dashboard\Models\DashboardElementInterface;
 use Modules\Media\Models\MediaMapper;
 use Modules\Profile\Models\SettingsEnum;
 use Modules\Tasks\Models\AccountRelationMapper;
+use Modules\Tasks\Models\Attribute\TaskAttributeTypeMapper;
 use Modules\Tasks\Models\PermissionCategory;
 use Modules\Tasks\Models\TaskElementMapper;
 use Modules\Tasks\Models\TaskMapper;
@@ -289,8 +290,15 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('taskElements/media')
             ->with('taskElements/accRelation')
             ->with('taskElements/accRelation/relation')
+            ->with('attributes')
+            ->with('attributes/type')
+            ->with('attributes/type/l11n')
+            ->with('attributes/value')
+            ->with('attributes/value/l11n')
             ->where('id', (int) $request->getData('id'))
             ->where('tags/title/language', $request->header->l11n->language)
+            ->where('attributes/type/l11n/language', $response->header->l11n->language)
+            ->where('attributes/value/l11n/language', [$response->header->l11n->language, null])
             ->execute();
 
         $accountId = $request->header->account;
@@ -305,6 +313,11 @@ final class BackendController extends Controller implements DashboardElementInte
             $response->header->status = RequestStatusCode::R_403;
             return $view;
         }
+
+        $view->data['attributeTypes'] = TaskAttributeTypeMapper::getAll()
+            ->with('l11n')
+            ->where('l11n/language', $response->header->l11n->language)
+            ->executeGetArray();
 
         $reminderStatus = [];
 
@@ -350,11 +363,12 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->data['task'] = $task;
         $view->data['nav']  = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
-        $accGrpSelector               = new \Modules\Profile\Theme\Backend\Components\AccountGroupSelector\BaseView($this->app->l11nManager, $request, $response);
-        $view->data['accGrpSelector'] = $accGrpSelector;
+        $view->data['accGrpSelector'] = new \Modules\Profile\Theme\Backend\Components\AccountGroupSelector\BaseView($this->app->l11nManager, $request, $response);
 
-        $editor               = new \Modules\Editor\Theme\Backend\Components\Editor\BaseView($this->app->l11nManager, $request, $response);
-        $view->data['editor'] = $editor;
+        $view->data['editor'] = new \Modules\Editor\Theme\Backend\Components\Editor\BaseView($this->app->l11nManager, $request, $response);
+
+        $view->data['attributeView']                               = new \Modules\Attribute\Theme\Backend\Components\AttributeView($this->app->l11nManager, $request, $response);
+        $view->data['attributeView']->data['default_localization'] = $this->app->l11nServer;
 
         return $view;
     }

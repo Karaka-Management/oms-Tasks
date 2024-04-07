@@ -19,7 +19,7 @@ use Modules\Media\Models\MediaMapper;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
- * Mapper class.
+ * TaskElement mapper class.
  *
  * @package Modules\Tasks\Models
  * @license OMS License 2.0

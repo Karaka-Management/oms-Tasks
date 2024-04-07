@@ -18,7 +18,7 @@ use Modules\Admin\Models\GroupMapper;
 use phpOMS\DataStorage\Database\Mapper\DataMapperFactory;
 
 /**
- * Mapper class.
+ * GroupRelation mapper class.
  *
  * @package Modules\Tasks\Models
  * @license OMS License 2.0
