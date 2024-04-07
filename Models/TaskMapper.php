@@ -63,7 +63,7 @@ final class TaskMapper extends DataMapperFactory
         'task_created_by' => ['name' => 'task_created_by', 'type' => 'int',      'internal' => 'createdBy', 'readonly' => true],
         'task_for'        => ['name' => 'task_for', 'type' => 'int',      'internal' => 'for'],
         'task_created_at' => ['name' => 'task_created_at', 'type' => 'DateTimeImmutable', 'internal' => 'createdAt', 'readonly' => true],
-        'task_unit'        => ['name' => 'task_unit', 'type' => 'int',      'internal' => 'unit'],
+        'task_unit'       => ['name' => 'task_unit', 'type' => 'int',      'internal' => 'unit'],
     ];
 
     /**
