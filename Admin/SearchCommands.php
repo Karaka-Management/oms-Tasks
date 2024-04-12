@@ -22,6 +22,7 @@ return [
         [
             'dest'       => '\Modules\Tasks\Controller\SearchController:searchGeneral',
             'verb'       => RouteVerb::ANY,
+            'active'     => true,
             'permission' => [
                 'module' => SearchController::NAME,
                 'type'   => PermissionType::READ,
