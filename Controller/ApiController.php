@@ -197,7 +197,7 @@ final class ApiController extends Controller
      *
      * @since 1.0.0
      */
-    private function createNotifications(TaskElement $ele, int $type, RequestAbstract $request) : void
+    public function createNotifications(TaskElement $ele, int $type, RequestAbstract $request) : void
     {
         $accChecked = [];
         $grpChecked = [];
@@ -239,7 +239,9 @@ final class ApiController extends Controller
                 $notification->type       = $type;
                 $notification->category   = PermissionCategory::TASK;
                 $notification->element    = $task->id;
-                $notification->redirect   = '{/base}/task/view?{?}&id=' . $element->task;
+                $notification->redirect   = empty($task->redirect)
+                    ? '{/base}/task/view?{?}&id=' . $element->task
+                    : $task->redirect;
 
                 $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
                 $accChecked[] = $rel->relation->id;
@@ -277,7 +279,9 @@ final class ApiController extends Controller
                     $notification->type       = $type;
                     $notification->category   = PermissionCategory::TASK;
                     $notification->element    = $task->id;
-                    $notification->redirect   = '{/base}/task/view?{?}&id=' . $element->task;
+                    $notification->redirect   = empty($task->redirect)
+                        ? '{/base}/task/view?{?}&id=' . $element->task
+                        : $task->redirect;
 
                     $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
                     $accChecked[] = $account->id;

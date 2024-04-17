@@ -34,6 +34,19 @@
         "values": []
     },
     {
+        "name": "bill",
+        "l11n": {
+            "en": "Bill",
+            "de": "Beleg"
+        },
+        "value_type": "int",
+        "is_custom_allowed": true,
+        "validation_pattern": "",
+        "is_required": false,
+        "default_value": "",
+        "values": []
+    },
+    {
         "name": "lot_external",
         "l11n": {
             "en": "Lot/SN External",
@@ -102,7 +115,7 @@
     {
         "name": "measure",
         "l11n": {
-            "en": "measure",
+            "en": "Measure",
             "de": "Maßnahme"
         },
         "value_type": 1,

@@ -162,37 +162,25 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->setTemplate('/Modules/Tasks/Theme/Backend/task-list');
         $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
-        if ($isModerator) {
-            $mapperQuery = TaskMapper::getAll()
-                ->with('tags')
-                ->with('tags/title')
-                ->with('createdBy')
-                ->where('status', TaskStatus::OPEN, '!=')
-                ->where('type', TaskType::SINGLE)
-                ->sort('createdAt', OrderType::DESC)
-                ->limit(25);
-        } else {
-            $mapperQuery = TaskMapper::getAnyRelatedToUser($request->header->account)
-                ->with('tags')
-                ->with('tags/title')
-                ->with('createdBy')
-                ->where('status', TaskStatus::OPEN, '!=')
-                ->where('type', TaskType::SINGLE)
-                ->where('tags/title/language', $response->header->l11n->language)
-                ->sort('createdAt', OrderType::DESC)
-                ->limit(25);
-        }
+        $mapperQuery = $isModerator
+            ? TaskMapper::getAll()
+            : TaskMapper::getAnyRelatedToUser($request->header->account);
 
-        if ($request->getData('ptype') === 'p') {
-            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('offset') ?? 0, '<')
-                ->executeGetArray();
-        } elseif ($request->getData('ptype') === 'n') {
-            $view->data['tasks'] = $mapperQuery->where('id', $request->getDataInt('offset') ?? 0, '>')
-                ->executeGetArray();
-        } else {
-            $view->data['tasks'] = $mapperQuery->where('id', 0, '>')
-                ->executeGetArray();
-        }
+        $view->data['tasks'] = $mapperQuery
+            ->with('tags')
+            ->with('tags/title')
+            ->with('createdBy')
+            ->where('status', TaskStatus::OPEN, '!=')
+            ->where('type', TaskType::SINGLE)
+            ->where('tags/title/language', $response->header->l11n->language)
+            ->sort('createdAt', OrderType::DESC)
+            ->limit(25)
+            ->paginate(
+                'id',
+                $request->getData('ptype'),
+                $request->getDataInt('offset')
+            )
+            ->executeGetArray();
 
         $view->data['task_media'] = [];
 
