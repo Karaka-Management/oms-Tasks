@@ -352,8 +352,7 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->data['nav']  = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
         $view->data['accGrpSelector'] = new \Modules\Profile\Theme\Backend\Components\AccountGroupSelector\BaseView($this->app->l11nManager, $request, $response);
-
-        $view->data['editor'] = new \Modules\Editor\Theme\Backend\Components\Editor\BaseView($this->app->l11nManager, $request, $response);
+        $view->data['editor']         = new \Modules\Editor\Theme\Backend\Components\Editor\BaseView($this->app->l11nManager, $request, $response);
 
         $view->data['attributeView']                               = new \Modules\Attribute\Theme\Backend\Components\AttributeView($this->app->l11nManager, $request, $response);
         $view->data['attributeView']->data['default_localization'] = $this->app->l11nServer;
