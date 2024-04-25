@@ -177,7 +177,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->limit(25)
             ->paginate(
                 'id',
-                $request->getData('ptype'),
+                $request->getDataString('ptype'),
                 $request->getDataInt('offset')
             )
             ->executeGetArray();
