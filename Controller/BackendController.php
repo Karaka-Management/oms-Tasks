@@ -275,7 +275,7 @@ final class BackendController extends Controller implements DashboardElementInte
             ->with('tags/title')
             ->with('taskElements')
             ->with('taskElements/createdBy')
-            ->with('taskElements/media')
+            ->with('taskElements/files')
             ->with('taskElements/accRelation')
             ->with('taskElements/accRelation/relation')
             ->with('attributes')

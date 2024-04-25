@@ -95,13 +95,14 @@ final class TaskMapperTest extends \PHPUnit\Framework\TestCase
         $taskR = TaskMapper::get()
             ->with('files')
             ->with('taskElements')
-            ->with('taskElements/media')
+            ->with('taskElements/files')
             ->with('taskElements/accRelation')
             ->with('taskElements/accRelation/relation')
             ->with('taskElements/grpRelation')
             ->with('taskElements/grpRelation/relation')
             ->where('id', $task->id)
             ->execute();
+
         self::assertEquals($task->createdAt->format('Y-m-d'), $taskR->createdAt->format('Y-m-d'));
         self::assertEquals($task->start->format('Y-m-d'), $taskR->start->format('Y-m-d'));
         self::assertEquals($task->getCreatedBy()->id, $taskR->getCreatedBy()->id);
