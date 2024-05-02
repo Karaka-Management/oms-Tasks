@@ -195,6 +195,8 @@ final class ApiController extends Controller
      *
      * @return void
      *
+     * @performance This should happen in the cli if possible?
+     *
      * @since 1.0.0
      */
     public function createNotifications(TaskElement $ele, int $type, RequestAbstract $request) : void

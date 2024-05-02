@@ -168,7 +168,7 @@ final class TaskMapper extends DataMapperFactory
         $query->where(self::TABLE . '_d1.task_created_by', '=', $user)
             ->where(self::TABLE . '_d1.task_status', '=', TaskStatus::OPEN);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
@@ -190,7 +190,7 @@ final class TaskMapper extends DataMapperFactory
             ->where(self::TABLE . '.task_id', '=', $task);
 
         return AccountRelationMapper::getAll()
-            ->execute($query);
+            ->executeGetArray($query);
     }
 
     /**
@@ -213,7 +213,7 @@ final class TaskMapper extends DataMapperFactory
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_duty', '=', DutyType::TO);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
@@ -235,7 +235,7 @@ final class TaskMapper extends DataMapperFactory
             ->where(self::TABLE . '_d1.task_status', '=', TaskStatus::OPEN)
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
@@ -258,7 +258,7 @@ final class TaskMapper extends DataMapperFactory
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_duty', '=', DutyType::CC);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
@@ -275,7 +275,7 @@ final class TaskMapper extends DataMapperFactory
         $query = self::getQuery();
         $query->where(self::TABLE . '_d1.task_created_by', '=', $user);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
@@ -297,7 +297,7 @@ final class TaskMapper extends DataMapperFactory
             ->where(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_duty', '=', DutyType::TO);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
@@ -319,7 +319,7 @@ final class TaskMapper extends DataMapperFactory
             ->where(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
             ->andWhere(AccountRelationMapper::TABLE . '.task_account_duty', '=', DutyType::CC);
 
-        return self::getAll()->execute($query);
+        return self::getAll()->executeGetArray($query);
     }
 
     /**
