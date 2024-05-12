@@ -19,7 +19,7 @@ $tasksList = $this->data['tasks'] ?? [];
 ?>
 
 <div id="tasks-dashboard" class="col-xs-12 col-md-6" draggable="true">
-    <div class="portlet">
+    <section class="portlet">
         <div class="portlet-head"><?= $this->getHtml('Tasks', 'Tasks'); ?></div>
         <div class="slider">
         <table class="default sticky">
@@ -59,5 +59,5 @@ $tasksList = $this->data['tasks'] ?? [];
         <div class="portlet-foot">
             <a class="button" href="<?= UriFactory::build('{/base}/task/dashboard?{?}'); ?>"><?= $this->getHtml('More', '0', '0'); ?></a>
         </div>
-    </div>
+    </section>
 </div>

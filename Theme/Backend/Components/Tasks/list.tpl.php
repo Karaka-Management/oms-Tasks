@@ -19,7 +19,7 @@ use phpOMS\Uri\UriFactory;
 ?>
 
 <div id="news-dashboard" class="col-xs-12 col-md-6" draggable="true">
-    <div class="portlet">
+    <section class="portlet">
         <div class="portlet-head"><?= $this->getHtml('News', 'News'); ?></div>
         <table class="default sticky">
             <thead>
@@ -55,5 +55,5 @@ use phpOMS\Uri\UriFactory;
             <?php endif; ?>
         </table>
         <div class="portlet-foot"></div>
-    </div>
+    </section>
 </div>

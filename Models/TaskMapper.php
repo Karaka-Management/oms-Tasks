@@ -417,8 +417,7 @@ final class TaskMapper extends DataMapperFactory
                 ->andWhere(AccountRelationMapper::TABLE . '.task_account_account', '=', $user)
                 ->andWhere(TaskSeenMapper::TABLE . '.task_seen_task', '=', null);
 
-            $sth = self::$db->con->prepare($query->toSql());
-            $sth->execute();
+            $sth = $query->execute();
 
             $fetched = $sth->fetchAll(\PDO::FETCH_COLUMN);
             if ($fetched === false) {

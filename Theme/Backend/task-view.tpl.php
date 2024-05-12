@@ -386,13 +386,13 @@ echo $this->data['nav']->render(); ?>
 
                                 <div class="form-group wf-100">
                                 <div class="more-container wf-100">
-                                    <input id="more-customer-sales" type="checkbox" name="more-container">
-                                    <label for="more-customer-sales">
+                                    <input id="more-customer-sales" class="more" type="checkbox" name="more-container">
+                                    <label class="more" for="more-customer-sales">
                                         <span><?= $this->getHtml('Advanced'); ?></span>
                                         <i class="g-icon expand">chevron_right</i>
                                     </label>
 
-                                    <div class="form-group">
+                                    <div class="form-group more">
                                         <label for="iPriority"><?= $this->getHtml('Priority'); ?></label>
                                         <select id="iPriority" name="priority">
                                             <option value="<?= TaskPriority::NONE; ?>"<?= $task->priority === TaskPriority::NONE ? ' selected' : '';?>><?= $this->getHtml('P0'); ?>

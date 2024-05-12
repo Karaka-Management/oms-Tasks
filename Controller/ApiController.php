@@ -201,13 +201,13 @@ final class ApiController extends Controller
      */
     public function createNotifications(TaskElement $ele, int $type, RequestAbstract $request) : void
     {
-        $accChecked = [];
-        $grpChecked = [];
+        $accChecked = [$ele->createdBy->id];
+        //$grpChecked = [];
 
         $task = TaskMapper::get()
             ->with('taskElements')
             ->with('taskElements/accRelation')
-            ->with('taskElements/grpRelation')
+            //->with('taskElements/grpRelation')
             ->where('id', $ele->task)
             ->execute();
 
@@ -224,6 +224,8 @@ final class ApiController extends Controller
                 if (\in_array($rel->relation->id, $accChecked)) {
                     continue;
                 }
+
+                $accChecked[] = $rel->relation->id;
 
                 $profile = ProfileMapper::count()
                     ->where('account', $rel->relation->id)
@@ -246,10 +248,10 @@ final class ApiController extends Controller
                     : $task->redirect;
 
                 $this->createModel($request->header->account, $notification, NotificationMapper::class, 'notification', $request->getOrigin());
-                $accChecked[] = $rel->relation->id;
             }
 
             // Group relations
+            /* Ignore groups since they are not directly mentioned
             foreach ($element->grpRelation as $rel) {
                 if (\in_array($rel->relation->id, $grpChecked)) {
                     continue;
@@ -291,6 +293,7 @@ final class ApiController extends Controller
 
                 $grpChecked[] = $rel->relation->id;
             }
+            */
         }
     }
 
@@ -398,9 +401,11 @@ final class ApiController extends Controller
             $task->priority = (int) $request->getData('priority');
         }
 
+        /*
         if ($request->hasData('tags')) {
             $task->tags = $this->app->moduleManager->get('Tag', 'Api')->createTagsFromRequest($request);
         }
+        */
 
         $element = new TaskElement();
         $element->addTo(new NullAccount($request->getDataInt('forward') ?? $request->header->account));

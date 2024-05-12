@@ -34,6 +34,7 @@ return [
             'dest'       => '\Modules\Tasks\Controller\SearchController:searchGeneral',
             'verb'       => RouteVerb::ANY,
             'active'     => true,
+            'order'      => 2,
             'permission' => [
                 'module' => SearchController::NAME,
                 'type'   => PermissionType::READ,

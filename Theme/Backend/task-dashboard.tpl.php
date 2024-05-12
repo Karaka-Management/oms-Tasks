@@ -32,7 +32,7 @@ echo $this->data['nav']->render(); ?>
         <div class="tab">
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="portlet">
+                    <section class="portlet">
                         <div class="portlet-head"><?= $this->getHtml('YourOpen'); ?> (<?= \count($open); ?>)<i class="g-icon download btn end-xs">download</i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
@@ -102,13 +102,13 @@ echo $this->data['nav']->render(); ?>
                                     <?php endif; ?>
                         </table>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-xs-12">
-                    <div class="portlet">
+                    <section class="portlet">
                         <div class="portlet-head"><?= $this->getHtml('OpenGiven'); ?> (<?= \count($this->data['given']); ?>)<i class="g-icon download btn end-xs">download</i></div>
                         <div class="slider">
                         <table id="taskList" class="default sticky">
@@ -172,7 +172,7 @@ echo $this->data['nav']->render(); ?>
                                     <?php endif; ?>
                             </table>
                         </div>
-                    </div>
+                    </section>
                 </div>
             </div>
         </div>

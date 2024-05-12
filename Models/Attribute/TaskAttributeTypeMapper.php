@@ -42,7 +42,7 @@ final class TaskAttributeTypeMapper extends DataMapperFactory
         'task_attr_type_datatype'   => ['name' => 'task_attr_type_datatype',   'type' => 'int',    'internal' => 'datatype'],
         'task_attr_type_fields'     => ['name' => 'task_attr_type_fields',   'type' => 'int',    'internal' => 'fields'],
         'task_attr_type_custom'     => ['name' => 'task_attr_type_custom',   'type' => 'bool',   'internal' => 'custom'],
-        'task_attr_type_repeatable' => ['name' => 'task_attr_type_repeatable',   'type' => 'bool',   'internal' => 'repeatable'],
+        'task_attr_type_repeatable' => ['name' => 'task_attr_type_repeatable',   'type' => 'bool',   'internal' => 'isRepeatable'],
         'task_attr_type_internal'   => ['name' => 'task_attr_type_internal',   'type' => 'bool',   'internal' => 'isInternal'],
         'task_attr_type_pattern'    => ['name' => 'task_attr_type_pattern',  'type' => 'string', 'internal' => 'validationPattern'],
         'task_attr_type_required'   => ['name' => 'task_attr_type_required', 'type' => 'bool',   'internal' => 'isRequired'],

@@ -212,18 +212,21 @@ final class BackendController extends Controller implements DashboardElementInte
         $view->setTemplate('/Modules/Tasks/Theme/Backend/dashboard-task');
         $view->data['nav'] = $this->app->moduleManager->get('Navigation')->createNavigationMid(1001101001, $request, $response);
 
-        /** @var \Modules\Tasks\Models\Task[] $tasks */
-        $tasks = TaskMapper::getAnyRelatedToUser($request->header->account)
+        $limit = new \DateTime('now');
+        $limit->modify('+14 days');
+
+        $view->data['tasks'] = TaskMapper::getAnyRelatedToUser($request->header->account)
             ->with('tags')
             ->with('tags/title')
             ->sort('taskElements/createdAt', OrderType::DESC)
-            ->limit(5)
             ->where('id', 0, '>')
             ->where('type', TaskType::SINGLE)
+            ->where('start', $limit->format('Y-m-d'), '<')
+            ->where('due', $limit->format('Y-m-d'), '<')
+            ->where('done', null)
             ->where('tags/title/language', $response->header->l11n->language)
+            ->limit(5)
             ->execute();
-
-        $view->data['tasks'] = $tasks;
 
         return $view;
     }

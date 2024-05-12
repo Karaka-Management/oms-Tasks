@@ -20,7 +20,7 @@ echo $this->data['nav']->render(); ?>
 
 <div class="row">
     <div class="col-xs-12 col-md-6">
-        <div class="portlet">
+        <section class="portlet">
             <form id="fTask" method="PUT" action="<?= \phpOMS\Uri\UriFactory::build('{/api}task?{?}&csrf={$CSRF}'); ?>">
                 <div class="portlet-head"><?= $this->getHtml('Task'); ?></div>
                 <div class="portlet-body">
@@ -69,11 +69,11 @@ echo $this->data['nav']->render(); ?>
                     <input type="hidden" name="type" value="<?= TaskType::SINGLE; ?>">
                 </div>
             </form>
-        </div>
+        </section>
     </div>
 
     <div class="col-xs-12 col-md-6">
-        <div class="portlet">
+        <section class="portlet">
             <div class="portlet-head"><?= $this->getHtml('Media'); ?></div>
             <div class="portlet-body">
                 <form>
@@ -91,7 +91,7 @@ echo $this->data['nav']->render(); ?>
                     </div>
                 </div>
             </form>
-        </div>
+        </section>
     </div>
 </div>
 
