@@ -418,6 +418,9 @@ final class TaskMapper extends DataMapperFactory
                 ->andWhere(TaskSeenMapper::TABLE . '.task_seen_task', '=', null);
 
             $sth = $query->execute();
+            if ($sth === null) {
+                return [];
+            }
 
             $fetched = $sth->fetchAll(\PDO::FETCH_COLUMN);
             if ($fetched === false) {
