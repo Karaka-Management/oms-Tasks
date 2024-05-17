@@ -42,6 +42,6 @@ Custom attributes can be assigned to tasks providing a way to add additonal info
 
 Other modules that work great with this one together are:
 
-* [Kanban](Kanban)
-* [ProjectManagement](ProjectManagement)
-* [EventManagement](EventManagement)
+* [Kanban]({/}?id=Kanban)
+* [ProjectManagement]({/}?id=ProjectManagement)
+* [EventManagement]({/}?id=EventManagement)
