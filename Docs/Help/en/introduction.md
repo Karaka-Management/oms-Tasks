@@ -32,11 +32,7 @@ Modules can provide custom elements which allows them to provide elemnts that no
 
 * Media
 * Charts
-* Spreadsheets
-* Calendar/Events
 * Tasks
-* Checklists
-* Profiles/Contacts
 
 ### Attributes
 
