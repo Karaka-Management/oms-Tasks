@@ -22,10 +22,6 @@ Tasks can get created with a due and priority
 
 Tasks can be shared like emails. A task can be assigned to multiple people or groups. It's also possible to make tasks visible to other people and groups by referencing them in a task (cc.) so they can see how the task is progressing. Tasks can be forwarded to other people in case someone else is responsible for the task.
 
-## Analysis
-
-The integrated analysis tool allows to investigate how long it takes to finish tasks on average, how many certain people have to solve, how many they created for other people etc.
-
 ## Markdown
 
 The module makes use of an extended markdown version for easy writing and modifications.
@@ -41,6 +37,10 @@ Modules can provide custom elements which allows them to provide elemnts that no
 * Tasks
 * Checklists
 * Profiles/Contacts
+
+### Attributes
+
+Custom attributes can be assigned to tasks providing a way to add additonal information to tasks. 
 
 # Recommendation
 
