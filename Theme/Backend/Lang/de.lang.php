@@ -56,7 +56,6 @@ return ['Tasks' => [
     'Title'              => 'Titel',
     'To'                 => 'Zu',
     'Unread'             => 'Ungelesen',
-    'UnreadChanges'      => 'Ungelesene Änderungen',
     'Upload'             => 'Hochladen',
     'YourOpen'           => 'Ihre Offenen',
     'forwarded_to'       => 'weitergeleitet zu',
