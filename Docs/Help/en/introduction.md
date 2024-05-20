@@ -4,13 +4,11 @@ The **Tasks** module can create tasks/todos, for other people and for oneself.
 
 ## Target Group
 
-The target groups for this module is everyone who would like to keep track of todos and tasks or share the progress of a task with other people. This module is also a often used dependency by other modules.
+The target groups for this module is everyone who would like to keep track of todos and tasks or share the progress of a task with other people. This module is also often used as dependency by other modules.
 
 # Setup
 
 The module can be installed through the integrated module downloader and installer or by uploading the module into the `Modules/` directory and executing the installation through the module installer.
-
-The module is depending on the **Editor** module which provides most of the writing features.
 
 # Features
 
@@ -24,15 +22,7 @@ Tasks can be shared like emails. A task can be assigned to multiple people or gr
 
 ## Markdown
 
-The module makes use of an extended markdown version for easy writing and modifications.
-
-### Extendability
-
-Modules can provide custom elements which allows them to provide elemnts that normal markdown doesn't support. Some modules that already provide custom elements for articles:
-
-* Media
-* Charts
-* Tasks
+The module makes use of an extended markdown version for easy writing and modifications. A cheatsheet for markdown can be found in the [Editor]({/}?id=Editor&page=Help/cheatsheet) module 
 
 ### Attributes
 
