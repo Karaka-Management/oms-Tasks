@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Modules\Tasks\Controller;
 
 use Modules\Admin\Models\AccountMapper;
-use Modules\Admin\Models\GroupMapper;
 use Modules\Admin\Models\NullAccount;
 use Modules\Media\Models\Media;
 use Modules\Media\Models\PathSettings;
