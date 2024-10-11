@@ -9,7 +9,7 @@ use Modules\Tasks\Models\TaskStatus;
             <div class="advancedSelect" id="<?= $this->id; ?>"
                     data-search="true"
                     data-multiple="false"
-                    data-src="api/admin/find/accgrp?search={!#i<?= $this->id; ?>}">
+                    data-src="<?= \phpOMS\Uri\UriFactory::build('{/api}admin/accgrp/find?csrf={$CSRF}'); ?>&search={!#i<?= $this->id; ?>}">
                 <template><!-- Template for the selected element --></template>
             </div>
             <div id="<?= $this->id; ?>-popup" class="popup" data-active="true" data-selected="<?= $task->status; ?>">
