@@ -441,7 +441,7 @@ echo $this->data['nav']->render(); ?>
             </div>
         </div>
 
-        <input type="radio" id="c-tab-2" name="tabular-2" checked>
+        <input type="radio" id="c-tab-2" name="tabular-2">
         <div class="tab">
             <div class="row">
                 <?= $this->data['attributeView']->render(
