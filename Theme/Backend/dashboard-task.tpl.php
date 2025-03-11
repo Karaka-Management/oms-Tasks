@@ -17,7 +17,6 @@ use phpOMS\Uri\UriFactory;
 
 $tasksList = $this->data['tasks'] ?? [];
 ?>
-
 <div id="tasks-dashboard" class="col-xs-12 col-md-6" draggable="true">
     <section class="portlet">
         <div class="portlet-head"><?= $this->getHtml('Tasks', 'Tasks'); ?></div>
